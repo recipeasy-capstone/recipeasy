@@ -20,7 +20,6 @@ app.use('/textDetect', async (req, res, next) => {
       path.join(__dirname, '../public/receipt.jpg')
     );
     const detections = result.textAnnotations;
-    console.log('Text: ');
     res.json(detections);
   } catch (err) {
     next(err);
@@ -33,7 +32,6 @@ app.use('/labelDetect', async (req, res, next) => {
       path.join(__dirname, '../public/receipt.jpg')
     );
     const labels = result.labelAnnotations;
-    console.log('Labels: ');
     res.json(labels);
   } catch (err) {
     next(err);

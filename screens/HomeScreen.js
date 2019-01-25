@@ -11,6 +11,7 @@ import {
 import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
+// import rapid from '../store';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
