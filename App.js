@@ -2,6 +2,11 @@ import React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
+import * as firebase from 'firebase';
+import config from './secrets/firebase';
+
+firebase.initializeApp(config);
+export const database = firebase.database();
 
 export default class App extends React.Component {
   state = {
