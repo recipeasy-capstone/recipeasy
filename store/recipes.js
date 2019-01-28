@@ -20,15 +20,6 @@ const getStarredRecipe = starredRecipe => ({
 });
 const getNewRecipe = newRecipe => ({ type: GET_NEW_RECIPE, newRecipe });
 
-// export const getAllOrders = () => async dispatch => {
-//     try {
-//       const {data: allOrders} = await axios.get('/api/order')
-//       dispatch(gotAllOrders(allOrders))
-//     } catch (err) {
-//       console.error(err)
-//     }
-//   }
-
 export default function(state = defaultUser, action) {
   switch (action.type) {
     case GET_USER:
