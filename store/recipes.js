@@ -31,15 +31,15 @@ export const gotNewRecipes = ingredients => async dispatch => {
 }
 export const addedStarRecipe = (recipeId, userId) => async dispatch => {
   try {
-    const {data} = await firebase.data().ref('/users/' + userId).child('starred').push(recipeId)
+    const {data} = await database.data().ref('/users/' + userId).child('starred').push(recipeId)
     dispatch(addStarRecipe(data))
   } catch (error) {
-    
+    console.error(error)
   }
 }
-export const gotStarredRecipe = (userId) => async dispatch => {
+export const gotStarredRecipe = userId => async dispatch => {
   try {
-    const {data} = await firebase.data().ref('/users/' + userId).once('value')
+    const {data} = await database.data().ref('/users/' + userId).once('value')
     dispatch(getStarredRecipe(data))
   } catch (error) {
     console.error(error)
@@ -47,7 +47,7 @@ export const gotStarredRecipe = (userId) => async dispatch => {
 }
 export const gotOldRecipes = userId => async dispatch => {
   try {
-    const {data} = await firebase.data().ref('/users/' + userId).once('value')
+    const {data} = await database.data().ref('/users/' + userId).once('value')
     dispatch(getOldRecipe(data))
   } catch (error) {
     console.error(error)

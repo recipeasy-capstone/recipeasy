@@ -3,7 +3,6 @@ import database from "../firebaseconfig";
 const GET_USER = "GET_USER";
 const REMOVE_USER = "REMOVE_USER";
 
-
 const defaultUser = {};
 
 

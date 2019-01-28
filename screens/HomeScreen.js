@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 import { WebBrowser } from 'expo';
+import Pantry from './Pantry'
 
 import { MonoText } from '../components/StyledText';
 // import rapid from '../store';
@@ -50,6 +51,7 @@ export default class HomeScreen extends React.Component {
             </View>
 
             <Text style={styles.getStartedText}>HELLO WORLD</Text>
+            <Pantry />
           </View>
 
           <View style={styles.helpContainer}>
