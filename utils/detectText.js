@@ -12,7 +12,6 @@ module.exports = async function detectText(fileName) {
     const food = /[A-Z]/g
     const [result] = await client.textDetection(fileName)
     const detections = result.textAnnotations[0].description
-    console.log('Text:', detections)
     return detections.split('\n').filter(text =>
         text.length !== 0
         && text[0].match(food)
