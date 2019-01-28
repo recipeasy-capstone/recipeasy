@@ -4,7 +4,6 @@ const unirest = require("unirest");
 
 router.post("/", async (req, res) => {
   try {
-    console.log(req.body, "HERE");
     let ingredients = encodeURIComponent(req.body.ingredients.join("+"));
     let recipes = await unirest
       .get(
