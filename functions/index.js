@@ -15,8 +15,10 @@ exports.getRecipes = functions.https.onRequest((req, res) => {
         .header("X-RapidAPI-Key", RAPID_API_KEY)
         .end((result) => {
           console.log(result.status, result.headers, result.body);
-        });
-      res.send(recipes);
+        })
+        .then((ref)=>{
+            return res.send(ref);
+        })
     } catch (err) {
       console.error(err);
       res.send(err);
@@ -25,8 +27,11 @@ exports.getRecipes = functions.https.onRequest((req, res) => {
 
   exports.detectTexts = functions.https.onRequest((req, res) => {
     try {
-        const data = detectText('./receipt.jpg')
-        res.send(data)
+        const {data} = detectText('./receipt.jpg')
+        .then((ref)=>{
+            console.log(ref, "DATA")
+            return res.send(ref)
+        })
     }
     catch (err) {
         console.error(err)
@@ -35,8 +40,11 @@ exports.getRecipes = functions.https.onRequest((req, res) => {
 
   exports.detectLabel = functions.https.onRequest((req,res) => {
     try {
-        const data = detectLabels('./receipt.jpg')
-        res.json(data)
+        const {data} = detectLabels('./receipt.jpg')
+        .then((ref)=>{
+            console.log(ref, "DATA")
+            return res.send(ref)
+        })
     }
     catch (err) {
         console.error(err)
