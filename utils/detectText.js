@@ -6,7 +6,7 @@ module.exports = async function detectText(fileName) {
 
     const client = new vision.ImageAnnotatorClient({
         projectId: 'receipt-detection-app',
-        keyFilename: 'secrets/cloudKey.json'
+        keyFilename: '../secrets/cloudKey.json'
     })
 
     const food = /[A-Z]/g

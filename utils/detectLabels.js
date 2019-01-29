@@ -5,7 +5,7 @@ module.exports = async function detectLabels(fileName) {
 
   const client = new vision.ImageAnnotatorClient({
     projectId: 'receipt-detection-app',
-    keyFilename: 'secrets/cloudKey.json'
+    keyFilename: '../secrets/cloudKey.json'
   })
 
   const [result] = await client.labelDetection(fileName)

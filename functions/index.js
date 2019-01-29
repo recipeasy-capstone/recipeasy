@@ -1,5 +1,5 @@
 const functions = require('firebase-functions');
-const { RAPID_API_KEY } = require("./secrets/unirest");
+const { RAPID_API_KEY } = require("../secrets/unirest");
 const unirest = require("unirest");
 const {detectText} = require('../utils')
 const {detectLabels} = require('../utils')
@@ -29,7 +29,6 @@ exports.getRecipes = functions.https.onRequest((req, res) => {
     try {
         const {data} = detectText('./receipt.jpg')
         .then((ref)=>{
-            console.log(ref, "DATA")
             return res.send(ref)
         })
     }
@@ -42,7 +41,6 @@ exports.getRecipes = functions.https.onRequest((req, res) => {
     try {
         const {data} = detectLabels('./receipt.jpg')
         .then((ref)=>{
-            console.log(ref, "DATA")
             return res.send(ref)
         })
     }
