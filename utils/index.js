@@ -1,7 +1,7 @@
 const detectText = require('./detectText')
 const detectLabels = require('./detectLabels')
 
-module.exports = {
+module.exports  = {
     detectText,
     detectLabels
 }

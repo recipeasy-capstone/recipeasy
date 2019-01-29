@@ -1,12 +1,12 @@
 'use strict'
-const notFood = require('./notFood')
+const notFood = require('../utils/notFood')
 
 module.exports = async function detectText(fileName) {
     const vision = require('@google-cloud/vision')
 
     const client = new vision.ImageAnnotatorClient({
         projectId: 'receipt-detection-app',
-        keyFilename: 'secrets/cloudKey.json'
+        keyFilename: '../secrets/cloudKey.json'
     })
 
     const food = /[A-Z]/g
