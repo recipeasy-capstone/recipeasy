@@ -5,7 +5,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import CameraScreen from '../screens/CameraScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import StarredScreen from '../screens/StarredScreen';
 import RecipeListScreen from '../screens/RecipeListScreen';
 
 const HomeStack = createStackNavigator({
@@ -41,12 +41,12 @@ CameraStack.navigationOptions = {
   ),
 };
 
-const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
+const StarredStack = createStackNavigator({
+  Starred: StarredScreen,
 });
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+StarredStack.navigationOptions = {
+  tabBarLabel: 'Starred',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -61,7 +61,7 @@ const RecipesStack = createStackNavigator({
 });
 
 RecipesStack.navigationOptions = {
-  tabBarLabel: 'Recipe List',
+  tabBarLabel: 'Recipes',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -75,5 +75,5 @@ RecipesStack.navigationOptions = {
 export default createBottomTabNavigator({
   HomeStack,
   CameraStack,
-  SettingsStack,
+  StarredStack,
 });
