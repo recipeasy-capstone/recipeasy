@@ -6,6 +6,9 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
+    "lint": "eslint ./ --ignore-path .gitignore",
+    "lint-fix": "npm run lint -- --fix",
+    "prettify": "prettier --write \"**/*.{js,jsx,json,css,scss,md}\"",
     "test": "node ./node_modules/jest/bin/jest.js --watchAll"
   },
   "jest": {
@@ -26,7 +29,6 @@
     "https-browserify": "0.0.1",
     "lint": "^1.1.2",
     "morgan": "^1.9.1",
-    "node-libs-react-native": "^1.0.3",
     "nodemon": "^1.18.9",
     "path": "^0.12.7",
     "prettier": "^1.16.1",
@@ -36,7 +38,6 @@
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-native-cli": "^2.0.1",
-    "react-native-crypto": "^2.1.2",
     "react-native-level-fs": "^3.0.1",
     "react-native-os": "^1.2.2",
     "react-native-randombytes": "^3.5.2",

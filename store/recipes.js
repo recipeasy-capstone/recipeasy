@@ -1,70 +1,54 @@
-import database from "../firebaseconfig";
+import fireData from '../utils/firebaseFunc'
 import axios from "axios";
 
-const GET_OLD_RECIPE = "GET_OLD_RECIPE";
-const GET_NEW_RECIPE = "GET_NEW_RECIPE";
-const GET_STARRED_RECIPE = "GET_STARRED_RECIPE";
-const STAR_RECIPE = "STAR_RECIPE";
+const GOT_All_RECIPES = "GOT_ALL_RECIPES";
+const GOT_NEW_RECIPES = "GOT_NEW_RECIPES";
+const ADD_STAR_RECIPE = "ADD_STAR_RECIPE";
 
 const initialState = {
-  oldRecipe: [],
-  newRecipe: [],
-  starredRecipe: []
+  allRecipes: [],
+  newRecipes: [],
+  newStarRecipe: []
 };
 
-const getOldRecipe = oldRecipe => ({ type: GET_OLD_RECIPE, oldRecipe });
-const getStarredRecipe = starredRecipe => ({
-  type: GET_STARRED_RECIPE,
-  starredRecipe
-});
-const getNewRecipe = newRecipe => ({ type: GET_NEW_RECIPE, newRecipe });
-const addStarRecipe = starRecipe => ({ type: STAR_RECIPE, starRecipe});
+const gotAllRecipes = allRecipes => ({ type: GOT_All_RECIPES, allRecipes });
+const gotNewRecipes = newRecipes => ({ type: GOT_NEW_RECIPES, newRecipes });
+const addedStarRecipe = starRecipe => ({ type: ADD_STAR_RECIPE, starRecipe});
 
 //Thunks
-export const gotNewRecipes = ingredients => async dispatch => {
+export const fetchAllRecipes = userId => async dispatch => {
+  try {
+    const {data} = await fireData.ref('/users/' + userId).once('value')
+    dispatch(gotAllRecipes(data))
+  } catch (error) {
+    console.error(error)
+  }
+}
+export const fetchNewRecipes = ingredients => async dispatch => {
   try {
     const {data} = await axios.post('/api/recipes', ingredients)
-    dispatch(getNewRecipe(data))
+    dispatch(gotNewRecipes(data))
   } catch (error) {
     console.error(error)
   }
 }
-export const addedStarRecipe = (recipeId, userId) => async dispatch => {
+export const addingStarRecipe = (recipeId, userId) => async dispatch => {
   try {
-    const {data} = await firebase.data().ref('/users/' + userId).child('starred').push(recipeId)
-    dispatch(addStarRecipe(data))
+    const {data} = await fireData.ref('/users/' + userId).child('starred').push(recipeId)
+    dispatch(addedStarRecipe(data))
   } catch (error) {
-    
-  }
-}
-export const gotStarredRecipe = (userId) => async dispatch => {
-  try {
-    const {data} = await firebase.data().ref('/users/' + userId).once('value')
-    dispatch(getStarredRecipe(data))
-  } catch (error) {
-    console.error(error)
-  }
-}
-export const gotOldRecipes = userId => async dispatch => {
-  try {
-    const {data} = await firebase.data().ref('/users/' + userId).once('value')
-    dispatch(getOldRecipe(data))
-  } catch (error) {
-    console.error(error)
   }
 }
 
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case GET_OLD_RECIPE:
-      return {...state, oldRecipe: action.oldRecipe}
-    case GET_NEW_RECIPE:
-      return {...state, newRecipe: action.newRecipe}
-    case GET_STARRED_RECIPE:
-      return {...state, starredRecipe: action.starredRecipe}
-    case STAR_RECIPE:
-      return {...state, starredRecipe: action.starRecipe}
+    case GOT_ALL_RECIPES:
+      return {...state, allRecipes: action.allRecipes}
+    case GOT_NEW_RECIPES:
+      return {...state, newRecipes: action.newRecipes}
+    case ADD_STAR_RECIPE:
+      return {...state, newStarRecipe: action.starRecipe}
     default:
       return state;
   }
