@@ -1,6 +1,8 @@
 import fireData from '../utils/firebaseFunc'
 import axios from "axios";
 
+const fireStore = 'https://us-central1-<recipeasy-f2234>.cloudfunctions.net/date'
+
 const GOT_All_RECIPES = "GOT_ALL_RECIPES";
 const GOT_NEW_RECIPES = "GOT_NEW_RECIPES";
 const ADD_STAR_RECIPE = "ADD_STAR_RECIPE";
@@ -26,7 +28,7 @@ export const fetchAllRecipes = userId => async dispatch => {
 }
 export const fetchNewRecipes = ingredients => async dispatch => {
   try {
-    const {data} = await axios.post('/api/recipes', ingredients)
+    const {data} = await axios.post(fireStore, ingredients)
     dispatch(gotNewRecipes(data))
   } catch (error) {
     console.error(error)
