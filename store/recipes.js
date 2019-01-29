@@ -1,21 +1,20 @@
 import database from "../firebaseconfig";
 import axios from "axios";
 
-const GET_OLD_RECIPE = "GET_OLD_RECIPE";
-const GET_NEW_RECIPE = "GET_NEW_RECIPE";
-const GET_STARRED_RECIPE = "GET_STARRED_RECIPE";
-const STAR_RECIPE = "STAR_RECIPE";
+const GOT_All_RECIPES = "GOT_OLD_RECIPES";
+const GOT_NEW_RECIPES = "GOT_NEW_RECIPES";
+const ADD_STAR_RECIPE = "ADD_STAR_RECIPE";
 
 const initialState = {
   oldRecipe: [],
   newRecipe: [],
-  starredRecipe: []
+  starredRecipes: []
 };
 
 const getOldRecipe = oldRecipe => ({ type: GET_OLD_RECIPE, oldRecipe });
-const getStarredRecipe = starredRecipe => ({
+const getStarredRecipe = starredRecipes => ({
   type: GET_STARRED_RECIPE,
-  starredRecipe
+  starredRecipes
 });
 const getNewRecipe = newRecipe => ({ type: GET_NEW_RECIPE, newRecipe });
 const addStarRecipe = starRecipe => ({ type: STAR_RECIPE, starRecipe});
