@@ -1,5 +1,5 @@
 'use strict'
-const notFood = require('./notFood')
+const notFood = require('../utils/notFood')
 
 module.exports = async function detectText(fileName) {
     const vision = require('@google-cloud/vision')
