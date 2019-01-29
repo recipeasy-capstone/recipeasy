@@ -6,7 +6,6 @@ const REMOVE_USER = "REMOVE_USER";
 
 const defaultUser = {};
 
-
 const getUser = userId => ({ type: GET_USER, userId });
 const removeUser = () => ({ type: REMOVE_USER });
 
