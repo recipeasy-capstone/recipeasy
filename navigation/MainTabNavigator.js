@@ -4,11 +4,13 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import CameraScreen from '../screens/CameraScreen';
+import StarredScreen from '../screens/StarredScreen';
+import RecipeListScreen from '../screens/RecipeListScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
+  RecipeList: RecipeListScreen
 });
 
 HomeStack.navigationOptions = {
@@ -25,12 +27,12 @@ HomeStack.navigationOptions = {
   ),
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
+const CameraStack = createStackNavigator({
+  Camera: CameraScreen,
 });
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+CameraStack.navigationOptions = {
+  tabBarLabel: 'Camera',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -39,12 +41,12 @@ LinksStack.navigationOptions = {
   ),
 };
 
-const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
+const StarredStack = createStackNavigator({
+  Starred: StarredScreen,
 });
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+StarredStack.navigationOptions = {
+  tabBarLabel: 'Starred',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -53,8 +55,25 @@ SettingsStack.navigationOptions = {
   ),
 };
 
+
+const RecipesStack = createStackNavigator({
+  RecipeList: RecipeListScreen,
+});
+
+RecipesStack.navigationOptions = {
+  tabBarLabel: 'Recipes',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+    />
+  ),
+};
+
+
+
 export default createBottomTabNavigator({
   HomeStack,
-  LinksStack,
-  SettingsStack,
+  CameraStack,
+  StarredStack,
 });
