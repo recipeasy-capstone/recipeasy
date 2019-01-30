@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
   Image,
   Platform,
@@ -8,71 +8,66 @@ import {
   TouchableOpacity,
   View,
   Button
-} from 'react-native';
-import { ExpoLinksView } from '@expo/samples';
-import {Camera, Permissions, ImagePicker} from 'expo'
-import HomeScreen from './HomeScreen'
+} from 'react-native'
+import {Permissions, ImagePicker} from 'expo'
 
 export default class CameraScreen extends React.Component {
-  // state = {
-
-  // }
-  constructor(){
+  constructor() {
     super()
     this.state = {
-      imageURI: null,
-      uploading : false,
-      dataObj : {}
+      imageURI: null
     }
   }
+
   static navigationOptions = {
     title: 'Camera',
   }
 
-  takePhoto = async()=>{
-    const {status : cameraPerm} = await Permissions.askAsync(Permissions.CAMERA)
+  takePhoto = async () => {
+    const {status: cameraPerm} = await Permissions.askAsync(Permissions.CAMERA)
     const {status: cameraRollPerm} = await Permissions.askAsync(Permissions.CAMERA_ROLL)
-    if (cameraPerm === 'granted' && cameraRollPerm === 'granted'){
+
+    if (cameraPerm === 'granted' && cameraRollPerm === 'granted') {
       let selectedPhoto = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
-        aspect: [4,3]
+        aspect: [4, 3]
       })
-      this.setState({imageURI : selectedPhoto.uri})
+      this.setState({ imageURI: selectedPhoto.uri })
     }
   }
 
-  selectPhoto = async()=>{
+  selectPhoto = async () => {
     const {status: cameraRollPerm} = await Permissions.askAsync(Permissions.CAMERA_ROLL)
+
     if (cameraRollPerm === 'granted') {
       let selectedPhoto = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: true,
-        aspect: [4, 3],
+        aspect: [4, 3]
       });
-      this.setState({imageURI : selectedPhoto.uri})
+      this.setState({ imageURI: selectedPhoto.uri })
     }
   }
 
   render() {
-    const {navigate} = this.props.navigation
-      return(
-      <View>
-        <Button
-          title = "Take Photo"
-          onPress = {this.takePhoto}
-        />
-        <Button
-          title = "Select Photo"
-          onPress = {this.selectPhoto}
-        />
-      </View>
-      )
-    }
+    return (
+    <View style={styles.container}>
+      <Button
+        title = "Take Photo"
+        onPress = {this.takePhoto}
+      />
+      <Button
+        title = "Select Photo"
+        onPress = {this.selectPhoto}
+      />
+    </View>
+    )
   }
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 15,
-    backgroundColor: '#fff',
-  },
-});
+    backgroundColor: '#fff'
+  }
+})
