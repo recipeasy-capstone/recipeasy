@@ -1,5 +1,14 @@
-import database from "../firebaseconfig";
+import { firestore } from '../firebaseconfig'
 
-const fireData = database.data().ref('/users/' + userId)
-
-module.exports = fireData
+export const userInfo = userId => {
+    const user = firestore.collection('User').doc(userId)
+    return user.get()
+    .then(doc => {
+        if (!doc.exists) {
+            console.log('User does not exist!')
+        } else {
+            console.log(doc.data())
+            return doc.data()
+        }
+    })
+}
