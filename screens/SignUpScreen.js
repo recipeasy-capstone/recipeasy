@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 
-export default class HomeScreen extends React.Component {
+export default class SignUpScreen extends React.Component {
   static navigationOptions = {
     title: null,
   };
@@ -17,12 +17,9 @@ export default class HomeScreen extends React.Component {
     const { navigate } = this.props.navigation;
     return (
       <View>
-        <Text>INITIAL</Text>
+        <Text>SIGNUP</Text>
         //form
-        <TouchableOpacity onPress={() => navigate('Pantry')}>
-          <Text>Log In</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigate('SignUp')}>
+        <TouchableOpacity onPress={() => navigate('Home')}>
           <Text>Sign Up</Text>
         </TouchableOpacity>
       </View>

@@ -15,13 +15,14 @@ export default class Starred extends React.Component {
   };
 
   render() {
-    return(
-    <View style={styles.container}>
-      <ScrollView>
-      <Text>hello</Text>
-      </ScrollView>
-    </View>
-    )}
+    return (
+      <View style={styles.container}>
+        <ScrollView>
+          <Text>hello</Text>
+        </ScrollView>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -29,5 +30,4 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-
 });
