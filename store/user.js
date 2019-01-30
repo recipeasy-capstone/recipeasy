@@ -1,37 +1,41 @@
 import database from "../firebaseconfig";
+import {firestore} from '../firebaseconfig'
 
-const GET_USER = "GET_USER";
-const REMOVE_USER = "REMOVE_USER";
+const LOGGEDIN_USER = "LOGGEDIN_USER";
+const LOGGEDOUT_USER = "LOGGEDOUT_USER";
+const SIGNED_UP_USER = "SIGNED_UP_USER";
 
+initialState = {
 
-const defaultUser = {};
+}
+const defaultUser = {}
 
-const getUser = userId => ({ type: GET_USER, userId });
-const removeUser = () => ({ type: REMOVE_USER });
+const loggedinUser = () => ({type: LOGGEDIN_USER, userId, password});
+const loggedoutUser = () => ({type: LOGGEDOUT_USER});
+const signedUpUser = () => ({type: SIGNED_UP_USER, data});
 
-export const me = () => async dispatch => {
+export const signUpUser = (data) => async dispatch => {
   try {
-    const res = await database.get("/auth/me");
-    dispatch(getUser(res.data || defaultUser));
-  } catch (err) {
-    console.error(err);
+    await firestore.collection('User').doc(data.email).set(data)
+    dispatch(signedUpUser(data))
+   } catch (error) {
+    console.error(error)
   }
 };
 
-export const auth = (email, password, method) => async dispatch => {
-  let res;
+export const login = (userId, password) => async dispatch => {
   try {
-    res = await axios.post(`/auth/${method}`, { email, password });
-  } catch (authError) {
-    return dispatch(getUser({ error: authError }));
+    const user = await firestore.collection('User').doc(userId).get()
+    if (!user.exist) {
+      console.log('you have no email!!')
+    }
+    else {
+      dispatch(loggedinUser(user.data))
+    }
+  } catch (error) {
+    console.error(error)
   }
-
-  try {
-    dispatch(getUser(res.data));
-  } catch (dispatchOrHistoryErr) {
-    console.error(dispatchOrHistoryErr);
-  }
-};
+}
 
 export const logout = () => async dispatch => {
   try {
