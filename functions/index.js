@@ -1,7 +1,7 @@
 const functions = require("firebase-functions");
 const uni = require("unirest");
-const { detectText } = require("../utils");
-const { detectLabels } = require("../utils");
+const detectText = require("./util/detectText");
+const detectLabels = require("./util/detectLabels");
 const path = require("path");
 
 exports.getRecipes = functions.https.onRequest((req, res) => {
