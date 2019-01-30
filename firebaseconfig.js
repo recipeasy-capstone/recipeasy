@@ -1,6 +1,9 @@
-import * as firebase from 'firebase';
-import config from './secrets/firebase';
+import firebase from 'firebase'
+import config from './secrets/firestore'
 
-firebase.initializeApp(config);
-const database = firebase.database();
-export default database;
+const fire = firebase.initializeApp(config)
+
+export const firestore = fire.firestore()
+
+//Use this to post new user data to firestore!
+//const setData = firestore.collection('User').doc(data.email).set(data)
