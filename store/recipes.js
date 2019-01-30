@@ -1,10 +1,6 @@
 import fireData from '../utils/firebaseFunc'
 import axios from "axios";
-
-const fsGetRecipes = 'https://us-central1-<recipeasy-f2234>.cloudfunctions.net/getRecipes'
-const fsAutocomplete= 'https://us-central1-<recipeasy-f2234>.cloudfunctions.net/ingredientLookUp'
-const fsdetectTexts = 'https://us-central1-<recipeasy-f2234>.cloudfunctions.net/detectTexts'
-const fsdetectLabel = 'https://us-central1-<recipeasy-f2234>.cloudfunctions.net/detectLabel'
+import { fsGetRecipes } from "../secrets/fireFunctions"
 
 const GOT_All_RECIPES = "GOT_ALL_RECIPES";
 const GOT_NEW_RECIPES = "GOT_NEW_RECIPES";
