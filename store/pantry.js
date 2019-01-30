@@ -65,3 +65,18 @@ export const deleteFromPantry = (ingredient, userId) = async dispatch =>{
         console.error(error)
     }
 }
+
+export default function(state = initialState, action) {
+    switch(action.type){
+        case GOT_INGREDIENTS_LIST:
+            return [...pantry].concat(action.filteredIngredientList)
+        case GOT_PANTRY:
+            return [...pantry]
+        case ADDED_TO_PANTRY:
+            return [...pantry, action.ingredient]      
+        case DELETED_FROM_PANTRY:
+            return [...pantry]    
+        default:
+        return state    
+    }
+}
