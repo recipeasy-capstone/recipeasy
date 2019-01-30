@@ -2,12 +2,20 @@ import database from "../firebaseconfig";
 
 const GET_USER = "GET_USER";
 const REMOVE_USER = "REMOVE_USER";
+const LOGGEDIN_USER = "LOGGEDIN_USER";
+const LOGGEDOUT_USER = "LOGGEDOUT_USER";
+const SIGNED_UP_USER = "SIGNED_UP_USER";
 
+initialState = {
 
-const defaultUser = {};
+}
+const defaultUser = {}
 
 const getUser = userId => ({ type: GET_USER, userId });
 const removeUser = () => ({ type: REMOVE_USER });
+const loggedinUser = () => ({type: LOGGEDIN_USER, userId, password});
+const loggedoutUser = () => ({type: LOGGEDOUT_USER});
+const signedUpUser = () => ({type: SIGNED_UP_USER, userId, password, email});
 
 export const me = () => async dispatch => {
   try {
@@ -41,6 +49,8 @@ export const logout = () => async dispatch => {
     console.error(err);
   }
 };
+
+export const userSignUp
 
 export default function(state = defaultUser, action) {
   switch (action.type) {
