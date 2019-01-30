@@ -21,11 +21,21 @@ export const fetchIngredientsList = imageURI => async dispatch => {
     try {
         const isLabel = await axios.post(fsdetectLabel, imageURI)
         if (isLabel) {
+            const notWord = []
+            const words = []
             const {data} = await axios.post(fsdetectTexts, imageURI)
-            dispatch(gotIngredientsList(data))
+            
+            dispatch(gotIngredientsList(words))
         }
     } 
     catch (error) {
         console.error(error)
+    }
+}
+
+export default function(state = initialState, action) {
+    switch (action.type) {
+        case GOT_INGREDIENTS_LIST:
+            return [...]
     }
 }
