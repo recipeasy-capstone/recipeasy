@@ -29,7 +29,7 @@ HomeStack.navigationOptions = {
 
 const CameraStack = createStackNavigator({
   Camera: CameraScreen,
-
+  Home : HomeScreen
 });
 
 CameraStack.navigationOptions = {
