@@ -1,7 +1,10 @@
 import fireData from '../utils/firebaseFunc'
 import axios from "axios";
 
-const fireStore = 'https://us-central1-<recipeasy-f2234>.cloudfunctions.net/date'
+const fsGetRecipes = 'https://us-central1-<recipeasy-f2234>.cloudfunctions.net/getRecipes'
+const fsAutocomplete= 'https://us-central1-<recipeasy-f2234>.cloudfunctions.net/ingredientLookUp'
+const fsdetectTexts = 'https://us-central1-<recipeasy-f2234>.cloudfunctions.net/detectTexts'
+const fsdetectLabel = 'https://us-central1-<recipeasy-f2234>.cloudfunctions.net/detectLabel'
 
 const GOT_All_RECIPES = "GOT_ALL_RECIPES";
 const GOT_NEW_RECIPES = "GOT_NEW_RECIPES";
@@ -28,7 +31,7 @@ export const fetchAllRecipes = userId => async dispatch => {
 }
 export const fetchNewRecipes = ingredients => async dispatch => {
   try {
-    const {data} = await axios.post(fireStore, ingredients)
+    const {data} = await axios.post(fsGetRecipes, ingredients)
     dispatch(gotNewRecipes(data))
   } catch (error) {
     console.error(error)
