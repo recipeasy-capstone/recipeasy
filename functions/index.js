@@ -27,11 +27,11 @@ exports.getRecipes = functions.https.onRequest((req, res) => {
 exports.ingredientLookUp = functions.https.onRequest((req, res) => {
   try {
     let ingredient = encodeURIComponent(req.body.ingredient);
-    let recipes = unirest
+    let recipes = uni
       .get(
         `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/ingredients/autocomplete?number=5&query=${ingredient}`
       )
-      .header("X-RapidAPI-Key", RAPID_API_KEY)
+      .header("X-RapidAPI-Key", unirest.key)
       .end(result => {
         console.log(result.status, result.headers, result.body);
       })
