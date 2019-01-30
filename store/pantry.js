@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { fsdetectTexts, fsdetectLabel } from '../secrets/fireFunctions'
+import autocompleteFunc from '../utils/autocompleteFunc'
 
 const GOT_INGREDIENTS_LIST = "GOT_INGREDIENTS_LIST"
 const GOT_PANTRY = "GOT_PANTRY"
@@ -21,21 +22,12 @@ export const fetchIngredientsList = imageURI => async dispatch => {
     try {
         const isLabel = await axios.post(fsdetectLabel, imageURI)
         if (isLabel) {
-            const notWord = []
-            const words = []
             const {data} = await axios.post(fsdetectTexts, imageURI)
-            
+            const words = autocompleteFunc(data)
             dispatch(gotIngredientsList(words))
         }
     } 
     catch (error) {
         console.error(error)
-    }
-}
-
-export default function(state = initialState, action) {
-    switch (action.type) {
-        case GOT_INGREDIENTS_LIST:
-            return [...]
     }
 }

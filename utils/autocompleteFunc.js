@@ -4,7 +4,7 @@ import checkWord from 'check-word'
 
 const words = checkWord('en');
 
-export const allFoods = (data) => {
+export const allFoods = async data => {
     return data.map(food => {
         if (!words.check(food.toLowerCase())) {
             return await axios.post(fsAutocomplete, food)
