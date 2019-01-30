@@ -16,3 +16,16 @@ const gotIngredientsList = filteredIngredientList => ({ type: GOT_INGREDIENTS_LI
 const gotPantry = pantry => ({ type: GOT_PANTRY, pantry })
 const addedToPantry = manualIngredientList => ({ type: ADDED_TO_PANTRY, manualIngredientList })
 const deletedFromPantry = ingredient => ({ type: DELETED_FROM_PANTRY, ingredient })
+
+export const fetchIngredientsList = imageURI => async dispatch => {
+    try {
+        const isLabel = await axios.post(fsdetectLabel, imageURI)
+        if (isLabel) {
+            const {data} = await axios.post(fsdetectTexts, imageURI)
+            dispatch(gotIngredientsList(data))
+        }
+    } 
+    catch (error) {
+        console.error(error)
+    }
+}
