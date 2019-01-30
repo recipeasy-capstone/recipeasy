@@ -31,3 +31,12 @@ export const fetchIngredientsList = imageURI => async dispatch => {
         console.error(error)
     }
 }
+
+export const fetchPantry = userId => async dispatch => {
+    try {
+        const {data} await 
+    } 
+    catch (error) {
+        
+    }
+}
