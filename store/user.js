@@ -10,23 +10,28 @@ initialState = {
 }
 const defaultUser = {}
 
-const loggedinUser = () => ({type: LOGGEDIN_USER, email, password});
+const loggedinUser = () => ({type: LOGGEDIN_USER, userId, password});
 const loggedoutUser = () => ({type: LOGGEDOUT_USER});
 const signedUpUser = () => ({type: SIGNED_UP_USER, data});
 
 export const signUpUser = (data) => async dispatch => {
   try {
     await firestore.collection('User').doc(data.email).set(data)
-  } catch (error) {
+    dispatch(signedUpUser(data))
+   } catch (error) {
     console.error(error)
   }
 };
 
-export const Login = (userId) => async dispatch => {
+export const login = (userId,password) => async dispatch => {
   try {
+    const user = await firestore.collection('User').doc(userId).get()
+    if (!user.exist) {
+      console.log('you have no email!!')
+    }
     
   } catch (error) {
-    
+    console.error(error)
   }
 }
 
