@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { fsdetectTexts, fsdetectLabel } from '../secrets/fireFunctions'
 import autocompleteFunc from '../utils/autocompleteFunc'
+import userInfo from '../utils/firebaseFunc'
 
 const GOT_INGREDIENTS_LIST = "GOT_INGREDIENTS_LIST"
 const GOT_PANTRY = "GOT_PANTRY"
@@ -34,9 +35,11 @@ export const fetchIngredientsList = imageURI => async dispatch => {
 
 export const fetchPantry = userId => async dispatch => {
     try {
-        const {data} await 
+        const data = userInfo(userId)
+        const pantry = data.pantry
+        dispatch(gotPantry(pantry))
     } 
     catch (error) {
-        
+        console.error(error)
     }
 }
