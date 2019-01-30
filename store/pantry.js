@@ -54,3 +54,14 @@ export const addToPantry = (ingredient, userId) = async dispatch =>{
         console.error(error)
     }
 }
+
+export const deleteFromPantry = (ingredient, userId) = async dispatch =>{
+    try {
+        await firestore.collection('User').doc(userId).update({
+            pantry: [...pantry].filter((food)=>food !== ingredient)
+        })
+        dispatch(deletedFromPantry(ingredient))
+    } catch (error) {
+        console.error(error)
+    }
+}
