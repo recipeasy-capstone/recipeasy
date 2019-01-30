@@ -23,13 +23,15 @@ export const signUpUser = (data) => async dispatch => {
   }
 };
 
-export const login = (userId,password) => async dispatch => {
+export const login = (userId, password) => async dispatch => {
   try {
     const user = await firestore.collection('User').doc(userId).get()
     if (!user.exist) {
       console.log('you have no email!!')
     }
-    
+    else {
+      dispatch(loggedinUser(user.data))
+    }
   } catch (error) {
     console.error(error)
   }
@@ -43,16 +45,6 @@ export const logout = () => async dispatch => {
     console.error(err);
   }
 };
-
-export const Login = (email, password) => async dispatch => {
-  try {
-    await axios.post("");
-    dispatch(loggedinUser())
-  } catch (error) {
-  }
-};
-
-export 
 
 export default function(state = defaultUser, action) {
   switch (action.type) {
