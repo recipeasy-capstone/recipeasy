@@ -1,7 +1,6 @@
 import database from "../firebaseconfig";
+import {firestore} from '../firebaseconfig'
 
-const GET_USER = "GET_USER";
-const REMOVE_USER = "REMOVE_USER";
 const LOGGEDIN_USER = "LOGGEDIN_USER";
 const LOGGEDOUT_USER = "LOGGEDOUT_USER";
 const SIGNED_UP_USER = "SIGNED_UP_USER";
@@ -11,35 +10,25 @@ initialState = {
 }
 const defaultUser = {}
 
-const getUser = userId => ({ type: GET_USER, userId });
-const removeUser = () => ({ type: REMOVE_USER });
-const loggedinUser = () => ({type: LOGGEDIN_USER, userId, password});
+const loggedinUser = () => ({type: LOGGEDIN_USER, email, password});
 const loggedoutUser = () => ({type: LOGGEDOUT_USER});
-const signedUpUser = () => ({type: SIGNED_UP_USER, userId, password, email});
+const signedUpUser = () => ({type: SIGNED_UP_USER, data});
 
-export const me = () => async dispatch => {
+export const signUpUser = (data) => async dispatch => {
   try {
-    const res = await database.get("/auth/me");
-    dispatch(getUser(res.data || defaultUser));
-  } catch (err) {
-    console.error(err);
+    await firestore.collection('User').doc(data.email).set(data)
+  } catch (error) {
+    console.error(error)
   }
 };
 
-export const auth = (email, password, method) => async dispatch => {
-  let res;
+export const Login = (userId) => async dispatch => {
   try {
-    res = await axios.post(`/auth/${method}`, { email, password });
-  } catch (authError) {
-    return dispatch(getUser({ error: authError }));
+    
+  } catch (error) {
+    
   }
-
-  try {
-    dispatch(getUser(res.data));
-  } catch (dispatchOrHistoryErr) {
-    console.error(dispatchOrHistoryErr);
-  }
-};
+}
 
 export const logout = () => async dispatch => {
   try {
@@ -50,7 +39,15 @@ export const logout = () => async dispatch => {
   }
 };
 
-export const userSignUp
+export const Login = (email, password) => async dispatch => {
+  try {
+    await axios.post("");
+    dispatch(loggedinUser())
+  } catch (error) {
+  }
+};
+
+export 
 
 export default function(state = defaultUser, action) {
   switch (action.type) {
