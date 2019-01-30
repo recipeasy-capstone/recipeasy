@@ -24,6 +24,26 @@ exports.getRecipes = functions.https.onRequest((req, res) => {
   }
 });
 
+exports.ingredientLookUp = functions.https.onRequest((req, res) => {
+  try {
+    let ingredient = encodeURIComponent(req.body.ingredient);
+    let recipes = unirest
+      .get(
+        `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/ingredients/autocomplete?number=5&query=${ingredient}`
+      )
+      .header("X-RapidAPI-Key", RAPID_API_KEY)
+      .end(result => {
+        console.log(result.status, result.headers, result.body);
+      })
+      .then(ref => {
+        return res.send(ref);
+      });
+  } catch (err) {
+    console.error(err);
+    res.send(err);
+  }
+});
+
 exports.detectTexts = functions.https.onRequest((req, res) => {
   try {
     const { data } = detectText("./receipt.jpg").then(ref => {

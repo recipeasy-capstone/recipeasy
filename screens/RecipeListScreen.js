@@ -10,11 +10,10 @@ import {
 } from 'react-native';
 import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
-import RecipeListScreen from './RecipeListScreen'
 
-export default class HomeScreen extends React.Component {
+export default class RecipeListScreen extends React.Component {
   static navigationOptions = {
-    title: null,
+    title: "Recipe List",
   };
 
   render() {
@@ -23,26 +22,18 @@ export default class HomeScreen extends React.Component {
       <View style={styles.container}>
         <ScrollView
           style={styles.container}
+          contentContainerStyle={styles.contentContainer}
         >
           <View style={styles.pantryContainer}>
-          <Text>Pantry</Text>
-            <View style = {styles.pantry}>
-            </View>
+
+
           </View>
         </ScrollView>
         <View>
-        <TouchableOpacity
-          style = {styles.button}
-          onPress={()=>navigate('RecipeList')}>
-          <Text
-          style = {styles.buttonText}
-          >EASY PEASY</Text>
-        </TouchableOpacity>
         </View>
       </View>
     );
   }
-
 }
 
 const styles = StyleSheet.create({
@@ -57,7 +48,8 @@ const styles = StyleSheet.create({
   },
   button:{
     backgroundColor: '#fbfbfb',
-    margin:20,
+    width:100,
+    marginTop:50,
     padding: 20,
     alignItems: 'center'
   },
