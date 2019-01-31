@@ -2,69 +2,59 @@ import React from 'react';
 import {
   Image,
   Platform,
-  ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { WebBrowser } from 'expo';
-import { MonoText } from '../components/StyledText';
-import RecipeListScreen from './RecipeListScreen'
 
 export default class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userId: null,
+      password: null,
+    };
+  }
   static navigationOptions = {
-    title: null,
+    title: 'Home',
   };
 
   render() {
-    const {navigate} = this.props.navigation
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        <ScrollView
-          style={styles.container}
-        >
-          <View style={styles.pantryContainer}>
-          <Text>Pantry</Text>
-            <View style = {styles.pantry}>
-            </View>
-          </View>
-        </ScrollView>
-        <View>
-        <TouchableOpacity
-          style = {styles.button}
-          onPress={()=>navigate('RecipeList')}>
-          <Text
-          style = {styles.buttonText}
-          >EASY PEASY</Text>
+        <Text>Email</Text>
+        <TextInput
+          style={styles.form}
+          onChangeText={userId => this.setState({ userId })}
+          value={this.state.userId}
+        />
+        <Text>Password</Text>
+        <TextInput
+          style={styles.form}
+          onChangeText={password => this.setState({ password })}
+          value={this.state.password}
+        />
+        <TouchableOpacity onPress={() => navigate('Main')}>
+          <Text>Log In</Text>
         </TouchableOpacity>
-        </View>
+        <TouchableOpacity onPress={() => navigate('SignUp')}>
+          <Text>Sign Up</Text>
+        </TouchableOpacity>
       </View>
     );
   }
-
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
+    // flex: 1,
+    margin: 100,
   },
-  pantryContainer: {
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 20,
+  form: {
+    borderWidth: 2,
+    borderColor: 'black',
   },
-  button:{
-    backgroundColor: '#fbfbfb',
-    margin:20,
-    padding: 20,
-    alignItems: 'center'
-  },
-  buttonText: {
-    fontSize: 20,
-    //change later
-    fontFamily: 'Helvetica'
-  }
-
 });

@@ -2,24 +2,25 @@ import React from 'react';
 import {
   Image,
   Platform,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 
-export default class Starred extends React.Component {
+export default class SignUpScreen extends React.Component {
   static navigationOptions = {
-    title: 'Starred',
+    title: null,
   };
 
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        <ScrollView>
-          <Text>hello</Text>
-        </ScrollView>
+        <Text>SIGNUP</Text>
+        <TouchableOpacity onPress={() => navigate('Main')}>
+          <Text>Sign Up</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -27,7 +28,7 @@ export default class Starred extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
+    // flex: 1,
+    margin: 100,
   },
 });

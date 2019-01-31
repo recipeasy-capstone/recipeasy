@@ -2,14 +2,21 @@ import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 
 import MainTabNavigator from './MainTabNavigator';
-import HomeScreen from '../screens/HomeScreen'
-import RecipeListScreen from '../screens/RecipeListScreen'
+import PantryScreen from '../screens/PantryScreen';
+import RecipeListScreen from '../screens/RecipeListScreen';
+import HomeScreen from '../screens/HomeScreen';
+import SignUpScreen from '../screens/SignUpScreen';
 
-export default createAppContainer(createSwitchNavigator({
-  // You could add another route here for authentication.
-  // Read more at https://reactnavigation.org/docs/en/auth-flow.html
-  Main: MainTabNavigator,
+export default createAppContainer(
+  createSwitchNavigator({
+    // You could add another route here for authentication.
+    // Read more at https://reactnavigation.org/docs/en/auth-flow.html
 
-  Home: {screen: HomeScreen},
-  RecipeList: {screen: RecipeListScreen}
-}));
+    Home: { screen: HomeScreen },
+    SignUp: { screen: SignUpScreen },
+    Main: MainTabNavigator,
+
+    Pantry: { screen: PantryScreen },
+    RecipeList: { screen: RecipeListScreen },
+  })
+);

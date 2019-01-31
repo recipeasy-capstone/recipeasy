@@ -1,16 +1,20 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import {
+  createStackNavigator,
+  createBottomTabNavigator,
+} from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
+import PantryScreen from '../screens/PantryScreen';
 import CameraScreen from '../screens/CameraScreen';
 import StarredScreen from '../screens/StarredScreen';
 import RecipeListScreen from '../screens/RecipeListScreen';
+import HomeScreen from '../screens/HomeScreen';
+import SignUpScreen from '../screens/SignUpScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
-  RecipeList: RecipeListScreen
 });
 
 HomeStack.navigationOptions = {
@@ -27,9 +31,32 @@ HomeStack.navigationOptions = {
   ),
 };
 
+const SignUpStack = createStackNavigator({
+  SignUp: SignUpScreen,
+});
+
+const PantryStack = createStackNavigator({
+  Pantry: PantryScreen,
+  RecipeList: RecipeListScreen,
+});
+
+PantryStack.navigationOptions = {
+  tabBarLabel: 'Pantry',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === 'ios'
+          ? `ios-information-circle${focused ? '' : '-outline'}`
+          : 'md-information-circle'
+      }
+    />
+  ),
+};
+
 const CameraStack = createStackNavigator({
   Camera: CameraScreen,
-  Home : HomeScreen
+  Pantry: PantryScreen,
 });
 
 CameraStack.navigationOptions = {
@@ -56,7 +83,6 @@ StarredStack.navigationOptions = {
   ),
 };
 
-
 const RecipesStack = createStackNavigator({
   RecipeList: RecipeListScreen,
 });
@@ -71,10 +97,8 @@ RecipesStack.navigationOptions = {
   ),
 };
 
-
-
 export default createBottomTabNavigator({
-  HomeStack,
+  PantryStack,
   CameraStack,
   StarredStack,
 });
