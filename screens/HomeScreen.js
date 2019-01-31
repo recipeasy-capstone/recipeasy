@@ -37,7 +37,7 @@ class HomeScreen extends React.Component {
         'Alert',
         'Missing email or password',
         [
-          {text: 'OK', onPress: () => return},
+          {text: 'OK', onPress: () => console.log('OK')},
         ],
         {cancelable: false},
       );

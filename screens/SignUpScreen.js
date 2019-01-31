@@ -1,24 +1,61 @@
 import React from 'react';
 import {
-  Image,
   Platform,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
+import { signUpUser } from '../store/user'
+import { connect } from 'react-redux';
 
-export default class SignUpScreen extends React.Component {
+class SignUpScreen extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      email: null,
+      password: null,
+      pantry: [],
+      starred: [],
+      recipes: []
+    };
+  }
   static navigationOptions = {
-    title: null,
+    title: 'Signup',
   };
 
+  async handleSignUp() {
+    try {
+      const { email, password } = this.state
+      const { navigate } = this.props.navigation
+      if (email && password) {
+        await this.props.signUpUser(this.state)
+        navigate('Main')
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   render() {
-    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        <Text>SIGNUP</Text>
-        <TouchableOpacity onPress={() => navigate('Main')}>
+        <Text>Email</Text>
+        <TextInput
+          style={styles.form}
+          onChangeText={userId => this.setState({ userId })}
+          value={this.state.userId}
+        >
+        </TextInput>
+        <Text>Password</Text>
+        <TextInput
+          style={styles.form}
+          onChangeText={password => this.setState({ password })}
+          value={this.state.password}
+        >
+        </TextInput>
+        <TouchableOpacity onPress={() => this.handleSignUp()}>
           <Text>Sign Up</Text>
         </TouchableOpacity>
       </View>
@@ -28,7 +65,16 @@ export default class SignUpScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     margin: 100,
   },
+  form: {
+    borderWidth: 2,
+    borderColor: 'black',
+  },
 });
+
+const mapDispatchToProps = dispatch => ({
+  signUp: (data) => dispatch(signUpUser(data))
+})
+
+export default connect(null, mapDispatchToProps)(SignUpScreen)
