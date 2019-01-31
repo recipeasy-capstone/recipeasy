@@ -38,11 +38,9 @@ export default class HomeScreen extends React.Component {
           onChangeText={password => this.setState({ password })}
           value={this.state.password}
         />
-        //on login retrieve data
         <TouchableOpacity onPress={() => navigate('Main')}>
           <Text>Log In</Text>
         </TouchableOpacity>
-        // on signup add data
         <TouchableOpacity onPress={() => navigate('SignUp')}>
           <Text>Sign Up</Text>
         </TouchableOpacity>
