@@ -44,7 +44,7 @@ export const fetchPantry = userId => async dispatch => {
     }
 }
 
-export const addToPantry = (ingredient, userId) = async dispatch =>{
+export const addToPantry = (ingredient, userId) => async dispatch =>{
     try {
         await firestore.collection('User').doc(userId).update({
             pantry: [...pantry, ingredient]
@@ -55,7 +55,7 @@ export const addToPantry = (ingredient, userId) = async dispatch =>{
     }
 }
 
-export const deleteFromPantry = (ingredient, userId) = async dispatch =>{
+export const deleteFromPantry = (ingredient, userId) => async dispatch =>{
     try {
         await firestore.collection('User').doc(userId).update({
             pantry: [...pantry].filter((food)=>food !== ingredient)
