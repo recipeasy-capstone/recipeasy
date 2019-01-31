@@ -1,7 +1,7 @@
 import axios from "axios";
 import { fsdetectTexts, fsdetectLabel } from "../secrets/fireFunctions";
 // import autocompleteFunc from '../utils/autocompleteFunc'
-import userInfo from "../utils/firebaseFunc";
+import { userInfo } from "../utils/firebaseFunc";
 import { firestore } from "../firebaseconfig";
 
 const GOT_INGREDIENTS_LIST = "GOT_INGREDIENTS_LIST";
