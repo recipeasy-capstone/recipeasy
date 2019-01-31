@@ -8,6 +8,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { login, signUpUser } from '../store/user'
+import { connect } from 'react-redux'
+
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -58,3 +61,14 @@ const styles = StyleSheet.create({
     borderColor: 'black',
   },
 });
+
+const mapStateToProps = state => ({
+  user: state.user.user
+})
+
+const mapDispatchToProps = dispatch => ({
+  login: (userId, password) => dispatch(login(userId, password)),
+  signUp: (data) => dispatch(signUpUser(data))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)

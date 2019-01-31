@@ -50,7 +50,7 @@ export const logout = () => async dispatch => {
 export default function(state = defaultUser, action) {
   switch (action.type) {
     case SIGNED_UP_USER:
-      return action.userData
+      return action.userData;
     case LOGGEDIN_USER:
       return action.user;
     default:
