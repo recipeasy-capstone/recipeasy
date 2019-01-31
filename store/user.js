@@ -1,16 +1,14 @@
-import database from '../firebaseconfig';
 import { firestore } from '../firebaseconfig';
 
 const LOGGEDIN_USER = 'LOGGEDIN_USER';
 const LOGGEDOUT_USER = 'LOGGEDOUT_USER';
 const SIGNED_UP_USER = 'SIGNED_UP_USER';
 
-initialState = {};
 const defaultUser = {};
 
-const loggedinUser = () => ({ type: LOGGEDIN_USER, userId, password });
+const loggedinUser = user => ({ type: LOGGEDIN_USER, user });
 const loggedoutUser = () => ({ type: LOGGEDOUT_USER });
-const signedUpUser = () => ({ type: SIGNED_UP_USER, data });
+const signedUpUser = userData => ({ type: SIGNED_UP_USER, userData });
 
 export const signUpUser = data => async dispatch => {
   try {
@@ -51,10 +49,10 @@ export const logout = () => async dispatch => {
 
 export default function(state = defaultUser, action) {
   switch (action.type) {
-    case GET_USER:
+    case SIGNED_UP_USER:
+      return action.userData
+    case LOGGEDIN_USER:
       return action.user;
-    case REMOVE_USER:
-      return defaultUser;
     default:
       return state;
   }
