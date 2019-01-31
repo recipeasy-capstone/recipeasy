@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Image,
   Platform,
@@ -7,17 +7,38 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from 'react-native';
-import { WebBrowser } from 'expo';
-import { MonoText } from '../components/StyledText';
-import RecipeListScreen from './RecipeListScreen';
+  Button
+} from "react-native";
+import { WebBrowser } from "expo";
+import { MonoText } from "../components/StyledText";
+import RecipeListScreen from "./RecipeListScreen";
+import { connect } from "react-redux";
+import { fetchPantry, deleteFromPantry } from "../store/pantry";
 
-export default class PantryScreen extends React.Component {
+class PantryScreen extends React.Component {
   static navigationOptions = {
-    title: 'Pantry',
+    title: "Pantry"
   };
 
+  async componentDidMount() {
+    await this.props.fetchPantry(this.props.user.email);
+  }
+
   render() {
+    const item = this.props.pantry.map((item, index) => {
+      return (
+        <View>
+          <Text key={index}>{item}</Text>
+          <Button
+            title="X"
+            onPress={() =>
+              this.props.deleteFromPantry(item, this.props.user.email)
+            }
+          />
+        </View>
+      );
+    });
+
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
@@ -30,7 +51,7 @@ export default class PantryScreen extends React.Component {
         <View>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigate('RecipeList')}
+            onPress={() => navigate("RecipeList")}
           >
             <Text style={styles.buttonText}>EASY PEASY</Text>
           </TouchableOpacity>
@@ -43,22 +64,39 @@ export default class PantryScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff"
   },
   pantryContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 10,
-    marginBottom: 20,
+    marginBottom: 20
   },
   button: {
-    backgroundColor: '#fbfbfb',
+    backgroundColor: "#fbfbfb",
     margin: 20,
     padding: 20,
-    alignItems: 'center',
+    alignItems: "center"
   },
   buttonText: {
     fontSize: 20,
     //change later
-    fontFamily: 'Helvetica',
-  },
+    fontFamily: "Helvetica"
+  }
 });
+
+const mapStateToProps = state => ({
+  pantry: state.pantry.pantry,
+  user: state.user.user
+});
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchPantry: userId => dispatch(fetchPantry(userId)),
+    deleteFromPantry: item => dispatch(deleteFromPantry(item))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PantryScreen);

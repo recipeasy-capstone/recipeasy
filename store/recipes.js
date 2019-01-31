@@ -8,7 +8,7 @@ const ADD_STAR_RECIPE = "ADD_STAR_RECIPE";
 
 const initialState = {
   allRecipes: [],
-  newRecipes: [],
+  newRecipes: ["Recipe1", "recipe2"],
   newStarRecipe: []
 };
 

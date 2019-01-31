@@ -10,20 +10,13 @@ import {
   Button
 } from "react-native";
 import { connect } from "react-redux";
-import { fetchPantry, deleteFromPantry } from "../store/pantry";
 
 class RecipeListScreen extends React.Component {
   static navigationOptions = {
     title: "Recipe List"
   };
 
-  async componentDidMount() {
-    await this.props.fetchPantry(this.props.user.email);
-  }
-
-  deleteFromPantry(item) {
-    this.props.deleteFromPantry(item, this.props.user.email);
-  }
+  async componentDidMount() {}
 
   render() {
     const { navigate } = this.props.navigation;
@@ -33,20 +26,8 @@ class RecipeListScreen extends React.Component {
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          <View style={styles.pantryContainer}>
-            {this.props.pantry.map((item, index) => {
-              return (
-                <Text key={item.index}>
-                  {item.name}
-                  <Button onPress={this.deleteItemFromPantry(item.id)}>
-                    X
-                  </Button>
-                </Text>
-              );
-            })}
-          </View>
+          <View style={styles.pantryContainer} />
         </ScrollView>
-        <View />
       </View>
     );
   }
@@ -75,16 +56,10 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = state => ({
-  pantry: state.pantry.pantry,
-  user: state.user.user
-});
+const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => {
-  return {
-    fetchPantry: userId => dispatch(fetchPantry(userId)),
-    deleteFromPantry: item => dispatch(deleteFromPantry(item))
-  };
+  return {};
 };
 
 export default connect(
