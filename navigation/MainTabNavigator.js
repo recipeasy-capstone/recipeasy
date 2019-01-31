@@ -12,6 +12,7 @@ import StarredScreen from '../screens/StarredScreen';
 import RecipeListScreen from '../screens/RecipeListScreen';
 import HomeScreen from '../screens/HomeScreen';
 import SignUpScreen from '../screens/SignUpScreen';
+import SettingScreen from '../screens/SettingScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -97,8 +98,17 @@ RecipesStack.navigationOptions = {
   ),
 };
 
+const SettingStack = createStackNavigator({
+  Setting: SettingScreen,
+});
+
+SettingStack.navigationOptions = {
+  tabBarLabel: 'Setting',
+};
+
 export default createBottomTabNavigator({
   PantryStack,
   CameraStack,
   StarredStack,
+  SettingStack,
 });
