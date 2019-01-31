@@ -5,7 +5,9 @@ const LOGGEDIN_USER = 'LOGGEDIN_USER';
 const LOGGEDOUT_USER = 'LOGGEDOUT_USER';
 const SIGNED_UP_USER = 'SIGNED_UP_USER';
 
-const defaultUser = {};
+const defaultUser = {
+  user: {},
+};
 
 const loggedinUser = user => ({ type: LOGGEDIN_USER, user });
 const loggedoutUser = () => ({ type: LOGGEDOUT_USER });
@@ -34,7 +36,8 @@ export const login = (userId, password) => async dispatch => {
 
 export const logout = () => async dispatch => {
   try {
-    dispatch(loggedoutUser());
+    await axios.post('/auth/logout');
+    dispatch(removeUser());
   } catch (err) {
     console.error(err);
   }
@@ -45,9 +48,9 @@ export default function(state = defaultUser, action) {
     case SIGNED_UP_USER:
       return action.userData;
     case LOGGEDIN_USER:
-      return action.user;
+      return { user: action.user };
     case LOGGEDOUT_USER:
-      return defaultUser;
+      return state.user;
     default:
       return state;
   }

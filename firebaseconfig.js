@@ -1,6 +1,6 @@
-import * as firebase from 'firebase';
-import 'firebase/firestore';
-import config from './secrets/firestore';
+import * as firebase from "firebase";
+import "firebase/firestore";
+import config from "./secrets/fireStore";
 
 const fire = firebase.initializeApp(config);
 
