@@ -1,5 +1,5 @@
-import fireData from '../utils/firebaseFunc'
 import axios from "axios";
+import userInfo from '../utils/firebaseFunc'
 import { fsGetRecipes } from "../secrets/fireFunctions"
 
 const GOT_All_RECIPES = "GOT_ALL_RECIPES";
@@ -19,7 +19,7 @@ const addedStarRecipe = starRecipe => ({ type: ADD_STAR_RECIPE, starRecipe});
 //Thunks
 export const fetchAllRecipes = userId => async dispatch => {
   try {
-    const {data} = await fireData.once('value')
+    const {data} = await userInfo(userId)
     dispatch(gotAllRecipes(data))
   } catch (error) {
     console.error(error)
@@ -33,9 +33,9 @@ export const fetchNewRecipes = ingredients => async dispatch => {
     console.error(error)
   }
 }
-export const addingStarRecipe = (recipeId, userId) => async dispatch => {
+export const addingStarRecipe = (recipe, userId) => async dispatch => {
   try {
-    const {data} = await fireData.child('starred').push(recipeId)
+    const {data} = awaituserInfo(userId).child('starred').push(recipe)
     dispatch(addedStarRecipe(data))
   } catch (error) {
   }
@@ -44,7 +44,7 @@ export const addingStarRecipe = (recipeId, userId) => async dispatch => {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case GOT_ALL_RECIPES:
+    case GOT_All_RECIPES:
       return {...state, allRecipes: action.allRecipes}
     case GOT_NEW_RECIPES:
       return {...state, newRecipes: action.newRecipes}

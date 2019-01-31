@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { fsdetectTexts, fsdetectLabel } from '../secrets/fireFunctions'
-import autocompleteFunc from '../utils/autocompleteFunc'
+// import autocompleteFunc from '../utils/autocompleteFunc'
 import userInfo from '../utils/firebaseFunc'
 import {firestore} from '../firebaseconfig'
 
@@ -24,8 +24,8 @@ export const fetchIngredientsList = imageURI => async dispatch => {
         const {isLabel} = await axios.post(fsdetectLabel, imageURI)
         if (isLabel) {
             const {data} = await axios.post(fsdetectTexts, imageURI)
-            const words = autocompleteFunc(data)
-            dispatch(gotIngredientsList(words))
+            // const words = autocompleteFunc(data)
+            dispatch(gotIngredientsList(data))
         }
     } 
     catch (error) {
@@ -44,7 +44,7 @@ export const fetchPantry = userId => async dispatch => {
     }
 }
 
-export const addToPantry = (ingredient, userId) = async dispatch =>{
+export const addToPantry = (ingredient, userId) => async dispatch =>{
     try {
         await firestore.collection('User').doc(userId).update({
             pantry: [...pantry, ingredient]
@@ -55,7 +55,7 @@ export const addToPantry = (ingredient, userId) = async dispatch =>{
     }
 }
 
-export const deleteFromPantry = (ingredient, userId) = async dispatch =>{
+export const deleteFromPantry = (ingredient, userId) => async dispatch =>{
     try {
         await firestore.collection('User').doc(userId).update({
             pantry: [...pantry].filter((food)=>food !== ingredient)
