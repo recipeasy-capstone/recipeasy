@@ -7,12 +7,13 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Alert
 } from 'react-native';
 import { login, signUpUser } from '../store/user'
 import { connect } from 'react-redux'
 
 
-export default class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,6 +24,25 @@ export default class HomeScreen extends React.Component {
   static navigationOptions = {
     title: 'Home',
   };
+
+  async handleLogin() {
+    const { userId, password } = this.state
+    const { navigate } = this.props.navigation
+    if (userId && password) {
+      await this.props.login(userId.toLowerCase(), password)
+      navigate('Pantry')
+    }
+    else {
+      Alert.alert(
+        'Alert',
+        'Missing email or password',
+        [
+          {text: 'OK', onPress: () => console.log('OK')},
+        ],
+        {cancelable: false},
+      );
+    }
+  }
 
   render() {
     const { navigate } = this.props.navigation;
@@ -40,7 +60,7 @@ export default class HomeScreen extends React.Component {
           onChangeText={password => this.setState({ password })}
           value={this.state.password}
         />
-        <TouchableOpacity onPress={() => navigate('Main')}>
+        <TouchableOpacity onPress={() => this.handleLogin()}>
           <Text>Log In</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigate('SignUp')}>
