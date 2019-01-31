@@ -1,5 +1,5 @@
 import { firestore } from '../firebaseconfig';
-import { userInfo } from '../utils/firebaseFunc'
+import { userInfo } from '../utils/firebaseFunc';
 
 const LOGGEDIN_USER = 'LOGGEDIN_USER';
 const LOGGEDOUT_USER = 'LOGGEDOUT_USER';
@@ -25,7 +25,7 @@ export const signUpUser = data => async dispatch => {
 
 export const login = (userId, password) => async dispatch => {
   try {
-    const user = await userInfo(userId)
+    const user = await userInfo(userId);
     dispatch(loggedinUser(user));
   } catch (error) {
     console.error(error);
@@ -34,8 +34,7 @@ export const login = (userId, password) => async dispatch => {
 
 export const logout = () => async dispatch => {
   try {
-    await axios.post('/auth/logout');
-    dispatch(removeUser());
+    dispatch(loggedoutUser());
   } catch (err) {
     console.error(err);
   }
@@ -47,6 +46,8 @@ export default function(state = defaultUser, action) {
       return action.userData;
     case LOGGEDIN_USER:
       return action.user;
+    case LOGGEDOUT_USER:
+      return defaultUser;
     default:
       return state;
   }
