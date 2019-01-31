@@ -7,11 +7,10 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  Alert
+  Alert,
 } from 'react-native';
-import { login, signUpUser } from '../store/user'
-import { connect } from 'react-redux'
-
+import { login, signUpUser } from '../store/user';
+import { connect } from 'react-redux';
 
 class HomeScreen extends React.Component {
   constructor(props) {
@@ -26,21 +25,15 @@ class HomeScreen extends React.Component {
   };
 
   async handleLogin() {
-    const { userId, password } = this.state
-    const { navigate } = this.props.navigation
+    const { userId, password } = this.state;
+    const { navigate } = this.props.navigation;
     if (userId && password) {
-      await this.props.login(userId.toLowerCase(), password)
-      navigate('Main')
-    }
-    else {
-      Alert.alert(
-        'Alert',
-        'Missing email or password',
-        [
-          {text: 'OK', onPress: () => return},
-        ],
-        {cancelable: false},
-      );
+      await this.props.login(userId.toLowerCase(), password);
+      navigate('Main');
+    } else {
+      Alert.alert('Alert', 'Missing email or password', [{ text: 'OK' }], {
+        cancelable: false,
+      });
     }
   }
 
@@ -83,12 +76,15 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  user: state.user.user
-})
+  user: state.user.user,
+});
 
 const mapDispatchToProps = dispatch => ({
   login: (userId, password) => dispatch(login(userId, password)),
-  signUp: (data) => dispatch(signUpUser(data))
-})
+  signUp: data => dispatch(signUpUser(data)),
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomeScreen);
