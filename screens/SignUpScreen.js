@@ -18,7 +18,6 @@ export default class SignUpScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Text>SIGNUP</Text>
-
         <TouchableOpacity onPress={() => navigate('Main')}>
           <Text>Sign Up</Text>
         </TouchableOpacity>
