@@ -9,43 +9,33 @@ import {
   View,
   Button
 } from "react-native";
-import { WebBrowser } from "expo";
-import { MonoText } from "../components/StyledText";
-import RecipeListScreen from "./RecipeListScreen";
 import { connect } from "react-redux";
-import { fetchPantry, deleteFromPantry } from "../store/pantry";
+import { deleteFromPantry } from "../store/pantry";
 
 class PantryScreen extends React.Component {
   static navigationOptions = {
     title: "Pantry"
   };
 
-  async componentDidMount() {
-    await this.props.fetchPantry(this.props.user.email);
-  }
-
   render() {
-    const item = this.props.pantry.map((item, index) => {
-      return (
-        <View>
-          <Text key={index}>{item}</Text>
-          <Button
-            title="X"
-            onPress={() =>
-              this.props.deleteFromPantry(item, this.props.user.email)
-            }
-          />
-        </View>
-      );
-    });
-
+    const { pantry } = this.props.user;
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container}>
           <View style={styles.pantryContainer}>
             <Text>Pantry</Text>
-            <View style={styles.pantry} />
+            {pantry.map((item, idx) => (
+              <View key={idx}>
+                <Text>{item}</Text>
+                <Button
+                  title="X"
+                  onPress={() => {
+                    this.props.deleteFromPantry(item);
+                  }}
+                />
+              </View>
+            ))}
           </View>
         </ScrollView>
         <View>
@@ -79,19 +69,16 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 20,
-    //change later
     fontFamily: "Helvetica"
   }
 });
 
 const mapStateToProps = state => ({
-  pantry: state.pantry.pantry,
   user: state.user.user
 });
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchPantry: userId => dispatch(fetchPantry(userId)),
     deleteFromPantry: item => dispatch(deleteFromPantry(item))
   };
 };

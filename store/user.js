@@ -48,7 +48,9 @@ export default function(state = defaultUser, action) {
     case SIGNED_UP_USER:
       return action.userData;
     case LOGGEDIN_USER:
-      return action.user;
+      return { user: action.user };
+    case LOGGEDOUT_USER:
+      return state.user;
     default:
       return state;
   }

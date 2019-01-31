@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Image,
   Platform,
@@ -8,39 +8,32 @@ import {
   TouchableOpacity,
   View,
   Alert
-} from 'react-native';
-import { login, signUpUser } from '../store/user'
-import { connect } from 'react-redux'
-
+} from "react-native";
+import { login, signUpUser } from "../store/user";
+import { connect } from "react-redux";
 
 class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       userId: null,
-      password: null,
+      password: null
     };
   }
   static navigationOptions = {
-    title: 'Home',
+    title: "Home"
   };
 
   async handleLogin() {
-    const { userId, password } = this.state
-    const { navigate } = this.props.navigation
+    const { userId, password } = this.state;
+    const { navigate } = this.props.navigation;
     if (userId && password) {
-      await this.props.login(userId.toLowerCase(), password)
-      navigate('Main')
-    }
-    else {
-      Alert.alert(
-        'Alert',
-        'Missing email or password',
-        [
-          {text: 'OK', onPress: () => return},
-        ],
-        {cancelable: false},
-      );
+      await this.props.login(userId.toLowerCase(), password);
+      navigate("Main");
+    } else {
+      Alert.alert("Alert", "Missing email or password", [{ text: "OK" }], {
+        cancelable: false
+      });
     }
   }
 
@@ -63,7 +56,7 @@ class HomeScreen extends React.Component {
         <TouchableOpacity onPress={() => this.handleLogin()}>
           <Text>Log In</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigate('SignUp')}>
+        <TouchableOpacity onPress={() => navigate("SignUp")}>
           <Text>Sign Up</Text>
         </TouchableOpacity>
       </View>
@@ -74,21 +67,24 @@ class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
-    margin: 100,
+    margin: 100
   },
   form: {
     borderWidth: 2,
-    borderColor: 'black',
-  },
+    borderColor: "black"
+  }
 });
 
 const mapStateToProps = state => ({
   user: state.user.user
-})
+});
 
 const mapDispatchToProps = dispatch => ({
   login: (userId, password) => dispatch(login(userId, password)),
-  signUp: (data) => dispatch(signUpUser(data))
-})
+  signUp: data => dispatch(signUpUser(data))
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomeScreen);
