@@ -22,7 +22,6 @@ export default class HomeScreen extends React.Component {
   };
 
   render() {
-    console.log(this.state);
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
