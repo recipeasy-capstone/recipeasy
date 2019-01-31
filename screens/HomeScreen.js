@@ -30,14 +30,14 @@ class HomeScreen extends React.Component {
     const { navigate } = this.props.navigation
     if (userId && password) {
       await this.props.login(userId.toLowerCase(), password)
-      navigate('Pantry')
+      navigate('Main')
     }
     else {
       Alert.alert(
         'Alert',
         'Missing email or password',
         [
-          {text: 'OK', onPress: () => console.log('OK')},
+          {text: 'OK', onPress: () => return},
         ],
         {cancelable: false},
       );
