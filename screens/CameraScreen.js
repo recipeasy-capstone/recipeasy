@@ -17,15 +17,17 @@ class CameraScreen extends React.Component {
   constructor() {
     super();
     this.state = {
-      imageURI: null
+      ingredients: []
     };
+    this.takePhoto = this.takePhoto.bind(this);
+    this.selectPhoto = this.selectPhoto.bind(this);
   }
 
   static navigationOptions = {
     title: "Camera"
   };
 
-  takePhoto = async () => {
+  async takePhoto() {
     const { status: cameraPerm } = await Permissions.askAsync(
       Permissions.CAMERA
     );
@@ -38,12 +40,11 @@ class CameraScreen extends React.Component {
         allowsEditing: true,
         aspect: [4, 3]
       });
-      this.setState({ imageURI: selectedPhoto.uri });
-      await fetchIngredientsList(selectedPhoto.uri);
+      await this.props.fetchIngredientsList(selectedPhoto.uri);
     }
-  };
+  }
 
-  selectPhoto = async () => {
+  async selectPhoto() {
     const { status: cameraRollPerm } = await Permissions.askAsync(
       Permissions.CAMERA_ROLL
     );
@@ -53,11 +54,9 @@ class CameraScreen extends React.Component {
         allowsEditing: true,
         aspect: [4, 3]
       });
-      this.setState({ imageURI: selectedPhoto.uri });
-      await fetchIngredientsList(selectedPhoto.uri);
-      console.log("FETCHED PHOTO\n\n", selectedPhoto.uri);
+      await this.props.fetchIngredientsList(selectedPhoto.uri);
     }
-  };
+  }
 
   render() {
     return (
@@ -78,7 +77,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  user: state.user.user
+  user: state.user.user,
+  filteredIngredientList: state.pantry.filteredIngredientList
 });
 
 const mapDispatchToProps = dispatch => {
