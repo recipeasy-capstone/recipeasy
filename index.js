@@ -8,14 +8,6 @@ const firestore = fire.firestore();
 //Use this to post new user data to firestore!
 // const setData = firestore.collection('User').doc(data.email).set(data)
 
-const checkWord = require('check-word');
-const words = checkWord('en');
-
-function hello() {
-  console.log();
-}
-hello();
-
 const userInfo = userId => {
   const user = firestore.collection('User').doc(userId);
   return user.get().then(doc => {
