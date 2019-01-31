@@ -15,10 +15,10 @@ class SignUpScreen extends React.Component {
     super();
     this.state = {
       email: null,
-      password: null,
       pantry: [],
-      starred: [],
-      recipes: []
+      password: null,
+      recipes: [],
+      starred: []
     };
   }
   static navigationOptions = {
@@ -28,8 +28,10 @@ class SignUpScreen extends React.Component {
   async handleSignUp() {
     try {
       const { email, password } = this.state
+      console.log('signupuser', this.props.signUpUser)
       const { navigate } = this.props.navigation
       if (email && password) {
+        console.log('hello this is working')
         await this.props.signUpUser(this.state)
         navigate('Main')
       }
@@ -44,8 +46,8 @@ class SignUpScreen extends React.Component {
         <Text>Email</Text>
         <TextInput
           style={styles.form}
-          onChangeText={userId => this.setState({ userId })}
-          value={this.state.userId}
+          onChangeText={email => this.setState({ email })}
+          value={this.state.email}
         >
         </TextInput>
         <Text>Password</Text>
@@ -73,8 +75,9 @@ const styles = StyleSheet.create({
   },
 });
 
+
 const mapDispatchToProps = dispatch => ({
-  signUp: (data) => dispatch(signUpUser(data))
+  signUpUser: (data) => dispatch(signUpUser(data))
 })
 
 export default connect(null, mapDispatchToProps)(SignUpScreen)
