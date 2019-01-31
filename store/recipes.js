@@ -35,7 +35,7 @@ export const fetchNewRecipes = ingredients => async dispatch => {
 };
 export const addingStarRecipe = (recipe, userId) => async dispatch => {
   try {
-    const { data } = awaituserInfo(userId)
+    const { data } = await userInfo(userId)
       .child("starred")
       .push(recipe);
     dispatch(addedStarRecipe(data));
