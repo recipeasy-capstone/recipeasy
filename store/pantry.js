@@ -3,6 +3,7 @@ import { fsdetectTexts, fsdetectLabel } from "../secrets/fireFunctions";
 // import autocompleteFunc from '../utils/autocompleteFunc'
 import { userInfo } from "../utils/firebaseFunc";
 import { firestore } from "../firebaseconfig";
+// import admin from "firebase-admin";
 
 const GOT_INGREDIENTS_LIST = "GOT_INGREDIENTS_LIST";
 const GOT_PANTRY = "GOT_PANTRY";
@@ -54,7 +55,7 @@ export const addToPantry = (ingredient, userId) => async dispatch => {
       .collection("User")
       .doc(userId)
       .update({
-        pantry: [...pantry, ingredient]
+        pantry: firebase.firestore.FieldValue.arrayUnion(ingredient)
       });
     dispatch(addedToPantry(ingredient));
   } catch (error) {
@@ -64,12 +65,13 @@ export const addToPantry = (ingredient, userId) => async dispatch => {
 
 export const deleteFromPantry = (ingredient, userId) => async dispatch => {
   try {
-    await firestore
+    const pantry = await firestore
       .collection("User")
       .doc(userId)
-      .update({
-        pantry: [...pantry].filter(food => food !== ingredient)
+      .get({
+        pantry
       });
+    console.log("PANTRY IN DELETE", pantry);
     dispatch(deletedFromPantry(ingredient));
   } catch (error) {
     console.error(error);

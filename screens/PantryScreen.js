@@ -18,7 +18,7 @@ class PantryScreen extends React.Component {
   };
 
   render() {
-    const { pantry } = this.props.user;
+    const { pantry, email } = this.props.user;
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
@@ -31,7 +31,7 @@ class PantryScreen extends React.Component {
                 <Button
                   title="X"
                   onPress={() => {
-                    this.props.deleteFromPantry(item);
+                    // return this.props.deleteFromPantry(item, email);
                   }}
                 />
               </View>
@@ -79,7 +79,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    deleteFromPantry: item => dispatch(deleteFromPantry(item))
+    deleteFromPantry: (item, email) => dispatch(deleteFromPantry(item, email))
   };
 };
 
