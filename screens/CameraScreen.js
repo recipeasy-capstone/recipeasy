@@ -39,6 +39,7 @@ class CameraScreen extends React.Component {
         aspect: [4, 3]
       });
       this.setState({ imageURI: selectedPhoto.uri });
+      await fetchIngredientsList(selectedPhoto.uri);
     }
   };
 
@@ -53,6 +54,8 @@ class CameraScreen extends React.Component {
         aspect: [4, 3]
       });
       this.setState({ imageURI: selectedPhoto.uri });
+      await fetchIngredientsList(selectedPhoto.uri);
+      console.log("FETCHED PHOTO\n\n", selectedPhoto.uri);
     }
   };
 

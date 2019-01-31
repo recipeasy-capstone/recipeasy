@@ -12,7 +12,7 @@ const DELETED_FROM_PANTRY = "DELETED_FROM_PANTRY";
 
 const initialState = {
   filteredIngredientList: [],
-  pantry: ["apples", "bananas", "pears"]
+  pantry: []
 };
 
 const gotIngredientsList = filteredIngredientList => ({
@@ -29,9 +29,11 @@ const deletedFromPantry = ingredient => ({
 export const fetchIngredientsList = imageURI => async dispatch => {
   try {
     const { isLabel } = await axios.post(fsdetectLabel, imageURI);
+    console.log("ISLABEL", isLabel);
     if (isLabel) {
       const { data } = await axios.post(fsdetectTexts, imageURI);
       // const words = autocompleteFunc(data)
+      console.log("DATA in store\n\n", data);
       dispatch(gotIngredientsList(data));
     }
   } catch (error) {
@@ -71,7 +73,6 @@ export const deleteFromPantry = (ingredient, userId) => async dispatch => {
       .get({
         pantry
       });
-    console.log("PANTRY IN DELETE", pantry);
     dispatch(deletedFromPantry(ingredient));
   } catch (error) {
     console.error(error);
