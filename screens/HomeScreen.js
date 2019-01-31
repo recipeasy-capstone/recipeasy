@@ -10,18 +10,18 @@ import {
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
-    title: null,
+    title: 'Home',
   };
 
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <View>
-        <Text>INITIAL</Text>
-        //form
-        <TouchableOpacity onPress={() => navigate('Pantry')}>
+      <View style={styles.container}>
+        <Text>easy peasy recipeasy</Text>
+        <TouchableOpacity onPress={() => navigate('Main')}>
           <Text>Log In</Text>
         </TouchableOpacity>
+
         <TouchableOpacity onPress={() => navigate('SignUp')}>
           <Text>Sign Up</Text>
         </TouchableOpacity>
@@ -29,3 +29,10 @@ export default class HomeScreen extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    // flex: 1,
+    margin: 100,
+  },
+});

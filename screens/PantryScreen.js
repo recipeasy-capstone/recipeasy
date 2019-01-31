@@ -14,7 +14,7 @@ import RecipeListScreen from './RecipeListScreen';
 
 export default class PantryScreen extends React.Component {
   static navigationOptions = {
-    title: null,
+    title: 'Pantry',
   };
 
   render() {

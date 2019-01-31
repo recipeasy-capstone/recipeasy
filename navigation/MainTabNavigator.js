@@ -15,12 +15,24 @@ import SignUpScreen from '../screens/SignUpScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
-  Pantry: PantryScreen,
 });
+
+HomeStack.navigationOptions = {
+  tabBarLabel: 'Home',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === 'ios'
+          ? `ios-information-circle${focused ? '' : '-outline'}`
+          : 'md-information-circle'
+      }
+    />
+  ),
+};
 
 const SignUpStack = createStackNavigator({
   SignUp: SignUpScreen,
-  Pantry: PantryScreen,
 });
 
 const PantryStack = createStackNavigator({

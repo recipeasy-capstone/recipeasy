@@ -13,24 +13,20 @@ import { MonoText } from '../components/StyledText';
 
 export default class RecipeListScreen extends React.Component {
   static navigationOptions = {
-    title: "Recipe List",
+    title: 'Recipe List',
   };
 
   render() {
-    const {navigate} = this.props.navigation
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          <View style={styles.pantryContainer}>
-
-
-          </View>
+          <View style={styles.pantryContainer} />
         </ScrollView>
-        <View>
-        </View>
+        <View />
       </View>
     );
   }
@@ -46,17 +42,16 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 20,
   },
-  button:{
+  button: {
     backgroundColor: '#fbfbfb',
-    width:100,
-    marginTop:50,
+    width: 100,
+    marginTop: 50,
     padding: 20,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   buttonText: {
     fontSize: 20,
     //change later
-    fontFamily: 'Helvetica'
-  }
-
+    fontFamily: 'Helvetica',
+  },
 });
