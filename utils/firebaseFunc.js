@@ -7,7 +7,6 @@ export const userInfo = userId => {
         if (!doc.exists) {
             console.log('User does not exist!')
         } else {
-            console.log(doc.data())
             return doc.data()
         }
     })

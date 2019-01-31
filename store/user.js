@@ -1,4 +1,5 @@
 import { firestore } from '../firebaseconfig';
+import { userInfo } from '../utils/firebaseFunc'
 
 const LOGGEDIN_USER = 'LOGGEDIN_USER';
 const LOGGEDOUT_USER = 'LOGGEDOUT_USER';
@@ -24,15 +25,8 @@ export const signUpUser = data => async dispatch => {
 
 export const login = (userId, password) => async dispatch => {
   try {
-    const user = await firestore
-      .collection('User')
-      .doc(userId)
-      .get();
-    if (!user.exist) {
-      console.log('you have no email!!');
-    } else {
-      dispatch(loggedinUser(user.data));
-    }
+    const user = await userInfo(userId)
+    dispatch(loggedinUser(user));
   } catch (error) {
     console.error(error);
   }
@@ -50,7 +44,7 @@ export const logout = () => async dispatch => {
 export default function(state = defaultUser, action) {
   switch (action.type) {
     case SIGNED_UP_USER:
-      return action.userData
+      return action.userData;
     case LOGGEDIN_USER:
       return action.user;
     default:
