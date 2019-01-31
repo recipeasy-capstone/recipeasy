@@ -8,19 +8,17 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import { WebBrowser } from "expo";
-import { MonoText } from "../components/StyledText";
 import { connect } from "react-redux";
+import { fetchPantry } from "../store/pantry";
 
 class RecipeListScreen extends React.Component {
   static navigationOptions = {
     title: "Recipe List"
   };
 
-  async componentDidMount () {
-    await this.props.fetchPantry(this.)
+  async componentDidMount() {
+    await this.props.fetchPantry(this.props.user.email);
   }
-
 
   render() {
     const { navigate } = this.props.navigation;
@@ -57,7 +55,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 20,
-    //change later
     fontFamily: "Helvetica"
   }
 });
@@ -67,4 +64,13 @@ const mapStateToProps = state => ({
   user: state.user.user
 });
 
-export default connect(mapStateToProps)(RecipeListScreen);
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchPantry: userId => dispatch(fetchPantry(userId))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RecipeListScreen);
