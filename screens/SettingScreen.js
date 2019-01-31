@@ -9,8 +9,10 @@ import {
   View,
   Alert,
 } from 'react-native';
+import { logout } from '../store/user';
+import { connect } from 'react-redux';
 
-export default class SettingScreen extends React.Component {
+class SettingScreen extends React.Component {
   static navigationOptions = {
     title: 'Setting',
   };
@@ -36,3 +38,12 @@ const styles = StyleSheet.create({
     borderColor: 'black',
   },
 });
+
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(logout()),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(SettingScreen);
