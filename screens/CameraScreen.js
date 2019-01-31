@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Image,
   Platform,
@@ -7,20 +7,22 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Button,
-} from 'react-native';
-import { Permissions, ImagePicker } from 'expo';
+  Button
+} from "react-native";
+import { Permissions, ImagePicker } from "expo";
+import { connect } from "react-redux";
+import { fetchIngredientsList } from "../store/pantry";
 
-export default class CameraScreen extends React.Component {
+class CameraScreen extends React.Component {
   constructor() {
     super();
     this.state = {
-      imageURI: null,
+      imageURI: null
     };
   }
 
   static navigationOptions = {
-    title: 'Camera',
+    title: "Camera"
   };
 
   takePhoto = async () => {
@@ -31,10 +33,10 @@ export default class CameraScreen extends React.Component {
       Permissions.CAMERA_ROLL
     );
 
-    if (cameraPerm === 'granted' && cameraRollPerm === 'granted') {
+    if (cameraPerm === "granted" && cameraRollPerm === "granted") {
       let selectedPhoto = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
-        aspect: [4, 3],
+        aspect: [4, 3]
       });
       this.setState({ imageURI: selectedPhoto.uri });
     }
@@ -45,10 +47,10 @@ export default class CameraScreen extends React.Component {
       Permissions.CAMERA_ROLL
     );
 
-    if (cameraRollPerm === 'granted') {
+    if (cameraRollPerm === "granted") {
       let selectedPhoto = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: true,
-        aspect: [4, 3],
+        aspect: [4, 3]
       });
       this.setState({ imageURI: selectedPhoto.uri });
     }
@@ -68,6 +70,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 15,
-    backgroundColor: '#fff',
-  },
+    backgroundColor: "#fff"
+  }
 });
+
+const mapStateToProps = state => ({
+  user: state.user.user
+});
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchIngredientsList: imageURI => dispatch(fetchIngredientsList(imageURI))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CameraScreen);
