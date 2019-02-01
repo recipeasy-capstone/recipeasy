@@ -4,11 +4,11 @@ import {
   Platform,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
   Alert,
 } from 'react-native';
+import {Input, Button} from 'react-native-elements'
 import { login, signUpUser } from '../store/user';
 import { connect } from 'react-redux';
 
@@ -47,24 +47,36 @@ class HomeScreen extends React.Component {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        <Text>Email</Text>
-        <TextInput
+        <Image source={require('../assets/images/recipeasy_logo-01.png')}
+        style={styles.image}/>
+        <View style={styles.loginBox}>
+        <Input
+          placeholder='Email'
           style={styles.form}
           onChangeText={userId => this.setState({ userId })}
           value={this.state.userId}
         />
-        <Text>Password</Text>
-        <TextInput
+        <Input
+          placeholder='Password'
           style={styles.form}
           onChangeText={password => this.setState({ password })}
           value={this.state.password}
         />
-        <TouchableOpacity onPress={() => this.handleLogin()}>
-          <Text>Log In</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigate('SignUp')}>
-          <Text>Sign Up</Text>
-        </TouchableOpacity>
+        <View style={styles.buttonBox}>
+        <Button
+        style={styles.button}
+        onPress={() => this.handleLogin()}
+        title="Log In"
+        type="outline"
+        ></Button>
+         <Button
+         style={styles.button}
+         onPress={() => navigate('SignUp')}
+         title="Sign Up"
+         type="outline"
+        ></Button>
+        </View>
+        </View>
       </View>
     );
   }
@@ -72,13 +84,30 @@ class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     margin: 100,
+    justifyContent: 'space-evenly'
+  },
+  image: {
+    alignItems: 'center',
+    margin: 15
+  },
+  loginBox: {
+    marginTop: 20,
   },
   form: {
+    margin: 10,
     borderWidth: 2,
-    borderColor: 'black',
+    borderColor: 'black'
   },
+  input: {
+    marginBottom:10
+  },
+  buttonBox: {
+    padding: 10
+  },
+  button: {
+    alignItems: 'center',
+  }
 });
 
 const mapStateToProps = state => ({
