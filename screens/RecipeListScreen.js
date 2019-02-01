@@ -10,18 +10,20 @@ import {
   Button,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { fetchAllRecipes, fetchNewRecipes } from '../store/recipes';
+import { fetchNewRecipes } from '../store/recipes';
 
 class RecipeListScreen extends React.Component {
   static navigationOptions = {
     title: 'Recipe List',
   };
 
-  async componentDidMount() {
-    await fetchNewRecipes(this.props.user.email);
-  }
+  // async componentDidMount() {
+  //   await fetchNewRecipes(this.props.recipeIngredients);
+  // }
 
   render() {
+    console.log('PROPS IN RECIPEEE', this.props);
+    const newRecipes = this.props.newRecipes;
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
@@ -29,7 +31,14 @@ class RecipeListScreen extends React.Component {
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          <View style={styles.pantryContainer} />
+          <View style={styles.pantryContainer}>
+            {newRecipes.map((recipe, index) => (
+              <View key={index}>
+                <Text>{recipe}</Text>
+                <Button title="*" onPress={() => {}} />
+              </View>
+            ))}
+          </View>
         </ScrollView>
       </View>
     );
@@ -60,7 +69,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  pantry: state.pantry.pantry,
+  recipeIngredients: state.pantry.recipeIngredients,
+  newRecipes: state.recipes.newRecipes,
   user: state.user.user,
 });
 
