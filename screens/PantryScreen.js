@@ -45,7 +45,7 @@ class PantryScreen extends React.Component {
                   title="Add Ingredient"
                   onPress={() =>
                     this.setState({
-                      selectedItem: state.selectedIngredients.push(item),
+                      selectedIngredients: state.selectedIngredients.push(item),
                     })
                   }
                 />
@@ -54,11 +54,19 @@ class PantryScreen extends React.Component {
           </View>
         </ScrollView>
         <View>
+          <Button
+            title="Select All"
+            onPress={() =>
+              this.setState({
+                selectedIngredients: state.selectedIngredients.push(pantry),
+              })
+            }
+          />
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigate('RecipeList')}
           >
-            <Text style={styles.buttonText}>EASY PEASY</Text>
+            <Text style={styles.buttonText}>Get Recipes!</Text>
           </TouchableOpacity>
         </View>
       </View>
