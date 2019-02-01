@@ -51,8 +51,7 @@ class SignUpScreen extends React.Component {
             {text: 'OK', onPress: () => console.log('OK')},
           ],
           {cancelable: false},
-        );
-          navigate('Main')
+        )
         }
       }
      catch (error) {
