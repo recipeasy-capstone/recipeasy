@@ -1,15 +1,17 @@
 import axios from 'axios';
 import userInfo from '../utils/firebaseFunc';
-import { fsGetRecipes } from '../secrets/fireFunctions';
+import { fsGetRecipes, fsGetDirections } from '../secrets/fireFunctions';
 
 const GOT_STARRED_RECIPES = 'GOT_STARRED_RECIPES';
 const GOT_NEW_RECIPES = 'GOT_NEW_RECIPES';
 const ADD_STAR_RECIPE = 'ADD_STAR_RECIPE';
+const GOT_RECIPE_DIRECTIONS = 'GOT_RECIPE_DIRECTIONS';
 
 const initialState = {
   starredRecipes: [],
-  newRecipes: ['Recipe1', 'recipe2'],
+  newRecipes: [],
   newStarRecipe: [],
+  recipeDirections: {},
 };
 
 const gotStarredRecipes = allRecipes => ({
@@ -18,6 +20,10 @@ const gotStarredRecipes = allRecipes => ({
 });
 const gotNewRecipes = newRecipes => ({ type: GOT_NEW_RECIPES, newRecipes });
 const addedStarRecipe = starRecipe => ({ type: ADD_STAR_RECIPE, starRecipe });
+const gotRecipeDirections = recipeDirections => ({
+  type: GOT_RECIPE_DIRECTIONS,
+  recipeDirections,
+});
 
 //Thunks
 export const fetchStarredRecipes = userId => async dispatch => {
@@ -42,10 +48,22 @@ export const addingStarRecipe = (recipe, userId) => async dispatch => {
       .child('starred')
       .push(recipe);
     dispatch(addedStarRecipe(data));
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const fetchRecipeDirections = id => async dispatch => {
+  try {
+    const { data } = await axios.post(fsGetDirections, id);
+    dispatch(gotRecipeDirections(data));
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export default function(state = initialState, action) {
+  // console.log('IN THUNK ACTION RECIPEDIRECION', action.recipeDirections);
   switch (action.type) {
     case GOT_STARRED_RECIPES:
       return { ...state, starredRecipes: action.starredRecipes };
@@ -54,6 +72,10 @@ export default function(state = initialState, action) {
     case ADD_STAR_RECIPE:
       return {
         starredRecipes: [...state.starredRecipes].push(action.starRecipe),
+      };
+    case GOT_RECIPE_DIRECTIONS:
+      return {
+        recipeDirections: action.recipeDirections,
       };
     default:
       return state;

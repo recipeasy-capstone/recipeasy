@@ -10,17 +10,22 @@ import {
   Button,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { fetchNewRecipes, addingStarRecipe } from '../store/recipes';
+import {
+  fetchNewRecipes,
+  addingStarRecipe,
+  fetchRecipeDirections,
+} from '../store/recipes';
 
 class RecipeListScreen extends React.Component {
   static navigationOptions = {
-    title: 'Recipe List',
+    title: 'RecipeList',
   };
 
   render() {
     const userId = this.props.user.email;
     const newRecipes = this.props.newRecipes;
     const { navigate } = this.props.navigation;
+
     return (
       <View style={styles.container}>
         <ScrollView
@@ -28,18 +33,32 @@ class RecipeListScreen extends React.Component {
           contentContainerStyle={styles.contentContainer}
         >
           <View style={styles.pantryContainer}>
-            {newRecipes.map((recipe, index) => (
-              <View key={index}>
-                <Text>{recipe}</Text>
-                <Button
-                  title="*"
-                  onPress={() => {
-                    this.props.addingStarRecipe(recipe, userId);
-                    console.log('recipe', recipe, userId);
-                  }}
-                />
-              </View>
-            ))}
+            {newRecipes &&
+              newRecipes.body &&
+              newRecipes.body.map((recipe, index) => (
+                <View key={index}>
+                  <Text>Title: {recipe.title}</Text>
+                  {/* <Image source={`${recipe.image}`} /> */}
+                  <Text>Used Ingredients: {recipe.usedIngredientCount}</Text>
+                  <Text>
+                    Missed Ingredients: {recipe.missedIngredientCount}
+                  </Text>
+                  <Text>Likes: {recipe.likes}</Text>
+                  <Button
+                    title="*"
+                    onPress={() => {
+                      this.props.addingStarRecipe(recipe, userId);
+                    }}
+                  />
+                  {/* <Button
+                    title="Recipe"
+                    onPress={() => {
+                      this.props.fetchRecipeDirections(recipe.id);
+                      navigate('RecipeDirection');
+                    }}
+                  /> */}
+                </View>
+              ))}
           </View>
         </ScrollView>
       </View>
@@ -79,6 +98,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   addingStarRecipe: (recipe, userId) => dispatch(addingStarRecipe(recipe, userId)),
   fetchNewRecipes: ingredients => dispatch(fetchNewRecipes(ingredients)),
+  fetchRecipeDirections: id => dispatch(fetchRecipeDirections(id)),
 });
 
 export default connect(
