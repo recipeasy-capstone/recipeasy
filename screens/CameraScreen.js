@@ -40,7 +40,7 @@ class CameraScreen extends React.Component {
         allowsEditing: true,
         aspect: [4, 3]
       });
-      await this.props.fetchIngredientsList(selectedPhoto.uri);
+      await this.props.fetchIngredientsList(selectedPhoto);
     }
   }
 
@@ -54,7 +54,8 @@ class CameraScreen extends React.Component {
         allowsEditing: true,
         aspect: [4, 3]
       });
-      await this.props.fetchIngredientsList(selectedPhoto.uri);
+      await this.props.fetchIngredientsList(selectedPhoto);
+      console.log(selectedPhoto);
     }
   }
 
