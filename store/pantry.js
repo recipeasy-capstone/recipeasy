@@ -77,7 +77,6 @@ export const deleteFromPantry = (ingredient, userId) => async dispatch => {
       .get({
         pantry,
       });
-    // console.log('PANTRY IN DELETE', pantry);
     dispatch(deletedFromPantry(ingredient));
   } catch (error) {
     console.error(error);
