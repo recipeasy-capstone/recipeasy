@@ -28,12 +28,18 @@ class HomeScreen extends React.Component {
     const { userId, password } = this.state;
     const { navigate } = this.props.navigation;
     if (userId && password) {
-      await this.props.login(userId.toLowerCase(), password);
-      navigate('Main');
-    } else {
-      Alert.alert('Alert', 'Missing email or password', [{ text: 'OK' }], {
-        cancelable: false,
-      });
+      await this.props.login(userId.toLowerCase(), password)
+      navigate('Main')
+    }
+    else {
+      Alert.alert(
+        'Alert',
+        'Missing email or password',
+        [
+          {text: 'OK', onPress: () => console.log('OK')},
+        ],
+        {cancelable: false},
+      );
     }
   }
 
