@@ -18,9 +18,11 @@ class RecipeListScreen extends React.Component {
   };
 
   render() {
+    console.log('PROPS', this.props);
     const userId = this.props.user.email;
     const newRecipes = this.props.newRecipes;
     const { navigate } = this.props.navigation;
+
     return (
       <View style={styles.container}>
         <ScrollView
@@ -35,7 +37,6 @@ class RecipeListScreen extends React.Component {
                   title="*"
                   onPress={() => {
                     this.props.addingStarRecipe(recipe, userId);
-                    console.log('recipe', recipe, userId);
                   }}
                 />
               </View>

@@ -12,6 +12,7 @@ import {
 import { connect } from 'react-redux';
 import { deleteFromPantry } from '../store/pantry';
 import { CheckBox } from 'react-native-elements';
+import { fetchNewRecipes } from '../store/recipes';
 
 class PantryScreen extends React.Component {
   constructor() {
@@ -25,6 +26,7 @@ class PantryScreen extends React.Component {
   };
 
   render() {
+    console.log('STATE', state);
     const { pantry, email } = this.props.user;
     const { navigate } = this.props.navigation;
     return (
@@ -64,7 +66,14 @@ class PantryScreen extends React.Component {
           />
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigate('RecipeList')}
+            onPress={() => {
+              if (state.selectedIngredients) {
+                console.log('here');
+                console.log('selected in state', state.selectedIngredients);
+                this.props.fetchNewRecipes(state.selectedIngredients);
+              }
+              // navigate('RecipeList');
+            }}
           >
             <Text style={styles.buttonText}>Get Recipes!</Text>
           </TouchableOpacity>

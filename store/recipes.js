@@ -8,7 +8,7 @@ const ADD_STAR_RECIPE = 'ADD_STAR_RECIPE';
 
 const initialState = {
   starredRecipes: [],
-  newRecipes: ['Recipe1', 'recipe2'],
+  newRecipes: [],
   newStarRecipe: [],
 };
 
@@ -30,7 +30,9 @@ export const fetchStarredRecipes = userId => async dispatch => {
 };
 export const fetchNewRecipes = ingredients => async dispatch => {
   try {
+    console.log('hit fetch');
     const { data } = await axios.post(fsGetRecipes, ingredients);
+    console.log('data', data);
     dispatch(gotNewRecipes(data));
   } catch (error) {
     console.error(error);
@@ -46,6 +48,7 @@ export const addingStarRecipe = (recipe, userId) => async dispatch => {
 };
 
 export default function(state = initialState, action) {
+  console.log('STATE IN REDUCER', state);
   switch (action.type) {
     case GOT_STARRED_RECIPES:
       return { ...state, starredRecipes: action.starredRecipes };
