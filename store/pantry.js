@@ -29,11 +29,8 @@ const deletedFromPantry = ingredient => ({
 export const fetchIngredientsList = imageURI => async dispatch => {
   try {
     const { isLabel } = await axios.post(fsdetectLabel, imageURI);
-    console.log("ISLABEL", isLabel);
     if (isLabel) {
       const { data } = await axios.post(fsdetectTexts, imageURI);
-      // const words = autocompleteFunc(data)
-      console.log("DATA in store\n\n", data);
       dispatch(gotIngredientsList(data));
     }
   } catch (error) {
