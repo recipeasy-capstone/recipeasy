@@ -16,10 +16,15 @@ class Starred extends React.Component {
   };
 
   render() {
+    const starredRecipes = this.props.user.starred;
     return (
       <View style={styles.container}>
         <ScrollView>
-          <Text>hello</Text>
+          {starredRecipes.map((starredRecipe, index) => (
+            <View key={index}>
+              <Text>{starredRecipe}</Text>
+            </View>
+          ))}
         </ScrollView>
       </View>
     );
@@ -35,10 +40,11 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   allRecipes: state.recipes.allRecipes,
+  user: state.user.user,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchNewRecipes: ingredients => dispatch(fetchNewRecipes(ingredients)),
+  fetchStarredRecipes: userId => dispatch(fetchStarredRecipes(userId)),
 });
 
 export default connect(
