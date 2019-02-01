@@ -14,12 +14,8 @@ exports.getRecipes = functions.https.onRequest((req, res) => {
     .header("X-RapidAPI-Key", unirestKey.RAPID_API_KEY)
     .end(result => {
       console.log(result.status, result.headers, result.body);
-    })
-    .then(ref => {
-      return res.send(ref);
-    })
-    .catch(err);
-  console.error(err);
+      res.send(result);
+    });
 });
 
 exports.ingredientLookUp = functions.https.onRequest((req, res) => {
@@ -31,12 +27,8 @@ exports.ingredientLookUp = functions.https.onRequest((req, res) => {
     .header("X-RapidAPI-Key", unirestKey.RAPID_API_KEY)
     .end(result => {
       console.log(result.status, result.headers, result.body);
-    })
-    .then(ref => {
-      return res.send(ref);
-    })
-    .catch(err);
-  console.error(err);
+      res.send(result);
+    });
 });
 
 exports.detectTexts = functions.https.onRequest((req, res) => {

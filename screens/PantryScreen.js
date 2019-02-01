@@ -20,12 +20,18 @@ class PantryScreen extends React.Component {
     super();
     state = {
       selectedIngredients: [],
-      addedToPantry: ""
+      itemToPantry: ""
     };
   }
   static navigationOptions = {
     title: "Pantry"
   };
+
+  handleSubmit() {
+    return () => {
+      // this.props.addedToPantry(state.itemToPantry, this.props.user.email);
+    };
+  }
 
   render() {
     console.log("STATE", state);
@@ -61,14 +67,9 @@ class PantryScreen extends React.Component {
           <Text>Add to Pantry:</Text>
           <TextInput
             style={styles.form}
-            onChangeText={text => this.setState({ addedToPantry: text })}
+            onChangeText={text => this.setState({ itemToPantry: text })}
           />
-          <Button
-            title="Add"
-            onPress={() => {
-              // this.props.addedToPantry(state.addedToPantry, email);
-            }}
-          />
+          <Button title="Add" onPress={this.handleSubmit()} />
           <Button
             title="Select All"
             onPress={() =>
@@ -85,7 +86,7 @@ class PantryScreen extends React.Component {
                 console.log("selected in state", state.selectedIngredients);
                 this.props.fetchNewRecipes(state.selectedIngredients);
               }
-              // navigate('RecipeList');
+              navigate("RecipeList");
             }}
           >
             <Text style={styles.buttonText}>Get Recipes!</Text>
