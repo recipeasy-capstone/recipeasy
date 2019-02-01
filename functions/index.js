@@ -45,21 +45,17 @@ exports.ingredientLookUp = functions.https.onRequest((req, res) => {
 });
 
 exports.detectTexts = functions.https.onRequest((req, res) => {
-  try {
-    const { data } = detectText("./receipt.jpg").then(ref => {
+  detectText(req.body)
+    .then(ref => {
       return res.send(ref);
-    });
-  } catch (err) {
-    console.error(err);
-  }
+    })
+    .catch(console.error);
 });
 
 exports.detectLabel = functions.https.onRequest((req, res) => {
-  try {
-    const { data } = detectLabels("./receipt.jpg").then(ref => {
+  detectLabels(req.body)
+    .then(ref => {
       return res.send(ref);
-    });
-  } catch (err) {
-    console.error(err);
-  }
+    })
+    .catch(console.error);
 });

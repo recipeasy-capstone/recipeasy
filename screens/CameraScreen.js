@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Image,
   Platform,
@@ -7,23 +7,27 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Button,
-} from 'react-native';
-import { Permissions, ImagePicker } from 'expo';
+  Button
+} from "react-native";
+import { Permissions, ImagePicker } from "expo";
+import { connect } from "react-redux";
+import { fetchIngredientsList } from "../store/pantry";
 
-export default class CameraScreen extends React.Component {
+class CameraScreen extends React.Component {
   constructor() {
     super();
     this.state = {
-      imageURI: null,
+      ingredients: []
     };
+    this.takePhoto = this.takePhoto.bind(this);
+    this.selectPhoto = this.selectPhoto.bind(this);
   }
 
   static navigationOptions = {
-    title: 'Camera',
+    title: "Camera"
   };
 
-  takePhoto = async () => {
+  async takePhoto() {
     const { status: cameraPerm } = await Permissions.askAsync(
       Permissions.CAMERA
     );
@@ -31,28 +35,28 @@ export default class CameraScreen extends React.Component {
       Permissions.CAMERA_ROLL
     );
 
-    if (cameraPerm === 'granted' && cameraRollPerm === 'granted') {
+    if (cameraPerm === "granted" && cameraRollPerm === "granted") {
       let selectedPhoto = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
-        aspect: [4, 3],
+        aspect: [4, 3]
       });
-      this.setState({ imageURI: selectedPhoto.uri });
+      await this.props.fetchIngredientsList(selectedPhoto);
     }
-  };
+  }
 
-  selectPhoto = async () => {
+  async selectPhoto() {
     const { status: cameraRollPerm } = await Permissions.askAsync(
       Permissions.CAMERA_ROLL
     );
 
-    if (cameraRollPerm === 'granted') {
+    if (cameraRollPerm === "granted") {
       let selectedPhoto = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: true,
-        aspect: [4, 3],
+        aspect: [4, 3]
       });
-      this.setState({ imageURI: selectedPhoto.uri });
+      await this.props.fetchIngredientsList(selectedPhoto);
     }
-  };
+  }
 
   render() {
     return (
@@ -68,6 +72,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 15,
-    backgroundColor: '#fff',
-  },
+    backgroundColor: "#fff"
+  }
 });
+
+const mapStateToProps = state => ({
+  user: state.user.user,
+  filteredIngredientList: state.pantry.filteredIngredientList
+});
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchIngredientsList: imageURI => dispatch(fetchIngredientsList(imageURI))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CameraScreen);
