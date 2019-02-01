@@ -13,6 +13,7 @@ const ADDED_TO_RECIPE_INGREDIENTS = 'ADDED_TO_RECIPE_INGREDIENTS';
 
 const initialState = {
   filteredIngredientList: [],
+
   pantry: [],
   recipeIngredients: [],
 };
@@ -37,7 +38,6 @@ export const fetchIngredientsList = imageURI => async dispatch => {
     const { isLabel } = await axios.post(fsdetectLabel, imageURI);
     if (isLabel) {
       const { data } = await axios.post(fsdetectTexts, imageURI);
-      // const words = autocompleteFunc(data)
       dispatch(gotIngredientsList(data));
     }
   } catch (error) {
