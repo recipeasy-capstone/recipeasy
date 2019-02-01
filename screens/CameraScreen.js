@@ -55,7 +55,6 @@ class CameraScreen extends React.Component {
         aspect: [4, 3]
       });
       await this.props.fetchIngredientsList(selectedPhoto);
-      console.log(selectedPhoto);
     }
   }
 
