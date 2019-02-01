@@ -26,13 +26,9 @@ const deletedFromPantry = ingredient => ({
   ingredient
 });
 
-export const fetchIngredientsList = imageURI => async dispatch => {
+export const fetchIngredientsList = ingredients => dispatch => {
   try {
-    const { isLabel } = await axios.post(fsdetectLabel, imageURI);
-    if (isLabel) {
-      const { data } = await axios.post(fsdetectTexts, imageURI);
-      dispatch(gotIngredientsList(data));
-    }
+    dispatch(gotIngredientsList(ingredients));
   } catch (error) {
     console.error(error);
   }
@@ -79,7 +75,7 @@ export const deleteFromPantry = (ingredient, userId) => async dispatch => {
 export default function(state = initialState, action) {
   switch (action.type) {
     case GOT_INGREDIENTS_LIST:
-      return [...pantry].concat(action.filteredIngredientList);
+      return {...state, pantry: [...state.pantry].concat(action.filteredIngredientList)};
     case GOT_PANTRY:
       return [...pantry];
     case ADDED_TO_PANTRY:
