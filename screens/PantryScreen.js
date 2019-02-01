@@ -6,11 +6,11 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  Button
+  View
 } from "react-native";
 import { connect } from "react-redux";
 import { deleteFromPantry } from "../store/pantry";
+import {Button} from 'react-native-elements'
 
 class PantryScreen extends React.Component {
   static navigationOptions = {
@@ -24,11 +24,13 @@ class PantryScreen extends React.Component {
       <View style={styles.container}>
         <ScrollView style={styles.container}>
           <View style={styles.pantryContainer}>
-            <Text>Pantry</Text>
             {pantry.map((item, idx) => (
-              <View key={idx}>
+              <View
+              style={styles.pantryIngredient}
+              key={idx}>
                 <Text>{item}</Text>
                 <Button
+                  type='clear'
                   title="X"
                   onPress={() => {
                     // return this.props.deleteFromPantry(item, email);
@@ -38,14 +40,13 @@ class PantryScreen extends React.Component {
             ))}
           </View>
         </ScrollView>
-        <View>
-          <TouchableOpacity
+          <Button
+            title= 'Easy Peasy!'
+            type = 'outline'
             style={styles.button}
             onPress={() => navigate("RecipeList")}
           >
-            <Text style={styles.buttonText}>EASY PEASY</Text>
-          </TouchableOpacity>
-        </View>
+          </Button>
       </View>
     );
   }
@@ -53,13 +54,19 @@ class PantryScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor:'#f5fffa',
     flex: 1,
-    backgroundColor: "#fff"
   },
   pantryContainer: {
     alignItems: "center",
     marginTop: 10,
-    marginBottom: 20
+    marginLeft: 40,
+    marginRight: 40,
+    marginBottom: 20,
+    backgroundColor: 'white'
+  },
+  pantryIngredient: {
+    margin:15
   },
   button: {
     backgroundColor: "#fbfbfb",
