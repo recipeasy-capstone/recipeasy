@@ -35,6 +35,7 @@ class RecipeListScreen extends React.Component {
                   title="*"
                   onPress={() => {
                     this.props.addingStarRecipe(recipe, userId);
+                    console.log('recipe', recipe, userId);
                   }}
                 />
               </View>
