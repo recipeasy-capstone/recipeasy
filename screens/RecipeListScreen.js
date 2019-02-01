@@ -10,7 +10,11 @@ import {
   Button
 } from "react-native";
 import { connect } from "react-redux";
-import { fetchNewRecipes, addingStarRecipe } from "../store/recipes";
+import {
+  fetchNewRecipes,
+  addingStarRecipe,
+  fetchRecipeDirections
+} from "../store/recipes";
 
 class RecipeListScreen extends React.Component {
   static navigationOptions = {
@@ -33,7 +37,12 @@ class RecipeListScreen extends React.Component {
             {newRecipes &&
               newRecipes.body &&
               newRecipes.body.map((recipe, index) => (
-                <View key={index}>
+                <View
+                  key={index}
+                  onPress={() => {
+                    this.props.fetchRecipeDirections(recipe.id);
+                  }}
+                >
                   <Text>Title: {recipe.title}</Text>
                   {/* <Image source={`${recipe.image}`} /> */}
                   <Text>Used Ingredients: {recipe.usedIngredientCount}</Text>
@@ -88,7 +97,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   addingStarRecipe: (recipe, userId) =>
     dispatch(addingStarRecipe(recipe, userId)),
-  fetchNewRecipes: ingredients => dispatch(fetchNewRecipes(ingredients))
+  fetchNewRecipes: ingredients => dispatch(fetchNewRecipes(ingredients)),
+  fetchRecipeDirections: id => dispatch(fetchRecipeDirections(id))
 });
 
 export default connect(

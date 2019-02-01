@@ -18,6 +18,20 @@ exports.getRecipes = functions.https.onRequest((req, res) => {
     });
 });
 
+exports.getDirections = functions.https.onRequest((req, res) => {
+  unirest
+    .get(
+      `"https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${
+        req.body
+      }/information"`
+    )
+    .header("X-RapidAPI-Key", unirestKey.RAPID_API_KEY)
+    .end(result => {
+      console.log(result.status, result.headers, result.body);
+      res.send(result);
+    });
+});
+
 exports.ingredientLookUp = functions.https.onRequest((req, res) => {
   let ingredient = encodeURIComponent(req.body);
   let recipes = unirest

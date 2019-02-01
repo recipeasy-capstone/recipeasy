@@ -82,8 +82,6 @@ class PantryScreen extends React.Component {
             style={styles.button}
             onPress={() => {
               if (state.selectedIngredients) {
-                console.log("here");
-                console.log("selected in state", state.selectedIngredients);
                 this.props.fetchNewRecipes(state.selectedIngredients);
               }
               navigate("RecipeList");
