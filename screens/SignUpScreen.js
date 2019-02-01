@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { signUpUser } from '../store/user'
 import { connect } from 'react-redux';
+import { Button } from 'react-native-elements'
 
 class SignUpScreen extends React.Component {
   constructor() {
@@ -77,9 +78,12 @@ class SignUpScreen extends React.Component {
           value={this.state.password}
         >
         </TextInput>
-        <TouchableOpacity onPress={() => this.handleSignUp()}>
-          <Text>Sign Up</Text>
-        </TouchableOpacity>
+        <Button
+        style={styles.button}
+        title = 'Sign Up'
+        onPress={() => this.handleSignUp()}
+        type = 'outline'>
+        </Button>
       </View>
     );
   }
@@ -87,12 +91,16 @@ class SignUpScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     margin: 100,
+    justifyContent: 'space-evenly'
   },
   form: {
-    borderWidth: 2,
-    borderColor: 'black',
+    borderWidth: 1
   },
+  button: {
+    borderWidth: 2
+  }
 });
 
 
