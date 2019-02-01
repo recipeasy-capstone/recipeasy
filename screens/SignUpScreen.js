@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Alert
 } from 'react-native';
 import { signUpUser } from '../store/user'
 import { connect } from 'react-redux';
@@ -31,11 +32,30 @@ class SignUpScreen extends React.Component {
       console.log('signupuser', this.props.signUpUser)
       const { navigate } = this.props.navigation
       if (email && password) {
-        console.log('hello this is working')
         await this.props.signUpUser(this.state)
+        Alert.alert(
+        'Success!',
+        'Created New User!',
+        [
+          {text: 'OK', onPress: () => console.log('OK')},
+        ],
+        {cancelable: false},
+      );
         navigate('Main')
       }
-    } catch (error) {
+      else{
+        Alert.alert(
+          'Missing Field!',
+          'New to fill in both forms',
+          [
+            {text: 'OK', onPress: () => console.log('OK')},
+          ],
+          {cancelable: false},
+        );
+          navigate('Main')
+        }
+      }
+     catch (error) {
       console.error(error)
     }
   }
