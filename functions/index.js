@@ -1,17 +1,17 @@
-const functions = require("firebase-functions");
-const unirest = require("unirest");
-const detectText = require("./util/detectText");
-const detectLabels = require("./util/detectLabels");
-const path = require("path");
-const unirestKey = require("./googleSecret/unirest");
+const functions = require('firebase-functions');
+const unirest = require('unirest');
+const detectText = require('./util/detectText');
+const detectLabels = require('./util/detectLabels');
+const path = require('path');
+const unirestKey = require('./googleSecret/unirest');
 
 exports.getRecipes = functions.https.onRequest((req, res) => {
-  let ingredients = encodeURIComponent(req.body.join("+"));
+  let ingredients = encodeURIComponent(req.body.join('+'));
   unirest
     .get(
       `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=5&ranking=1&ingredients=${ingredients}`
     )
-    .header("X-RapidAPI-Key", unirestKey.RAPID_API_KEY)
+    .header('X-RapidAPI-Key', unirestKey.RAPID_API_KEY)
     .end(result => {
       console.log(result.status, result.headers, result.body);
       res.send(result);
@@ -21,11 +21,11 @@ exports.getRecipes = functions.https.onRequest((req, res) => {
 exports.getDirections = functions.https.onRequest((req, res) => {
   unirest
     .get(
-      `"https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${
-        req.body
-      }/information"`
+      `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${
+        req.body.id
+      }/information`
     )
-    .header("X-RapidAPI-Key", unirestKey.RAPID_API_KEY)
+    .header('X-RapidAPI-Key', unirestKey.RAPID_API_KEY)
     .end(result => {
       console.log(result.status, result.headers, result.body);
       res.send(result);
@@ -38,7 +38,7 @@ exports.ingredientLookUp = functions.https.onRequest((req, res) => {
     .get(
       `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/ingredients/autocomplete?number=5&query=${ingredient}`
     )
-    .header("X-RapidAPI-Key", unirestKey.RAPID_API_KEY)
+    .header('X-RapidAPI-Key', unirestKey.RAPID_API_KEY)
     .end(result => {
       console.log(result.status, result.headers, result.body);
       res.send(result);

@@ -13,6 +13,7 @@ import RecipeListScreen from '../screens/RecipeListScreen';
 import HomeScreen from '../screens/HomeScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import SettingScreen from '../screens/SettingScreen';
+import RecipeDirectionScreen from '../screens/RecipeDirectionScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -84,8 +85,14 @@ StarredStack.navigationOptions = {
   ),
 };
 
+// const RecipeDirectionStack = createStackNavigator({
+//   RecipeDirection: RecipeDirectionScreen,
+//   RecipeList: RecipeListScreen,
+// });
+
 const RecipesStack = createStackNavigator({
   RecipeList: RecipeListScreen,
+  RecipeDirection: RecipeDirectionScreen,
 });
 
 RecipesStack.navigationOptions = {
