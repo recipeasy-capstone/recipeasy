@@ -52,7 +52,11 @@ export default function(state = initialState, action) {
     case GOT_NEW_RECIPES:
       return { ...state, newRecipes: action.newRecipes };
     case ADD_STAR_RECIPE:
-      return { ...state, newStarRecipe: action.starRecipe };
+      console.log('in star reducer');
+      return {
+        ...state,
+        starredRecipes: [...state.starredRecipes].push(action.starRecipe),
+      };
     default:
       return state;
   }
