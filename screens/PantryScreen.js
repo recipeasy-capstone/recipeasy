@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Image,
   Platform,
@@ -8,25 +8,27 @@ import {
   TouchableOpacity,
   View,
   Button,
-} from 'react-native';
-import { connect } from 'react-redux';
-import { deleteFromPantry } from '../store/pantry';
-import { CheckBox } from 'react-native-elements';
-import { fetchNewRecipes } from '../store/recipes';
+  TextInput
+} from "react-native";
+import { connect } from "react-redux";
+import { deleteFromPantry, addedToPantry } from "../store/pantry";
+import { CheckBox } from "react-native-elements";
+import { fetchNewRecipes } from "../store/recipes";
 
 class PantryScreen extends React.Component {
   constructor() {
     super();
     state = {
       selectedIngredients: [],
+      addedToPantry: ""
     };
   }
   static navigationOptions = {
-    title: 'Pantry',
+    title: "Pantry"
   };
 
   render() {
-    console.log('STATE', state);
+    console.log("STATE", state);
     const { pantry, email } = this.props.user;
     const { navigate } = this.props.navigation;
     return (
@@ -40,14 +42,14 @@ class PantryScreen extends React.Component {
                 <Button
                   title="X"
                   onPress={() => {
-                    // return this.props.deleteFromPantry(item, email);
+                    // this.props.deleteFromPantry(item, email);
                   }}
                 />
                 <CheckBox
                   title="Add Ingredient"
                   onPress={() =>
                     this.setState({
-                      selectedIngredients: state.selectedIngredients.push(item),
+                      selectedIngredients: state.selectedIngredients.push(item)
                     })
                   }
                 />
@@ -56,11 +58,22 @@ class PantryScreen extends React.Component {
           </View>
         </ScrollView>
         <View>
+          <Text>Add to Pantry:</Text>
+          <TextInput
+            style={styles.form}
+            onChangeText={text => this.setState({ addedToPantry: text })}
+          />
+          <Button
+            title="Add"
+            onPress={() => {
+              // this.props.addedToPantry(state.addedToPantry, email);
+            }}
+          />
           <Button
             title="Select All"
             onPress={() =>
               this.setState({
-                selectedIngredients: state.selectedIngredients.push(pantry),
+                selectedIngredients: state.selectedIngredients.push(pantry)
               })
             }
           />
@@ -68,8 +81,8 @@ class PantryScreen extends React.Component {
             style={styles.button}
             onPress={() => {
               if (state.selectedIngredients) {
-                console.log('here');
-                console.log('selected in state', state.selectedIngredients);
+                console.log("here");
+                console.log("selected in state", state.selectedIngredients);
                 this.props.fetchNewRecipes(state.selectedIngredients);
               }
               // navigate('RecipeList');
@@ -86,33 +99,38 @@ class PantryScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff"
   },
   pantryContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 10,
-    marginBottom: 20,
+    marginBottom: 20
   },
   button: {
-    backgroundColor: '#fbfbfb',
+    backgroundColor: "#fbfbfb",
     margin: 20,
     padding: 20,
-    alignItems: 'center',
+    alignItems: "center"
   },
   buttonText: {
     fontSize: 20,
-    fontFamily: 'Helvetica',
+    fontFamily: "Helvetica"
   },
+  form: {
+    borderWidth: 2,
+    borderColor: "black"
+  }
 });
 
 const mapStateToProps = state => ({
-  user: state.user.user,
+  user: state.user.user
 });
 
 const mapDispatchToProps = dispatch => {
   return {
+    addedToPantry: (item, email) => dispatch(addedToPantry(item, email)),
     deleteFromPantry: (item, email) => dispatch(deleteFromPantry(item, email)),
-    fetchNewRecipes: ingredients => dispatch(fetchNewRecipes(ingredients)),
+    fetchNewRecipes: ingredients => dispatch(fetchNewRecipes(ingredients))
   };
 };
 
