@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Image,
   Platform,
@@ -7,14 +7,21 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Button
-} from "react-native";
-import { connect } from "react-redux";
-import { deleteFromPantry } from "../store/pantry";
+  Button,
+} from 'react-native';
+import { connect } from 'react-redux';
+import { deleteFromPantry } from '../store/pantry';
+import { CheckBox } from 'react-native-elements';
 
 class PantryScreen extends React.Component {
+  constructor() {
+    super();
+    state = {
+      selectedIngredients: [],
+    };
+  }
   static navigationOptions = {
-    title: "Pantry"
+    title: 'Pantry',
   };
 
   render() {
@@ -34,6 +41,14 @@ class PantryScreen extends React.Component {
                     // return this.props.deleteFromPantry(item, email);
                   }}
                 />
+                <CheckBox
+                  title="Add Ingredient"
+                  onPress={() =>
+                    this.setState({
+                      selectedItem: state.selectedIngredients.push(item),
+                    })
+                  }
+                />
               </View>
             ))}
           </View>
@@ -41,7 +56,7 @@ class PantryScreen extends React.Component {
         <View>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigate("RecipeList")}
+            onPress={() => navigate('RecipeList')}
           >
             <Text style={styles.buttonText}>EASY PEASY</Text>
           </TouchableOpacity>
@@ -54,32 +69,33 @@ class PantryScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: '#fff',
   },
   pantryContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     marginTop: 10,
-    marginBottom: 20
+    marginBottom: 20,
   },
   button: {
-    backgroundColor: "#fbfbfb",
+    backgroundColor: '#fbfbfb',
     margin: 20,
     padding: 20,
-    alignItems: "center"
+    alignItems: 'center',
   },
   buttonText: {
     fontSize: 20,
-    fontFamily: "Helvetica"
-  }
+    fontFamily: 'Helvetica',
+  },
 });
 
 const mapStateToProps = state => ({
-  user: state.user.user
+  user: state.user.user,
 });
 
 const mapDispatchToProps = dispatch => {
   return {
-    deleteFromPantry: (item, email) => dispatch(deleteFromPantry(item, email))
+    deleteFromPantry: (item, email) => dispatch(deleteFromPantry(item, email)),
+    fetchNewRecipes: ingredients => dispatch(fetchNewRecipes(ingredients)),
   };
 };
 
