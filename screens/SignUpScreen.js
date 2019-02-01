@@ -47,13 +47,12 @@ class SignUpScreen extends React.Component {
       else{
         Alert.alert(
           'Missing Field!',
-          'New to fill in both forms',
+          'Need to fill in both forms',
           [
             {text: 'OK', onPress: () => console.log('OK')},
           ],
           {cancelable: false},
         );
-          navigate('Main')
         }
       }
      catch (error) {
