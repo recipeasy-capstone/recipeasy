@@ -96,8 +96,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addingStarRecipe: (recipe, userId) =>
-    dispatch(addingStarRecipe(recipe, userId)),
+  addingStarRecipe: (recipe, userId) => dispatch(addingStarRecipe(recipe, userId)),
   fetchNewRecipes: ingredients => dispatch(fetchNewRecipes(ingredients)),
   fetchRecipeDirections: id => dispatch(fetchRecipeDirections(id)),
 });
