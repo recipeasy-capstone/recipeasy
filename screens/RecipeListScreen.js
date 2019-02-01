@@ -17,12 +17,7 @@ class RecipeListScreen extends React.Component {
     title: 'Recipe List',
   };
 
-  // async componentDidMount() {
-  //   await fetchNewRecipes(this.props.recipeIngredients);
-  // }
-
   render() {
-    console.log('PROPS IN RECIPEEE', this.props);
     const newRecipes = this.props.newRecipes;
     const { navigate } = this.props.navigation;
     return (

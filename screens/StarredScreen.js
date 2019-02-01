@@ -8,8 +8,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { connect } from 'react-redux';
 
-export default class Starred extends React.Component {
+class Starred extends React.Component {
   static navigationOptions = {
     title: 'Starred',
   };
@@ -31,3 +32,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
 });
+
+const mapStateToProps = state => ({
+  allRecipes: state.recipes.allRecipes,
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchNewRecipes: ingredients => dispatch(fetchNewRecipes(ingredients)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Starred);
