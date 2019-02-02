@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Platform,
   StyleSheet,
-  Text,
+  Image,
   TextInput,
   TouchableOpacity,
   View,
@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { signUpUser } from '../store/user'
 import { connect } from 'react-redux';
-import { Button } from 'react-native-elements'
+import { Button, Input } from 'react-native-elements'
 
 class SignUpScreen extends React.Component {
   constructor() {
@@ -63,42 +63,60 @@ class SignUpScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Email</Text>
-        <TextInput
+        <Image source={require('../assets/images/recipeasy_logo-01.png')}
+        style={styles.image}/>
+        <View style={styles.signupBox}>
+        <Input
+          placeholder='Email'
           style={styles.form}
           onChangeText={email => this.setState({ email })}
-          value={this.state.email}
-        >
-        </TextInput>
-        <Text>Password</Text>
-        <TextInput
+          value={this.state.userId}
+        />
+        <Input
+          placeholder='Password'
           style={styles.form}
           onChangeText={password => this.setState({ password })}
           value={this.state.password}
-        >
-        </TextInput>
-        <Button
-        style={styles.button}
-        title = 'Sign Up'
-        onPress={() => this.handleSignUp()}
-        type = 'outline'>
-        </Button>
-      </View>
+        />
+        <View style={styles.buttonBox}>
+         <Button
+         style={styles.button}
+         onPress={() => this.handleSignUp()}
+         title="Sign Up"
+         type="outline"
+        ></Button>
+        </View>
+        </View>
+        </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     margin: 100,
     justifyContent: 'space-evenly'
   },
   form: {
-    borderWidth: 1
+    margin: 10,
+    borderWidth: 2,
+    borderColor: 'black'
+  },
+  input: {
+    marginBottom:10
+  },
+  image: {
+    alignItems: 'center',
+    margin: 15
+  },
+  loginBox: {
+    marginTop: 20,
+  },
+  buttonBox: {
+    padding: 10
   },
   button: {
-    borderWidth: 2
+    alignItems: 'center',
   }
 });
 
