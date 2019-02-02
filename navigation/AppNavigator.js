@@ -5,7 +5,6 @@ import MainTabNavigator from './MainTabNavigator';
 import PantryScreen from '../screens/PantryScreen';
 import RecipeListScreen from '../screens/RecipeListScreen';
 import HomeScreen from '../screens/HomeScreen';
-import SignUpScreen from '../screens/SignUpScreen';
 import SettingScreen from '../screens/SettingScreen';
 import RecipeDirectionScreen from '../screens/RecipeDirectionScreen';
 
@@ -15,7 +14,6 @@ export default createAppContainer(
     // Read more at https://reactnavigation.org/docs/en/auth-flow.html
 
     Home: { screen: HomeScreen },
-    SignUp: { screen: SignUpScreen },
     Main: MainTabNavigator,
     Setting: { screen: SettingScreen },
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Image,
   Platform,
@@ -7,18 +7,18 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Button,
-} from 'react-native';
-import { connect } from 'react-redux';
+  Button
+} from "react-native";
+import { connect } from "react-redux";
 import {
   fetchNewRecipes,
   addingStarRecipe,
-  fetchRecipeDirections,
-} from '../store/recipes';
+  fetchRecipeDirections
+} from "../store/recipes";
 
 class RecipeListScreen extends React.Component {
   static navigationOptions = {
-    title: 'RecipeList',
+    title: "RecipeList"
   };
 
   render() {
@@ -38,7 +38,10 @@ class RecipeListScreen extends React.Component {
               newRecipes.body.map((recipe, index) => (
                 <View key={index}>
                   <Text>Title: {recipe.title}</Text>
-                  {/* <Image source={`${recipe.image}`} /> */}
+                  <Image
+                    style={{ width: 193, height: 110 }}
+                    source={{ uri: recipe.image }}
+                  />
                   <Text>Used Ingredients: {recipe.usedIngredientCount}</Text>
                   <Text>
                     Missed Ingredients: {recipe.missedIngredientCount}
@@ -50,13 +53,13 @@ class RecipeListScreen extends React.Component {
                       this.props.addingStarRecipe(recipe, userId);
                     }}
                   />
-                  {/* <Button
+                  <Button
                     title="Recipe"
                     onPress={() => {
                       this.props.fetchRecipeDirections(recipe.id);
-                      navigate('RecipeDirection');
+                      navigate("RecipeDirection");
                     }}
-                  /> */}
+                  />
                 </View>
               ))}
           </View>
@@ -69,36 +72,37 @@ class RecipeListScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff"
   },
   pantryContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 10,
-    marginBottom: 20,
+    marginBottom: 20
   },
   button: {
-    backgroundColor: '#fbfbfb',
+    backgroundColor: "#fbfbfb",
     width: 100,
     marginTop: 50,
     padding: 20,
-    alignItems: 'center',
+    alignItems: "center"
   },
   buttonText: {
     fontSize: 20,
-    fontFamily: 'Helvetica',
-  },
+    fontFamily: "Helvetica"
+  }
 });
 
 const mapStateToProps = state => ({
   recipeIngredients: state.pantry.recipeIngredients,
   newRecipes: state.recipes.newRecipes,
-  user: state.user.user,
+  user: state.user.user
 });
 
 const mapDispatchToProps = dispatch => ({
-  addingStarRecipe: (recipe, userId) => dispatch(addingStarRecipe(recipe, userId)),
+  addingStarRecipe: (recipe, userId) =>
+    dispatch(addingStarRecipe(recipe, userId)),
   fetchNewRecipes: ingredients => dispatch(fetchNewRecipes(ingredients)),
-  fetchRecipeDirections: id => dispatch(fetchRecipeDirections(id)),
+  fetchRecipeDirections: id => dispatch(fetchRecipeDirections(id))
 });
 
 export default connect(

@@ -9,35 +9,35 @@ const AUTHED_USER = 'AUTHED_USER';
 const defaultUser = {
   user: {},
 };
-const authUser = () => ({ type: AUTHED_USER})
+const authUser = () => ({ type: AUTHED_USER });
 const loggedinUser = user => ({ type: LOGGEDIN_USER, user });
 const loggedoutUser = () => ({ type: LOGGEDOUT_USER });
 const signedUpUser = userData => ({ type: SIGNED_UP_USER, userData });
 
 export const authListener = () => async dispatch => {
-  fire.auth.onAuthStateChanged((user) => {
-    if(user) {
-      this.setState({ user })
+  fire.auth.onAuthStateChanged(user => {
+    if (user) {
+      this.setState({ user });
     } else {
-      this.setState({ user: null })
+      this.setState({ user: null });
     }
-  })
-  dispatch(authUser(user))
-}
+  });
+  dispatch(authUser(user));
+};
 
-export const login = () = async dispatch => {
-  fire.auth.signInWithEmailAndPassword(email, password).then((u) => {
-  }).catch((error)=> {
-    console.log
-  })
-}
+// export const login = (email, password) = async dispatch => {
+//   fire.auth.signInWithEmailAndPassword(email, password).then((u) => {
+//   }).catch((error)=> {
+//     console.error(error)
+//   })
+// }
 
-export const signUpUser = data => async dispatch => {
-  fire.auth.createUserWithEmailAndPassword(email, password).then((u) => {
-  }).catch((error)=> {
-    console.log
-  })
-}
+// export const signUpUser = data => async dispatch => {
+//   fire.auth.createUserWithEmailAndPassword(email, password).then((u) => {
+//   }).catch((error)=> {
+//     console.log
+//   })
+// }
 
 // export const signUpUser = data => async dispatch => {
 //   try {
@@ -79,10 +79,10 @@ export const logout = () => async dispatch => {
 export default function(state = defaultUser, action) {
   switch (action.type) {
     case AUTHED_USER:
-      return {state}
+      return { state };
     case SIGNED_UP_USER:
       return {
-        user: action.userData
+        user: action.userData,
       };
     case LOGGEDIN_USER:
       return { user: action.user };

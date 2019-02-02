@@ -40,6 +40,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-native-cli": "^2.0.1",
     "react-native-crypto": "^2.1.2",
+    "react-native-custom-webview": "^1.0.37",
     "react-native-elements": "^1.0.0",
     "react-native-level-fs": "^3.0.1",
     "react-native-os": "^1.2.2",
