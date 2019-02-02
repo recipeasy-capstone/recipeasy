@@ -11,7 +11,6 @@ import CameraScreen from '../screens/CameraScreen';
 import StarredScreen from '../screens/StarredScreen';
 import RecipeListScreen from '../screens/RecipeListScreen';
 import HomeScreen from '../screens/HomeScreen';
-import SignUpScreen from '../screens/SignUpScreen';
 import SettingScreen from '../screens/SettingScreen';
 import RecipeDirectionScreen from '../screens/RecipeDirectionScreen';
 
@@ -32,10 +31,6 @@ HomeStack.navigationOptions = {
     />
   ),
 };
-
-const SignUpStack = createStackNavigator({
-  SignUp: SignUpScreen,
-});
 
 const PantryStack = createStackNavigator({
   Pantry: PantryScreen,
@@ -84,11 +79,6 @@ StarredStack.navigationOptions = {
     />
   ),
 };
-
-// const RecipeDirectionStack = createStackNavigator({
-//   RecipeDirection: RecipeDirectionScreen,
-//   RecipeList: RecipeListScreen,
-// });
 
 const RecipesStack = createStackNavigator({
   RecipeList: RecipeListScreen,
