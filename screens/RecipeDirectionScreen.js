@@ -21,17 +21,10 @@ class RecipeDirectionScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <WebView source={{ uri: this.props.recipeDirections }}>
-        <View style={styles.container}>
-          <Button
-            title="Back to recipes!"
-            style={styles.button}
-            onPress={() => {
-              navigate("RecipeList");
-            }}
-          />
-        </View>
-      </WebView>
+      <WebView
+        originWhitelist={["file://"]}
+        source={{ uri: this.props.recipeDirections }}
+      />
     );
   }
 }

@@ -38,7 +38,10 @@ class RecipeListScreen extends React.Component {
               newRecipes.body.map((recipe, index) => (
                 <View key={index}>
                   <Text>Title: {recipe.title}</Text>
-                  {/* <Image source={`${recipe.image}`} /> */}
+                  <Image
+                    style={{ width: 193, height: 110 }}
+                    source={{ uri: recipe.image }}
+                  />
                   <Text>Used Ingredients: {recipe.usedIngredientCount}</Text>
                   <Text>
                     Missed Ingredients: {recipe.missedIngredientCount}
