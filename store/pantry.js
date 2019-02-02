@@ -1,5 +1,3 @@
-import axios from 'axios';
-import { fsdetectTexts, fsdetectLabel } from '../secrets/fireFunctions';
 import { userInfo } from '../utils/firebaseFunc';
 import { firestore } from '../firebaseconfig';
 
