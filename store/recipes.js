@@ -11,7 +11,7 @@ const initialState = {
   starredRecipes: [],
   newRecipes: [],
   newStarRecipe: [],
-  recipeDirections: {}
+  recipeDirections: ""
 };
 
 const gotStarredRecipes = allRecipes => ({
@@ -57,7 +57,7 @@ export const fetchRecipeDirections = id => async dispatch => {
   try {
     console.log(id);
     const { data } = await axios.post(fsGetDirections, { id });
-    dispatch(gotRecipeDirections(data));
+    dispatch(gotRecipeDirections(data.body.sourceUrl));
   } catch (error) {
     console.error(error);
   }

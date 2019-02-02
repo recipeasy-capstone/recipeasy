@@ -20,24 +20,18 @@ class RecipeDirectionScreen extends React.Component {
 
   render() {
     const { navigate } = this.props.navigation;
-
     return (
-      <View style={styles.container}>
-        <Text>{this.props.recipeDirection}</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            navigate("RecipeList");
-          }}
-        >
-          <Text style={styles.buttonText}>Back To Recipes!</Text>
-
-          <WebView
-            source={{ uri: this.props.recipeDirection.spoonacularSourceUrl }}
-            style={{ marginTop: 20 }}
+      <WebView source={{ uri: this.props.recipeDirections }}>
+        <View style={styles.container}>
+          <Button
+            title="Back to recipes!"
+            style={styles.button}
+            onPress={() => {
+              navigate("RecipeList");
+            }}
           />
-        </TouchableOpacity>
-      </View>
+        </View>
+      </WebView>
     );
   }
 }
@@ -62,7 +56,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  recipeDirection: state.recipes.recipeDirection,
+  recipeDirections: state.recipes.recipeDirections,
   user: state.user.user
 });
 
