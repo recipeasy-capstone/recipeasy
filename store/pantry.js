@@ -1,4 +1,4 @@
-import { userInfo } from '../utils/firebaseFunc';
+import { userInfo, addIngredient, deleteIngredient } from '../utils/firebaseFunc';
 import { firestore } from '../firebaseconfig';
 
 const SET_INGREDIENTS_LIST = 'SET_INGREDIENTS_LIST';
@@ -51,12 +51,7 @@ export const fetchPantry = userId => async dispatch => {
 
 export const addToPantry = (ingredient, userId) => async dispatch => {
   try {
-    await firestore
-      .collection('User')
-      .doc(userId)
-      .update({
-        pantry: firestore.FieldValue.arrayUnion(ingredient),
-      });
+    addIngredient(ingredient, userId)
     dispatch(addedToPantry(ingredient));
   } catch (error) {
     console.error(error);

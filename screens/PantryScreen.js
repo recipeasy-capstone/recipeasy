@@ -11,7 +11,7 @@ import {
   TextInput,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { deleteFromPantry, addedToPantry } from '../store/pantry';
+import { deleteFromPantry, addToPantry } from '../store/pantry';
 import { CheckBox } from 'react-native-elements';
 import { fetchNewRecipes } from '../store/recipes';
 
@@ -29,9 +29,7 @@ class PantryScreen extends React.Component {
   };
 
   handleSubmit() {
-    return () => {
-      // this.props.addedToPantry(state.itemToPantry, this.props.user.email);
-    };
+    this.props.
   }
 
   render() {
@@ -131,7 +129,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    addedToPantry: (item, email) => dispatch(addedToPantry(item, email)),
+    addToPantry: (item, email) => dispatch(addToPantry(item, email)),
     deleteFromPantry: (item, email) => dispatch(deleteFromPantry(item, email)),
     fetchNewRecipes: ingredients => dispatch(fetchNewRecipes(ingredients)),
   };
