@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Image,
   Platform,
@@ -8,13 +8,14 @@ import {
   TouchableOpacity,
   View,
   Button,
-} from 'react-native';
-import { connect } from 'react-redux';
-import { fetchRecipeDirections } from '../store/recipes';
+  WebView
+} from "react-native";
+import { connect } from "react-redux";
+import { fetchRecipeDirections } from "../store/recipes";
 
 class RecipeDirectionScreen extends React.Component {
   static navigationOptions = {
-    title: 'Recipe Direction',
+    title: "Recipe Direction"
   };
 
   render() {
@@ -26,10 +27,15 @@ class RecipeDirectionScreen extends React.Component {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            navigate('RecipeList');
+            navigate("RecipeList");
           }}
         >
           <Text style={styles.buttonText}>Back To Recipes!</Text>
+
+          <WebView
+            source={{ uri: this.props.recipeDirection.spoonacularSourceUrl }}
+            style={{ marginTop: 20 }}
+          />
         </TouchableOpacity>
       </View>
     );
@@ -39,29 +45,29 @@ class RecipeDirectionScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    margin: 10,
+    backgroundColor: "#fff",
+    margin: 10
   },
   button: {
-    backgroundColor: '#fbfbfb',
+    backgroundColor: "#fbfbfb",
     width: 100,
     marginTop: 50,
     padding: 20,
-    alignItems: 'center',
+    alignItems: "center"
   },
   buttonText: {
     fontSize: 20,
-    fontFamily: 'Helvetica',
-  },
+    fontFamily: "Helvetica"
+  }
 });
 
 const mapStateToProps = state => ({
   recipeDirection: state.recipes.recipeDirection,
-  user: state.user.user,
+  user: state.user.user
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchRecipeDirections: id => dispatch(fetchRecipeDirections(id)),
+  fetchRecipeDirections: id => dispatch(fetchRecipeDirections(id))
 });
 
 export default connect(
