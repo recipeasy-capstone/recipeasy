@@ -51,7 +51,7 @@ exports.detectTexts = functions.https.onRequest((req, res) => {
       return res.send(ref);
     })
     .catch(console.error);
-});
+}); 
 
 exports.detectLabel = functions.https.onRequest((req, res) => {
   detectLabels(req.body)

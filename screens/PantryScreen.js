@@ -36,6 +36,7 @@ class PantryScreen extends React.Component {
 
   render() {
     const { pantry, email } = this.props.user;
+
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
@@ -57,7 +58,7 @@ class PantryScreen extends React.Component {
                   title="Add Ingredient"
                   onPress={() =>
                     this.setState({
-                      selectedIngredients: state.selectedIngredients.push(item),
+                      selectedIngredients: state.selectedIngredients.push(item)
                     })
                   }
                 />

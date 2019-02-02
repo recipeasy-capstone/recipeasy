@@ -7,17 +7,20 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Button
+  Button,
+  Alert
 } from "react-native";
 import { Permissions, ImagePicker } from "expo";
 import { connect } from "react-redux";
-import { fetchIngredientsList } from "../store/pantry";
+import { settingIngredientsList } from "../store/pantry";
+import API_KEY from '../secrets/googleAPI'
+import notFood from '../utils/notFood'
 
 class CameraScreen extends React.Component {
   constructor() {
     super();
     this.state = {
-      ingredients: []
+      pantry: []
     };
     this.takePhoto = this.takePhoto.bind(this);
     this.selectPhoto = this.selectPhoto.bind(this);
@@ -38,9 +41,10 @@ class CameraScreen extends React.Component {
     if (cameraPerm === "granted" && cameraRollPerm === "granted") {
       let selectedPhoto = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
-        aspect: [4, 3]
+        aspect: [4, 3],
+        base64: true
       });
-      await this.props.fetchIngredientsList(selectedPhoto);
+      this._convertToText(selectedPhoto.base64)
     }
   }
 
@@ -52,11 +56,75 @@ class CameraScreen extends React.Component {
     if (cameraRollPerm === "granted") {
       let selectedPhoto = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: true,
-        aspect: [4, 3]
+        aspect: [4, 3],
+        base64: true
       });
-      await this.props.fetchIngredientsList(selectedPhoto);
+      this._convertToText(selectedPhoto.base64)
     }
   }
+
+  _convertToText = async (imageURI) => {
+    try {
+      let response = await fetch(
+        'https://vision.googleapis.com/v1/images:annotate?key=' + API_KEY,
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            requests: [
+              {
+                image: {
+                  content: imageURI,
+                },
+                features: [
+                  {
+                    type: `${
+                      this.props.documentMode ? 'DOCUMENT_' : ''
+                    }TEXT_DETECTION`,
+                    maxResults: 1,
+                  },
+                ],
+              },
+            ],
+          }),
+        }
+      );
+      const responseJSON = await response.json();
+      if (
+        !(
+          responseJSON &&
+          responseJSON.responses &&
+          responseJSON.responses[0] &&
+          responseJSON.responses[0].fullTextAnnotation
+        )
+      ) {
+        Alert.alert(
+          'There was no readable text in your image. Please try again.'
+        );
+        this.setState({ isLoading: false });
+      } else {
+        const { email, pantry } = this.props.user
+        const food = /[A-Z]/g;
+        const text = responseJSON.responses[0].fullTextAnnotation.text;
+        const splitText = text.split('\n')
+        const ingredients = splitText.filter(str => str.length !== 0 && str[0].match(food) && !notFood.includes(str))
+        await this.props.settingIngredientsList([...pantry].concat(ingredients), email)
+        Alert.alert(
+          'Success!',
+          'Items have been added to your pantry!',
+          [
+            {text: 'OK', onPress: () => console.log('OK Pressed')},
+          ],
+          {cancelable: false},
+        );
+      }
+    } catch (err) {
+      console.error('An error occurred during text conversion:', err);
+    }
+  };
 
   render() {
     return (
@@ -83,7 +151,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchIngredientsList: imageURI => dispatch(fetchIngredientsList(imageURI))
+    settingIngredientsList: (pantry, userId) => dispatch(settingIngredientsList(pantry, userId))
   };
 };
 

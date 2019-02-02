@@ -1,11 +1,9 @@
 import axios from 'axios';
 import { fsdetectTexts, fsdetectLabel } from '../secrets/fireFunctions';
-// import autocompleteFunc from '../utils/autocompleteFunc'
 import { userInfo } from '../utils/firebaseFunc';
 import { firestore } from '../firebaseconfig';
-// import admin from "firebase-admin";
 
-const GOT_INGREDIENTS_LIST = 'GOT_INGREDIENTS_LIST';
+const SET_INGREDIENTS_LIST = 'SET_INGREDIENTS_LIST';
 const GOT_PANTRY = 'GOT_PANTRY';
 const ADDED_TO_PANTRY = 'ADDED_TO_PANTRY';
 const DELETED_FROM_PANTRY = 'DELETED_FROM_PANTRY';
@@ -13,14 +11,13 @@ const ADDED_TO_RECIPE_INGREDIENTS = 'ADDED_TO_RECIPE_INGREDIENTS';
 
 const initialState = {
   filteredIngredientList: [],
-
   pantry: [],
   recipeIngredients: [],
 };
 
-const gotIngredientsList = filteredIngredientList => ({
-  type: GOT_INGREDIENTS_LIST,
-  filteredIngredientList,
+const setIngredientsList = pantry => ({
+  type: SET_INGREDIENTS_LIST,
+  pantry,
 });
 const gotPantry = pantry => ({ type: GOT_PANTRY, pantry });
 const addedToPantry = ingredient => ({ type: ADDED_TO_PANTRY, ingredient });
@@ -33,13 +30,12 @@ const addedToRecipeIngredients = recipeIngredients => ({
   recipeIngredients,
 });
 
-export const fetchIngredientsList = imageURI => async dispatch => {
+export const settingIngredientsList = (ingredients, userId) => async dispatch => {
   try {
-    const { isLabel } = await axios.post(fsdetectLabel, imageURI);
-    if (isLabel) {
-      const { data } = await axios.post(fsdetectTexts, imageURI);
-      dispatch(gotIngredientsList(data));
-    }
+    const currentUserInfo = await userInfo(userId)
+    currentUserInfo.pantry = ingredients
+    await firestore.collection('User').doc(userId).set(currentUserInfo)
+    dispatch(setIngredientsList(ingredients));
   } catch (error) {
     console.error(error);
   }
@@ -61,7 +57,7 @@ export const addToPantry = (ingredient, userId) => async dispatch => {
       .collection('User')
       .doc(userId)
       .update({
-        pantry: firebase.firestore.FieldValue.arrayUnion(ingredient),
+        pantry: firestore.FieldValue.arrayUnion(ingredient),
       });
     dispatch(addedToPantry(ingredient));
   } catch (error) {
@@ -85,16 +81,16 @@ export const deleteFromPantry = (ingredient, userId) => async dispatch => {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case GOT_INGREDIENTS_LIST:
-      return [...pantry].concat(action.filteredIngredientList);
+    case SET_INGREDIENTS_LIST:
+      return {...state, pantry: [...state.pantry].concat(action.pantry)};
     case GOT_PANTRY:
-      return [...pantry];
+      return {...state, pantry: [...state.pantry]};
     case ADDED_TO_PANTRY:
-      return [...pantry, action.ingredient];
+      return {...state, pantry: [...state.pantry, action.ingredient]};
     case DELETED_FROM_PANTRY:
-      return [...pantry];
+      return {...state, pantry: [...state.pantry]};
     case ADDED_TO_RECIPE_INGREDIENTS:
-      return [...recipeIngredients, action.recipeIngredients];
+      return {...state, recipeIngredients: [...state.recipeIngredients, action.recipeIngredients]};
     default:
       return state;
   }
