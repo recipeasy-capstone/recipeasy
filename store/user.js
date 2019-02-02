@@ -16,15 +16,15 @@ const signedUpUser = userData => ({ type: SIGNED_UP_USER, userData });
 export const signUpUser = data => async dispatch => {
   try {
     const info = {
-      email: data.email,
+      email: data.userId,
       pantry: data.pantry,
       password: data.password,
       recipes: data.recipes,
-      starred: data.starred
-    }
+      starred: data.starred,
+    };
     await firestore
       .collection('User')
-      .doc(data.email)
+      .doc(data.userId)
       .set(info);
     dispatch(signedUpUser(data));
   } catch (error) {
@@ -54,7 +54,7 @@ export default function(state = defaultUser, action) {
   switch (action.type) {
     case SIGNED_UP_USER:
       return {
-        user: action.userData
+        user: action.userData,
       };
     case LOGGEDIN_USER:
       return { user: action.user };
