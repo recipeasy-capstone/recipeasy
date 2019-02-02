@@ -63,7 +63,6 @@ export const fetchRecipeDirections = id => async dispatch => {
 };
 
 export default function(state = initialState, action) {
-  // console.log('IN THUNK ACTION RECIPEDIRECION', action.recipeDirections);
   switch (action.type) {
     case GOT_STARRED_RECIPES:
       return { ...state, starredRecipes: action.starredRecipes };

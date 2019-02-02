@@ -13,7 +13,6 @@ const ADDED_TO_RECIPE_INGREDIENTS = 'ADDED_TO_RECIPE_INGREDIENTS';
 
 const initialState = {
   filteredIngredientList: [],
-
   pantry: [],
   recipeIngredients: [],
 };
@@ -84,13 +83,13 @@ export default function(state = initialState, action) {
     case GOT_INGREDIENTS_LIST:
       return {...state, pantry: [...state.pantry].concat(action.filteredIngredientList)};
     case GOT_PANTRY:
-      return [...pantry];
+      return {...state, pantry: [...state.pantry]};
     case ADDED_TO_PANTRY:
-      return [...pantry, action.ingredient];
+      return {...state, pantry: [...state.pantry, action.ingredient]};
     case DELETED_FROM_PANTRY:
-      return [...pantry];
+      return {...state, pantry: [...state.pantry]};
     case ADDED_TO_RECIPE_INGREDIENTS:
-      return [...recipeIngredients, action.recipeIngredients];
+      return {...state, recipeIngredients: [...state.recipeIngredients, action.recipeIngredients]};
     default:
       return state;
   }

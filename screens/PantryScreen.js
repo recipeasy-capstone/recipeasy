@@ -53,7 +53,7 @@ class PantryScreen extends React.Component {
                   title="Add Ingredient"
                   onPress={() =>
                     this.setState({
-                      selectedIngredients: state.selectedIngredients.push(item),
+                      selectedIngredients: state.selectedIngredients.push(item)
                     })
                   }
                 />
