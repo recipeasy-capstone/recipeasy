@@ -106,13 +106,11 @@ class CameraScreen extends React.Component {
         );
         this.setState({ isLoading: false });
       } else {
-        console.log('this . props . user', this.props)
         const { email, pantry } = this.props.user
         const food = /[A-Z]/g;
         const text = responseJSON.responses[0].fullTextAnnotation.text;
         const splitText = text.split('\n')
         const ingredients = splitText.filter(str => str.length !== 0 && str[0].match(food) && !notFood.includes(str))
-        console.log('email email email email', email)
         await this.props.settingIngredientsList([...pantry].concat(ingredients), email)
         Alert.alert(
           'Success!',
