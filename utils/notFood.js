@@ -10,7 +10,9 @@ const notFood = [
     "TOTAL.",
     "LOYALTY",
     "CASH",
-    "CHANGE"
+    "CHANGE",
+    "SPECIAL",
+    "SURTOTAL"
   ];
   
   module.exports = notFood;

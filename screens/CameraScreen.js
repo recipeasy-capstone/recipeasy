@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { Permissions, ImagePicker } from "expo";
 import { connect } from "react-redux";
-import { fetchIngredientsList } from "../store/pantry";
+import { settingIngredientsList } from "../store/pantry";
 import API_KEY from '../secrets/googleAPI'
 import notFood from '../utils/notFood'
 
@@ -20,7 +20,7 @@ class CameraScreen extends React.Component {
   constructor() {
     super();
     this.state = {
-      ingredients: []
+      pantry: []
     };
     this.takePhoto = this.takePhoto.bind(this);
     this.selectPhoto = this.selectPhoto.bind(this);
@@ -44,8 +44,6 @@ class CameraScreen extends React.Component {
         aspect: [4, 3],
         base64: true
       });
-      // console.log('this is the selectedPhoto in takePhoto', selectedPhoto)
-      // this.props.fetchIngredientsList(selectedPhoto.base64);
       this._convertToText(selectedPhoto.base64)
     }
   }
@@ -61,8 +59,6 @@ class CameraScreen extends React.Component {
         aspect: [4, 3],
         base64: true
       });
-      // console.log('this is the selectedPhoto in selectPhoto', selectedPhoto)
-      // this.props.fetchIngredientsList(selectedPhoto.base64);
       this._convertToText(selectedPhoto.base64)
     }
   }
@@ -110,11 +106,14 @@ class CameraScreen extends React.Component {
         );
         this.setState({ isLoading: false });
       } else {
+        console.log('this . props . user', this.props)
+        const { email, pantry } = this.props.user
         const food = /[A-Z]/g;
         const text = responseJSON.responses[0].fullTextAnnotation.text;
         const splitText = text.split('\n')
         const ingredients = splitText.filter(str => str.length !== 0 && str[0].match(food) && !notFood.includes(str))
-        this.props.fetchIngredientsList(ingredients)
+        console.log('email email email email', email)
+        await this.props.settingIngredientsList([...pantry].concat(ingredients), email)
         Alert.alert(
           'Success!',
           'Items have been added to your pantry!',
@@ -154,7 +153,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchIngredientsList: ingredients => dispatch(fetchIngredientsList(ingredients))
+    settingIngredientsList: (pantry, userId) => dispatch(settingIngredientsList(pantry, userId))
   };
 };
 
