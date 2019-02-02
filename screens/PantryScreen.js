@@ -29,7 +29,7 @@ class PantryScreen extends React.Component {
   };
 
   handleSubmit() {
-    this.props.
+    // this.props.
   }
 
   render() {
