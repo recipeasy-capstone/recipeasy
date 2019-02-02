@@ -6,16 +6,17 @@ export const userInfo = userId => {
     if (!doc.exists) {
       console.log("User does not exist!");
     } else {
+      console.log('doc data', doc.data())
       return doc.data();
     }
   });
 };
 
 export const addIngredient = async (ingredient, userId) => {
-  const currentUser = await firestore.collection('User').doc(userId)
-  currentUser.pantry = [...currentUser.pantry, ingredient]
+  const user = await userInfo(userId)
+  user.pantry.push(ingredient)
 
-  await firestore.collection('User').doc(userId).set(currentUser)
+  await firestore.collection('User').doc(userId).set(user)
 }
 
 export const deleteIngredient = async (ingredient, userId) => {

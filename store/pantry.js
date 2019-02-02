@@ -51,8 +51,12 @@ export const fetchPantry = userId => async dispatch => {
 
 export const addToPantry = (ingredient, userId) => async dispatch => {
   try {
-    addIngredient(ingredient, userId)
+    const currentUserInfo = await userInfo(userId)
+    currentUserInfo.pantry.push(ingredient)
+
+    await firestore.collection('User').doc(userId).set(currentUserInfo)
     dispatch(addedToPantry(ingredient));
+
   } catch (error) {
     console.error(error);
   }

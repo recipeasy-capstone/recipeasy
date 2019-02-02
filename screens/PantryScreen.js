@@ -12,30 +12,44 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { deleteFromPantry, addToPantry } from '../store/pantry';
-import { CheckBox } from 'react-native-elements';
+import { CheckBox, Input } from 'react-native-elements';
 import { fetchNewRecipes } from '../store/recipes';
-
+ 
 
 class PantryScreen extends React.Component {
   constructor() {
     super();
-    state = {
+    this.state = {
       selectedIngredients: [],
-      itemToPantry: '',
+      itemToPantry: null,
     };
   }
   static navigationOptions = {
     title: 'Pantry',
   };
 
-  handleSubmit() {
-    // this.props.
+  async addIngredient() {
+    const { pantry, email } = this.props.user
+    if (!this.state.itemToPantry) {
+      alert('You must enter an ingredient!')
+    }
+    else if (pantry.includes(this.state.itemToPantry)) {
+      alert('This item is already in your pantry!')
+    }
+    else {
+      await this.props.addToPantry(this.state.itemToPantry, email)
+    }
   }
 
   render() {
     const { pantry, email } = this.props.user;
 
     const { navigate } = this.props.navigation;
+    if (!pantry) {
+      return (
+        <View />
+      )
+    }
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container}>
@@ -56,7 +70,7 @@ class PantryScreen extends React.Component {
                   title="Add Ingredient"
                   onPress={() =>
                     this.setState({
-                      selectedIngredients: state.selectedIngredients.push(item)
+                      selectedIngredients: this.state.selectedIngredients.push(item)
                     })
                   }
                 />
@@ -66,24 +80,28 @@ class PantryScreen extends React.Component {
         </ScrollView>
         <View>
           <Text>Add to Pantry:</Text>
-          <TextInput
+          <Input
+            placeholder="Ingredient"
             style={styles.form}
-            onChangeText={text => this.setState({ itemToPantry: text })}
+            onChangeText={itemToPantry => this.setState({ itemToPantry })}
+            value={this.state.itemToPantry}
           />
-          <Button title="Add" onPress={this.handleSubmit()} />
+          <Button title="Add" onPress={() => this.addIngredient()} />
           <Button
             title="Select All"
-            onPress={() =>
+            onPress={() => {
+              console.log('hello')
               this.setState({
-                selectedIngredients: state.selectedIngredients.push(pantry),
+                selectedIngredients: this.state.selectedIngredients.push(pantry),
               })
+            }
             }
           />
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              if (state.selectedIngredients) {
-                this.props.fetchNewRecipes(state.selectedIngredients);
+              if (this.state.selectedIngredients) {
+                this.props.fetchNewRecipes(this.state.selectedIngredients);
               }
               navigate('RecipeList');
             }}
