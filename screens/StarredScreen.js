@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Image,
   Platform,
@@ -6,13 +6,13 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-} from 'react-native';
-import { connect } from 'react-redux';
+  View
+} from "react-native";
+import { connect } from "react-redux";
 
 class Starred extends React.Component {
   static navigationOptions = {
-    title: 'Starred',
+    title: "Starred"
   };
 
   render() {
@@ -34,17 +34,17 @@ class Starred extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-  },
+    backgroundColor: "#fff"
+  }
 });
 
 const mapStateToProps = state => ({
   allRecipes: state.recipes.allRecipes,
-  user: state.user.user,
+  user: state.user.user
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchStarredRecipes: userId => dispatch(fetchStarredRecipes(userId)),
+  fetchStarredRecipes: userId => dispatch(fetchStarredRecipes(userId))
 });
 
 export default connect(
