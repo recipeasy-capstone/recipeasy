@@ -53,8 +53,8 @@ class PantryScreen extends React.Component {
 
   render() {
     const { pantry } = this.props;
-
     const { navigate } = this.props.navigation;
+
     if (!pantry) {
       return (
         <View />
@@ -98,7 +98,6 @@ class PantryScreen extends React.Component {
           <Button
             title="Select All"
             onPress={() => {
-              console.log('hello')
               this.setState({
                 selectedIngredients: this.state.selectedIngredients.push(pantry),
               })

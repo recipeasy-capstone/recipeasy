@@ -53,7 +53,6 @@ export const addToPantry = (ingredient, userId) => async dispatch => {
   try {
     const currentUserInfo = await userInfo(userId)
     currentUserInfo.pantry.push(ingredient)
-
     await firestore.collection('User').doc(userId).set(currentUserInfo)
     dispatch(addedToPantry(ingredient));
   } catch (error) {
@@ -65,7 +64,6 @@ export const deleteFromPantry = (ingredient, userId) => async dispatch => {
   try {
     const currentUserInfo = await userInfo(userId)
     currentUserInfo.pantry = currentUserInfo.pantry.filter(item => item !== ingredient)
-    console.log('currentUserInfo', currentUserInfo)
     await firestore.collection('User').doc(userId).set(currentUserInfo)
     dispatch(deletedFromPantry(ingredient));
   } catch (error) {
