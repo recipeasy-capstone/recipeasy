@@ -15,8 +15,8 @@ export default class App extends React.Component {
   authListener = () => {
     fire.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log('user in user', user);
         this.setState({ user });
+        console.log('user in user');
       } else {
         console.log('no user in user');
         this.setState({ user: null });
