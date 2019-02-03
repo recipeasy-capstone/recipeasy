@@ -7,11 +7,11 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Button,
   Alert,
   ActivityIndicator,
 } from 'react-native';
-import { Permissions, ImagePicker } from 'expo';
+import { Button } from 'react-native-elements';
+import { Permissions, ImagePicker, Magnetometer } from 'expo';
 import { connect } from 'react-redux';
 import { settingIngredientsList } from '../store/pantry';
 import API_KEY from '../secrets/googleAPI';
@@ -29,7 +29,7 @@ class CameraScreen extends React.Component {
   }
 
   static navigationOptions = {
-    title: 'Camera',
+    title: 'CAMERA',
   };
 
   convertToText = async imageURI => {
@@ -138,13 +138,29 @@ class CameraScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Button title="Take Photo" onPress={this.takePhoto} />
-        <Button title="Select Photo" onPress={this.selectPhoto} />
-        <ActivityIndicator
-          animating={this.state.isLoading}
-          size="large"
-          color="#0000ff"
-        />
+        <View style={styles.cameraContainer}>
+          <Image
+            source={require('../assets/images/camera.png')}
+            style={styles.image}
+          />
+          <TouchableOpacity style={styles.button} onPress={this.takePhoto}>
+            <Text style={styles.text}>take photo</Text>
+          </TouchableOpacity>
+
+          <ActivityIndicator
+            animating={this.state.isLoading}
+            size="large"
+            color="#0000ff"
+          />
+
+          <Image
+            source={require('../assets/images/photo.png')}
+            style={styles.image}
+          />
+          <TouchableOpacity style={styles.button} onPress={this.selectPhoto}>
+            <Text style={styles.text}>select photo</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -153,8 +169,32 @@ class CameraScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#fff',
+    backgroundColor: '#c4e4cf',
+    alignItems: 'center',
+  },
+  cameraContainer: {
+    alignItems: 'center',
+    marginTop: 100,
+    backgroundColor: '#ffffff',
+    width: 300,
+    height: 500,
+  },
+  image: {
+    alignItems: 'center',
+    marginTop: 50,
+  },
+  button: {
+    alignItems: 'center',
+    width: 180,
+    marginTop: 20,
+    backgroundColor: '#c4e4cf',
+    borderRadius: 30,
+  },
+  text: {
+    fontFamily: 'Futura',
+    color: 'white',
+    fontSize: 30,
+    padding: 5,
   },
 });
 
