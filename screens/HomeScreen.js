@@ -18,7 +18,7 @@ class HomeScreen extends React.Component {
     super(props);
     this.state = {
       email: null,
-      password: null,
+      password: '',
       data: {
         pantry: [],
         recipes: [],
@@ -45,16 +45,23 @@ class HomeScreen extends React.Component {
   handleSignUp() {
     const { navigate } = this.props.navigation
     const { email, password, data } = this.state
-    fire.auth().createUserWithEmailAndPassword(email, password)
-      .then(ref => {
-        this.props.signUpUser(ref.user.uid, data)
-        navigate('Main')
-      })
-      .catch(error => {
-        alert('This email is already being used!')
-      });
-
-  }
+      fire.auth().createUserWithEmailAndPassword(email, password)
+        .then(ref => {
+          this.props.signUpUser(ref.user.uid, data)
+          navigate('Main')
+        })
+        .catch(error => {
+           if ((email && !password) || (!email && password)) {
+            alert('Both fields must be filled!')
+          }
+          else if (password.length < 6) {
+            alert('Password must be at least six characters')
+          }
+          else if (email && password) {
+            alert('This email is already being used!')
+            }
+        });
+      }
 
   render() {
     return (
@@ -74,7 +81,7 @@ class HomeScreen extends React.Component {
             placeholder="Password"
             style={styles.form}
             onChangeText={password => this.setState({ password })}
-            value={this.state.password}
+            value={this.state.password.replace(/./g, '*')}
           />
           <View style={styles.buttonBox}>
             <Button
