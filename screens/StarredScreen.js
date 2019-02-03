@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
+import Hyperlink from "react-native-hyperlink";
 import { connect } from "react-redux";
 
 class Starred extends React.Component {
@@ -22,7 +23,11 @@ class Starred extends React.Component {
         <ScrollView>
           {starredRecipes.map((starredRecipe, index) => (
             <View key={index}>
-              <Text>{starredRecipe}</Text>
+              <Hyperlink linkDefault={true}>
+                <Text>
+                  {index}: {starredRecipe}
+                </Text>
+              </Hyperlink>
             </View>
           ))}
         </ScrollView>
