@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Image,
   Platform,
@@ -8,34 +8,49 @@ import {
   TouchableOpacity,
   View,
   Button,
-  TextInput,
-} from 'react-native';
-import { connect } from 'react-redux';
-import { deleteFromPantry, addedToPantry } from '../store/pantry';
-import { CheckBox } from 'react-native-elements';
-import { fetchNewRecipes } from '../store/recipes';
+  TextInput
+} from "react-native";
+import { connect } from "react-redux";
+import { deleteFromPantry, addToPantry, fetchPantry } from "../store/pantry";
+import { CheckBox, Input } from "react-native-elements";
+import { fetchNewRecipes } from "../store/recipes";
 
 class PantryScreen extends React.Component {
   constructor() {
     super();
-    state = {
+    this.state = {
       selectedIngredients: [],
-      itemToPantry: '',
+      itemToPantry: null,
+      checked: false
     };
   }
   static navigationOptions = {
-    title: 'Pantry',
+    title: "Pantry"
   };
 
-  handleSubmit() {
-    return () => {
-      // this.props.addedToPantry(state.itemToPantry, this.props.user.email);
-    };
+  async componentDidMount() {
+    const { email } = this.props.user;
+    await this.props.fetchPantry(email);
+  }
+
+  addIngredient() {
+    const { pantry, email } = this.props.user;
+    if (!this.state.itemToPantry) {
+      alert("You must enter an ingredient!");
+    } else if (pantry.includes(this.state.itemToPantry)) {
+      alert("This item is already in your pantry!");
+    } else {
+      this.props.addToPantry(this.state.itemToPantry, email);
+    }
+  }
+
+  removeIngredient(item) {
+    const { email } = this.props.user;
+    this.props.deleteFromPantry(item, email);
   }
 
   render() {
-    const { pantry, email } = this.props.user;
-
+    const { pantry } = this.props;
     const { navigate } = this.props.navigation;
     if (!pantry) {
       return <View />;
@@ -50,15 +65,18 @@ class PantryScreen extends React.Component {
                 <Button
                   type="clear"
                   title="X"
-                  onPress={() => {
-                    // this.props.deleteFromPantry(item, email);
-                  }}
+                  onPress={() => this.removeIngredient(item)}
                 />
                 <CheckBox
                   title="Add Ingredient"
+                  checked={this.state.checked}
                   onPress={() =>
                     this.setState({
-                      selectedIngredients: state.selectedIngredients.push(item),
+                      checked: !this.state.checked,
+                      selectedIngredients: [
+                        ...this.state.selectedIngredients,
+                        item
+                      ]
                     })
                   }
                 />
@@ -68,26 +86,28 @@ class PantryScreen extends React.Component {
         </ScrollView>
         <View>
           <Text>Add to Pantry:</Text>
-          <TextInput
+          <Input
+            placeholder="Ingredient"
             style={styles.form}
-            onChangeText={text => this.setState({ itemToPantry: text })}
+            onChangeText={itemToPantry => this.setState({ itemToPantry })}
+            value={this.state.itemToPantry}
           />
-          <Button title="Add" onPress={this.handleSubmit()} />
+          <Button title="Add" onPress={() => this.addIngredient()} />
           <Button
             title="Select All"
-            onPress={() =>
+            onPress={() => {
               this.setState({
-                selectedIngredients: state.selectedIngredients.push(pantry),
-              })
-            }
+                selectedIngredients: [...this.state.selectedIngredients, ...pantry]
+              });
+            }}
           />
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              if (state.selectedIngredients) {
-                this.props.fetchNewRecipes(state.selectedIngredients);
+              if (this.state.selectedIngredients) {
+                this.props.fetchNewRecipes(this.state.selectedIngredients);
               }
-              navigate('RecipeList');
+              navigate("RecipeList");
             }}
           >
             <Text style={styles.buttonText}>Get Recipes!</Text>
@@ -100,40 +120,42 @@ class PantryScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f5fffa',
+    backgroundColor: "#f5fffa",
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff"
   },
   pantryContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 10,
-    marginBottom: 20,
+    marginBottom: 20
   },
   button: {
-    backgroundColor: '#fbfbfb',
+    backgroundColor: "#fbfbfb",
     margin: 20,
     padding: 20,
-    alignItems: 'center',
+    alignItems: "center"
   },
   buttonText: {
     fontSize: 20,
-    fontFamily: 'Helvetica',
+    fontFamily: "Helvetica"
   },
   form: {
     borderWidth: 1,
-    borderColor: '#f2f2f3',
-  },
+    borderColor: "#f2f2f3"
+  }
 });
 
 const mapStateToProps = state => ({
   user: state.user.user,
+  pantry: state.pantry.pantry
 });
 
 const mapDispatchToProps = dispatch => {
   return {
-    addedToPantry: (item, email) => dispatch(addedToPantry(item, email)),
+    addToPantry: (item, email) => dispatch(addToPantry(item, email)),
     deleteFromPantry: (item, email) => dispatch(deleteFromPantry(item, email)),
     fetchNewRecipes: ingredients => dispatch(fetchNewRecipes(ingredients)),
+    fetchPantry: userId => dispatch(fetchPantry(userId))
   };
 };
 

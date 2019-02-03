@@ -9,7 +9,7 @@ exports.getRecipes = functions.https.onRequest((req, res) => {
   let ingredients = encodeURIComponent(req.body.join("+"));
   unirest
     .get(
-      `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=5&ranking=1&ingredients=${ingredients}`
+      `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=20&ranking=1&ingredients=${ingredients}`
     )
     .header("X-RapidAPI-Key", unirestKey.RAPID_API_KEY)
     .end(result => {
@@ -34,7 +34,7 @@ exports.ingredientLookUp = functions.https.onRequest((req, res) => {
   let ingredient = encodeURIComponent(req.body);
   let recipes = unirest
     .get(
-      `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/ingredients/autocomplete?number=5&query=${ingredient}`
+      `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/ingredients/autocomplete?number=20&query=${ingredient}`
     )
     .header("X-RapidAPI-Key", unirestKey.RAPID_API_KEY)
     .end(result => {

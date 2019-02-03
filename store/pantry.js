@@ -1,6 +1,4 @@
-import axios from 'axios';
-import { fsdetectTexts, fsdetectLabel } from '../secrets/fireFunctions';
-import { userInfo } from '../utils/firebaseFunc';
+import { userInfo, addIngredient, deleteIngredient } from '../utils/firebaseFunc';
 import { firestore } from '../firebaseconfig';
 
 const SET_INGREDIENTS_LIST = 'SET_INGREDIENTS_LIST';
@@ -43,7 +41,7 @@ export const settingIngredientsList = (ingredients, userId) => async dispatch =>
 
 export const fetchPantry = userId => async dispatch => {
   try {
-    const data = userInfo(userId);
+    const data = await userInfo(userId);
     const pantry = data.pantry;
     dispatch(gotPantry(pantry));
   } catch (error) {
@@ -53,12 +51,9 @@ export const fetchPantry = userId => async dispatch => {
 
 export const addToPantry = (ingredient, userId) => async dispatch => {
   try {
-    await firestore
-      .collection('User')
-      .doc(userId)
-      .update({
-        pantry: firestore.FieldValue.arrayUnion(ingredient),
-      });
+    const currentUserInfo = await userInfo(userId)
+    currentUserInfo.pantry.push(ingredient)
+    await firestore.collection('User').doc(userId).set(currentUserInfo)
     dispatch(addedToPantry(ingredient));
   } catch (error) {
     console.error(error);
@@ -67,12 +62,9 @@ export const addToPantry = (ingredient, userId) => async dispatch => {
 
 export const deleteFromPantry = (ingredient, userId) => async dispatch => {
   try {
-    const pantry = await firestore
-      .collection('User')
-      .doc(userId)
-      .get({
-        pantry,
-      });
+    const currentUserInfo = await userInfo(userId)
+    currentUserInfo.pantry = currentUserInfo.pantry.filter(item => item !== ingredient)
+    await firestore.collection('User').doc(userId).set(currentUserInfo)
     dispatch(deletedFromPantry(ingredient));
   } catch (error) {
     console.error(error);
@@ -84,11 +76,11 @@ export default function(state = initialState, action) {
     case SET_INGREDIENTS_LIST:
       return {...state, pantry: [...state.pantry].concat(action.pantry)};
     case GOT_PANTRY:
-      return {...state, pantry: [...state.pantry]};
+      return {pantry: action.pantry};
     case ADDED_TO_PANTRY:
-      return {...state, pantry: [...state.pantry, action.ingredient]};
+      return {pantry: [...state.pantry, action.ingredient]};
     case DELETED_FROM_PANTRY:
-      return {...state, pantry: [...state.pantry]};
+      return {pantry: [...state.pantry].filter(item => item !== action.ingredient)};
     case ADDED_TO_RECIPE_INGREDIENTS:
       return {...state, recipeIngredients: [...state.recipeIngredients, action.recipeIngredients]};
     default:

@@ -25,7 +25,6 @@ class RecipeListScreen extends React.Component {
     const userId = this.props.user.email;
     const newRecipes = this.props.newRecipes;
     const { navigate } = this.props.navigation;
-
     return (
       <View style={styles.container}>
         <ScrollView
@@ -47,12 +46,6 @@ class RecipeListScreen extends React.Component {
                     Missed Ingredients: {recipe.missedIngredientCount}
                   </Text>
                   <Text>Likes: {recipe.likes}</Text>
-                  <Button
-                    title="*"
-                    onPress={() => {
-                      this.props.addingStarRecipe(recipe, userId);
-                    }}
-                  />
                   <Button
                     title="Recipe"
                     onPress={() => {
@@ -99,8 +92,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addingStarRecipe: (recipe, userId) =>
-    dispatch(addingStarRecipe(recipe, userId)),
   fetchNewRecipes: ingredients => dispatch(fetchNewRecipes(ingredients)),
   fetchRecipeDirections: id => dispatch(fetchRecipeDirections(id))
 });
