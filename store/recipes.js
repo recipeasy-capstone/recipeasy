@@ -28,8 +28,8 @@ const gotRecipeDirections = recipeDirections => ({
 //Thunks
 export const fetchStarredRecipes = userId => async dispatch => {
   try {
-    const { data } = await userInfo(userId).child("starred");
-    dispatch(gotStarredRecipes(data));
+    const data = await userInfo(userId);
+    dispatch(gotStarredRecipes(data.starred));
   } catch (error) {
     console.error(error);
   }
