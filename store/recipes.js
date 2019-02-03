@@ -1,10 +1,10 @@
 import axios from "axios";
-import userInfo from "../utils/firebaseFunc";
+import { userInfo } from "../utils/firebaseFunc";
 import { fsGetRecipes, fsGetDirections } from "../secrets/fireFunctions";
+import { firestore } from "../firebaseconfig";
 
 const GOT_STARRED_RECIPES = "GOT_STARRED_RECIPES";
 const GOT_NEW_RECIPES = "GOT_NEW_RECIPES";
-const ADD_STAR_RECIPE = "ADD_STAR_RECIPE";
 const GOT_RECIPE_DIRECTIONS = "GOT_RECIPE_DIRECTIONS";
 
 const initialState = {
@@ -14,7 +14,7 @@ const initialState = {
   recipeDirections: ""
 };
 
-const gotStarredRecipes = allRecipes => ({
+const gotStarredRecipes = starredRecipes => ({
   type: GOT_STARRED_RECIPES,
   starredRecipes
 });
@@ -44,10 +44,13 @@ export const fetchNewRecipes = ingredients => async dispatch => {
 };
 export const addingStarRecipe = (recipe, userId) => async dispatch => {
   try {
-    const { data } = await userInfo(userId)
-      .child("starred")
-      .push(recipe);
-    dispatch(addedStarRecipe(data));
+    const currentUserInfo = await userInfo(userId);
+    currentUserInfo.starred = recipe;
+    await firestore
+      .collection("User")
+      .doc(userId)
+      .set(currentUserInfo);
+    dispatch(gotStarredRecipes(recipe));
   } catch (error) {
     console.error(error);
   }
@@ -68,10 +71,6 @@ export default function(state = initialState, action) {
       return { ...state, starredRecipes: action.starredRecipes };
     case GOT_NEW_RECIPES:
       return { ...state, newRecipes: action.newRecipes };
-    case ADD_STAR_RECIPE:
-      return {
-        starredRecipes: [...state.starredRecipes].push(action.starRecipe)
-      };
     case GOT_RECIPE_DIRECTIONS:
       return {
         recipeDirections: action.recipeDirections
