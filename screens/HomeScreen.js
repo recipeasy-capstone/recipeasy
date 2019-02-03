@@ -1,12 +1,9 @@
 import React from 'react';
 import {
   Image,
-  Platform,
   StyleSheet,
-  Text,
-  TouchableOpacity,
   View,
-  Alert,
+  KeyboardAvoidingView
 } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import { login, signUpUser } from '../store/user';
@@ -65,7 +62,7 @@ class HomeScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container}>
         <Image
           source={require('../assets/images/recipeasy_logo-01.png')}
           style={styles.image}
@@ -98,7 +95,7 @@ class HomeScreen extends React.Component {
             />
           </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
