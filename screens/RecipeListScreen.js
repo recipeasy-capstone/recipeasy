@@ -21,10 +21,6 @@ class RecipeListScreen extends React.Component {
     title: "RecipeList"
   };
 
-  componentDidMount() {
-    newRecipes = this.props.newRecipes;
-  }
-
   render() {
     const userId = this.props.user.email;
     const newRecipes = this.props.newRecipes;
