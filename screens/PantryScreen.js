@@ -28,6 +28,10 @@ class PantryScreen extends React.Component {
     title: 'Pantry',
   };
 
+  componentDidUpdate() {
+    this.forceUpdate()
+  }
+
   async addIngredient() {
     const { pantry, email } = this.props.user
     if (!this.state.itemToPantry) {
@@ -38,10 +42,12 @@ class PantryScreen extends React.Component {
     }
     else {
       await this.props.addToPantry(this.state.itemToPantry, email)
+      this.forceUpdate()
     }
   }
 
   render() {
+    console.log('this.props.pantry', this.props.pantry)
     const { pantry, email } = this.props.user;
 
     const { navigate } = this.props.navigation;
