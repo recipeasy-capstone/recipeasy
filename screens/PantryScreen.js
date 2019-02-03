@@ -22,15 +22,12 @@ class PantryScreen extends React.Component {
     this.state = {
       selectedIngredients: [],
       itemToPantry: null,
+      pantry: []
     };
   }
   static navigationOptions = {
     title: 'Pantry',
   };
-
-  componentDidUpdate() {
-    this.forceUpdate()
-  }
 
   async addIngredient() {
     const { pantry, email } = this.props.user
@@ -41,13 +38,14 @@ class PantryScreen extends React.Component {
       alert('This item is already in your pantry!')
     }
     else {
-      await this.props.addToPantry(this.state.itemToPantry, email)
-      this.forceUpdate()
+      this.setState({
+        pantry: await this.props.addToPantry(this.state.itemToPantry, email)
+      })
     }
   }
 
   render() {
-    console.log('this.props.pantry', this.props.pantry)
+    console.log('this.props.pantry', this.props.user.pantry)
     const { pantry, email } = this.props.user;
 
     const { navigate } = this.props.navigation;
