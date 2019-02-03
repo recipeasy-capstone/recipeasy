@@ -56,7 +56,6 @@ class PantryScreen extends React.Component {
     if (!pantry) {
       return <View />;
     }
-    console.log("SETLECTE", this.state.selectedIngredients);
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container}>
@@ -99,7 +98,7 @@ class PantryScreen extends React.Component {
             title="Select All"
             onPress={() => {
               this.setState({
-                selectedIngredients: [...this.state.selectedIngredients, pantry]
+                selectedIngredients: [...this.state.selectedIngredients, ...pantry]
               });
             }}
           />
