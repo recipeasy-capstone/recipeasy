@@ -11,7 +11,7 @@ import {
   TextInput,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { deleteFromPantry, addToPantry } from '../store/pantry';
+import { deleteFromPantry, addToPantry, fetchPantry } from '../store/pantry';
 import { CheckBox, Input } from 'react-native-elements';
 import { fetchNewRecipes } from '../store/recipes';
  
@@ -21,13 +21,17 @@ class PantryScreen extends React.Component {
     super();
     this.state = {
       selectedIngredients: [],
-      itemToPantry: null,
-      pantry: []
+      itemToPantry: null
     };
   }
   static navigationOptions = {
     title: 'Pantry',
   };
+
+  async componentDidMount() {
+    const { email } = this.props.user
+    await this.props.fetchPantry(email)
+  }
 
   async addIngredient() {
     const { pantry, email } = this.props.user
@@ -38,15 +42,12 @@ class PantryScreen extends React.Component {
       alert('This item is already in your pantry!')
     }
     else {
-      this.setState({
-        pantry: await this.props.addToPantry(this.state.itemToPantry, email)
-      })
+      this.props.addToPantry(this.state.itemToPantry, email)
     }
   }
 
   render() {
-    console.log('this.props.pantry', this.props.user.pantry)
-    const { pantry, email } = this.props.user;
+    const { pantry } = this.props;
 
     const { navigate } = this.props.navigation;
     if (!pantry) {
@@ -147,6 +148,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   user: state.user.user,
+  pantry: state.pantry.pantry
 });
 
 const mapDispatchToProps = dispatch => {
@@ -154,6 +156,7 @@ const mapDispatchToProps = dispatch => {
     addToPantry: (item, email) => dispatch(addToPantry(item, email)),
     deleteFromPantry: (item, email) => dispatch(deleteFromPantry(item, email)),
     fetchNewRecipes: ingredients => dispatch(fetchNewRecipes(ingredients)),
+    fetchPantry: userId => dispatch(fetchPantry(userId))
   };
 };
 
