@@ -55,7 +55,6 @@ export const addingStarRecipe = (recipe, userId) => async dispatch => {
 
 export const fetchRecipeDirections = id => async dispatch => {
   try {
-    console.log(id);
     const { data } = await axios.post(fsGetDirections, { id });
     dispatch(gotRecipeDirections(data.body.sourceUrl));
   } catch (error) {
