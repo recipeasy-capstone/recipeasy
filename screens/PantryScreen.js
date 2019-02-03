@@ -15,7 +15,6 @@ import { deleteFromPantry, addedToPantry } from '../store/pantry';
 import { CheckBox } from 'react-native-elements';
 import { fetchNewRecipes } from '../store/recipes';
 
-
 class PantryScreen extends React.Component {
   constructor() {
     super();
@@ -38,17 +37,18 @@ class PantryScreen extends React.Component {
     const { pantry, email } = this.props.user;
 
     const { navigate } = this.props.navigation;
+    if (!pantry) {
+      return <View />;
+    }
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container}>
           <View style={styles.pantryContainer}>
             {pantry.map((item, idx) => (
-              <View
-              style={styles.pantryIngredient}
-              key={idx}>
+              <View style={styles.pantryIngredient} key={idx}>
                 <Text>{item}</Text>
                 <Button
-                  type='clear'
+                  type="clear"
                   title="X"
                   onPress={() => {
                     // this.props.deleteFromPantry(item, email);
@@ -58,7 +58,7 @@ class PantryScreen extends React.Component {
                   title="Add Ingredient"
                   onPress={() =>
                     this.setState({
-                      selectedIngredients: state.selectedIngredients.push(item)
+                      selectedIngredients: state.selectedIngredients.push(item),
                     })
                   }
                 />
@@ -100,7 +100,7 @@ class PantryScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor:'#f5fffa',
+    backgroundColor: '#f5fffa',
     flex: 1,
     backgroundColor: '#fff',
   },

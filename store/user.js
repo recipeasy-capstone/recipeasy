@@ -1,4 +1,4 @@
-import { fire } from '../firebaseconfig';
+import { fire, firestore } from '../firebaseconfig';
 import { userInfo } from '../utils/firebaseFunc';
 
 const LOGGEDIN_USER = 'LOGGEDIN_USER';
@@ -9,35 +9,48 @@ const AUTHED_USER = 'AUTHED_USER';
 const defaultUser = {
   user: {},
 };
+
 const authUser = () => ({ type: AUTHED_USER });
 const loggedinUser = user => ({ type: LOGGEDIN_USER, user });
 const loggedoutUser = () => ({ type: LOGGEDOUT_USER });
 const signedUpUser = userData => ({ type: SIGNED_UP_USER, userData });
 
-export const authListener = () => async dispatch => {
-  fire.auth.onAuthStateChanged(user => {
-    if (user) {
-      this.setState({ user });
-    } else {
-      this.setState({ user: null });
-    }
-  });
-  dispatch(authUser(user));
+// export const authListener = () => async dispatch => {
+//   fire.auth().onAuthStateChanged(user => {
+//     if (user) {
+//       console.log('user in user', user);
+//       this.setState({ user });
+//     } else {
+//       console.log('no user in user');
+//       this.setState({ user: null });
+//     }
+//   });
+//   dispatch(authUser(user));
+// };
+
+export const login = (userId, password) => async dispatch => {
+  console.log('hi', userId, password);
+  fire.auth
+    .signInWithEmailAndPassword(userId, password)
+    .then(u => {
+      console.log('WHAT IS U', u);
+    })
+    .catch(error => {
+      console.error(error);
+    });
 };
 
-// export const login = (email, password) = async dispatch => {
-//   fire.auth.signInWithEmailAndPassword(email, password).then((u) => {
-//   }).catch((error)=> {
-//     console.error(error)
-//   })
-// }
-
-// export const signUpUser = data => async dispatch => {
-//   fire.auth.createUserWithEmailAndPassword(email, password).then((u) => {
-//   }).catch((error)=> {
-//     console.log
-//   })
-// }
+export const signUpUser = data => async dispatch => {
+  fire
+    .auth()
+    .createUserWithEmailAndPassword(data.userId, data.password)
+    .then(u => {
+      console.log('UUUU', u);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+};
 
 // export const signUpUser = data => async dispatch => {
 //   try {
@@ -46,8 +59,8 @@ export const authListener = () => async dispatch => {
 //       pantry: data.pantry,
 //       password: data.password,
 //       recipes: data.recipes,
-//       starred: data.starred
-//     }
+//       starred: data.starred,
+//     };
 //     await firestore
 //       .collection('User')
 //       .doc(data.email)

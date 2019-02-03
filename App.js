@@ -4,16 +4,30 @@ import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import { Provider } from 'react-redux';
 import store from './store/index';
-import authListener from './store'
+import { fire } from './firebaseconfig';
+
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
+    user: null,
   };
 
-  componentDidMount(){
-    this.authListener()
-  }
+  authListener = () => {
+    fire.auth().onAuthStateChanged(user => {
+      if (user) {
+        console.log('user in user', user);
+        this.setState({ user });
+      } else {
+        console.log('no user in user');
+        this.setState({ user: null });
+      }
+    });
+  };
 
+  componentDidMount() {
+    console.log('componentdid mount');
+    this.authListener();
+  }
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
