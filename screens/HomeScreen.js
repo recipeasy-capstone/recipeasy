@@ -11,61 +11,79 @@ import {
 import { Input, Button } from 'react-native-elements';
 import { login, signUpUser } from '../store/user';
 import { connect } from 'react-redux';
+import { fire } from '../firebaseconfig';
 
 class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: null,
-      pantry: [],
+      email: null,
       password: null,
-      recipes: [],
-      starred: [],
+      data: {
+        pantry: [],
+        recipes: [],
+        starred: [],
+      },
     };
   }
   static navigationOptions = {
     title: 'Home',
   };
 
-  async handleLogin() {
-    const { userId, password } = this.state;
-    const { navigate } = this.props.navigation;
-    if (userId && password) {
-      await this.props.login(userId.toLowerCase(), password);
-      navigate('Main');
-    } else {
-      Alert.alert(
-        'Alert',
-        'Missing email or password',
-        [{ text: 'OK', onPress: () => console.log('OK') }],
-        { cancelable: false }
-      );
-    }
+  handleLogin() {
+    const { email, password, uid } = this.state
+    fire.auth().signInWithEmailAndPassword(email, password)
+      .then(ref => 
+        this.props.login(req.user.uid))
+      .catch(error => {
+        console.error(error)
+      }) 
+
+    // const { email, password } = this.state;
+    // const { navigate } = this.props.navigation;
+    // if (email && password) {
+    //   await this.props.login(email.toLowerCase(), password);
+    //   navigate('Main');
+    // } else {
+    //   Alert.alert(
+    //     'Alert',
+    //     'Missing email or password',
+    //     [{ text: 'OK', onPress: () => console.log('OK') }],
+    //     { cancelable: false }
+    //   );
+    // }
   }
-  async handleSignUp() {
-    try {
-      const { userId, password } = this.state;
-      const { navigate } = this.props.navigation;
-      if (userId && password) {
-        await this.props.signUpUser(this.state);
-        Alert.alert(
-          'Success!',
-          'Created New User!',
-          [{ text: 'OK', onPress: () => console.log('OK') }],
-          { cancelable: false }
-        );
-        navigate('Main');
-      } else {
-        Alert.alert(
-          'Missing Field!',
-          'Need to fill in both forms',
-          [{ text: 'OK', onPress: () => console.log('OK') }],
-          { cancelable: false }
-        );
-      }
-    } catch (error) {
-      console.error(error);
-    }
+  handleSignUp() {
+    const { navigate } = this.props.navigation
+    const { email, password, data } = this.state
+    fire.auth().createUserWithEmailAndPassword(email, password)
+      .then(ref => {
+        // console.log('this is the ref', ref.user.uid)
+        this.props.signUpUser(ref.user.uid, data)
+        navigate('Main')
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    // const { email, password, uid, data } = this.state;
+    // const { navigate } = this.props.navigation;
+    // if (email && password) {
+    //   await this.props.signUpUser(email, password, data);
+    //   Alert.alert(
+    //     'Success!',
+    //     'Created New User!',
+    //     [{ text: 'OK', onPress: () => console.log('OK') }],
+    //     { cancelable: false }
+    //   );
+    //   navigate('Main');
+    // } else {
+    //   Alert.alert(
+    //     'Missing Field!',
+    //     'Need to fill in both fields',
+    //     [{ text: 'OK', onPress: () => console.log('OK') }],
+    //     { cancelable: false }
+    //   );
+    // }
   }
 
   render() {
@@ -79,8 +97,8 @@ class HomeScreen extends React.Component {
           <Input
             placeholder="Email"
             style={styles.form}
-            onChangeText={userId => this.setState({ userId })}
-            value={this.state.userId}
+            onChangeText={email => this.setState({ email })}
+            value={this.state.email}
           />
           <Input
             placeholder="Password"
@@ -141,8 +159,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  login: (userId, password) => dispatch(login(userId, password)),
-  signUpUser: data => dispatch(signUpUser(data)),
+  login: (uid) => dispatch(login(uid)),
+  signUpUser: (uid, data) => dispatch(signUpUser(uid, data)),
 });
 
 export default connect(

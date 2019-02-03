@@ -13,33 +13,23 @@ const loggedinUser = user => ({ type: LOGGEDIN_USER, user });
 const loggedoutUser = () => ({ type: LOGGEDOUT_USER });
 const signedUpUser = userData => ({ type: SIGNED_UP_USER, userData });
 
-export const login = (userId, password) => async dispatch => {
-  fire
-    .auth()
-    .signInWithEmailAndPassword(userId, password)
-    .then(u => {
-      // console.log('WHAT IS U', u);
-      return;
-    })
-    .catch(error => {
-      console.error(error);
-    });
+export const login = (uid) => async dispatch => {
+  try {
+    const user = await userInfo(uid)
+    dispatch(loggedinUser(user))
+  } catch (error) {
+    console.error(error)
+  }
 };
 
-export const signUpUser = data => dispatch => {
-  console.log('signedupdsda');
-  fire
-    .auth()
-    .createUserWithEmailAndPassword(data.userId, data.password)
-    .then(ref => {
-      console.log('REEEF', ref.user.uid);
-      const user = firestore.collection('User').doc(ref.user.uid);
-      // console.log('USER', user);
-      user.get().then(doc => dispatch(signedUpUser(doc.data())));
-    })
-    .catch(error => {
-      console.error(error);
-    });
+export const signUpUser = (uid, data) => async dispatch => {
+  try {
+    await firestore.collection('User').doc(uid).set(data)
+    dispatch(signedUpUser(data))
+  } catch (error) {
+    console.error(error)
+  }
+  
 };
 
 // export const signUpUser = data => async dispatch => {
