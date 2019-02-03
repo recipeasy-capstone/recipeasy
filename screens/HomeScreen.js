@@ -31,59 +31,29 @@ class HomeScreen extends React.Component {
   };
 
   handleLogin() {
-    const { email, password, uid } = this.state
+    const { navigate } = this.props.navigation
+    const { email, password } = this.state
     fire.auth().signInWithEmailAndPassword(email, password)
       .then(ref => 
         this.props.login(req.user.uid))
+        navigate('Main')
       .catch(error => {
-        console.error(error)
+        alert('Either your email or password is incorrect')
       }) 
-
-    // const { email, password } = this.state;
-    // const { navigate } = this.props.navigation;
-    // if (email && password) {
-    //   await this.props.login(email.toLowerCase(), password);
-    //   navigate('Main');
-    // } else {
-    //   Alert.alert(
-    //     'Alert',
-    //     'Missing email or password',
-    //     [{ text: 'OK', onPress: () => console.log('OK') }],
-    //     { cancelable: false }
-    //   );
-    // }
   }
+
   handleSignUp() {
     const { navigate } = this.props.navigation
     const { email, password, data } = this.state
     fire.auth().createUserWithEmailAndPassword(email, password)
       .then(ref => {
-        // console.log('this is the ref', ref.user.uid)
         this.props.signUpUser(ref.user.uid, data)
         navigate('Main')
       })
       .catch(error => {
-        console.error(error);
+        alert('This email is already being used!')
       });
-    // const { email, password, uid, data } = this.state;
-    // const { navigate } = this.props.navigation;
-    // if (email && password) {
-    //   await this.props.signUpUser(email, password, data);
-    //   Alert.alert(
-    //     'Success!',
-    //     'Created New User!',
-    //     [{ text: 'OK', onPress: () => console.log('OK') }],
-    //     { cancelable: false }
-    //   );
-    //   navigate('Main');
-    // } else {
-    //   Alert.alert(
-    //     'Missing Field!',
-    //     'Need to fill in both fields',
-    //     [{ text: 'OK', onPress: () => console.log('OK') }],
-    //     { cancelable: false }
-    //   );
-    // }
+
   }
 
   render() {

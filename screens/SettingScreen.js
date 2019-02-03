@@ -10,6 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import { logout } from '../store/user';
+import { fire } from '../firebaseconfig'
 import { connect } from 'react-redux';
 
 class SettingScreen extends React.Component {
@@ -17,11 +18,18 @@ class SettingScreen extends React.Component {
     title: 'Setting',
   };
 
+  handleLogout() {
+    const { navigate } = this.props.navigation
+    fire.auth().signOut()
+    this.props.logout()
+    navigate('Home')
+  }
+
   render() {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={() => navigate('Home')}>
+        <TouchableOpacity onPress={() => this.handleLogout()}>
           <Text>Log Out</Text>
         </TouchableOpacity>
       </View>

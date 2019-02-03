@@ -32,37 +32,8 @@ export const signUpUser = (uid, data) => async dispatch => {
   
 };
 
-// export const signUpUser = data => async dispatch => {
-//   try {
-//     const info = {
-//       email: data.email,
-//       pantry: data.pantry,
-//       password: data.password,
-//       recipes: data.recipes,
-//       starred: data.starred,
-//     };
-//     await firestore
-//       .collection('User')
-//       .doc(data.email)
-//       .set(info);
-//     dispatch(signedUpUser(data));
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-
-// export const login = (userId, password) => async dispatch => {
-//   try {
-//     const user = await userInfo(userId);
-//     dispatch(loggedinUser(user));
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-
 export const logout = () => async dispatch => {
   try {
-    await axios.post('/auth/logout');
     dispatch(removeUser());
   } catch (err) {
     console.error(err);
@@ -78,7 +49,7 @@ export default function(state = defaultUser, action) {
     case LOGGEDIN_USER:
       return { user: action.user };
     case LOGGEDOUT_USER:
-      return state.user;
+      return defaultUser;
     default:
       return state;
   }
