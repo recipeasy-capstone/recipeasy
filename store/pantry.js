@@ -64,7 +64,8 @@ export const addToPantry = (ingredient, userId) => async dispatch => {
 export const deleteFromPantry = (ingredient, userId) => async dispatch => {
   try {
     const currentUserInfo = await userInfo(userId)
-    currentUserInfo.pantry.filter(item => item !== ingredient)
+    currentUserInfo.pantry = currentUserInfo.pantry.filter(item => item !== ingredient)
+    console.log('currentUserInfo', currentUserInfo)
     await firestore.collection('User').doc(userId).set(currentUserInfo)
     dispatch(deletedFromPantry(ingredient));
   } catch (error) {
@@ -81,7 +82,7 @@ export default function(state = initialState, action) {
     case ADDED_TO_PANTRY:
       return {pantry: [...state.pantry, action.ingredient]};
     case DELETED_FROM_PANTRY:
-      return {pantry: [...state.pantry]};
+      return {pantry: [...state.pantry].filter(item => item !== action.ingredient)};
     case ADDED_TO_RECIPE_INGREDIENTS:
       return {...state, recipeIngredients: [...state.recipeIngredients, action.recipeIngredients]};
     default:

@@ -33,7 +33,7 @@ class PantryScreen extends React.Component {
     await this.props.fetchPantry(email)
   }
 
-  async addIngredient() {
+  addIngredient() {
     const { pantry, email } = this.props.user
     if (!this.state.itemToPantry) {
       alert('You must enter an ingredient!')
@@ -44,6 +44,11 @@ class PantryScreen extends React.Component {
     else {
       this.props.addToPantry(this.state.itemToPantry, email)
     }
+  }
+
+  removeIngredient(item) {
+    const { email } = this.props.user
+    this.props.deleteFromPantry(item, email)
   }
 
   render() {
@@ -67,9 +72,7 @@ class PantryScreen extends React.Component {
                 <Button
                   type='clear'
                   title="X"
-                  onPress={() => {
-                    // this.props.deleteFromPantry(item, email);
-                  }}
+                  onPress={() => this.removeIngredient(item)}
                 />
                 <CheckBox
                   title="Add Ingredient"
