@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Image,
   Platform,
@@ -6,26 +6,29 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
-} from "react-native";
-import { connect } from "react-redux";
+  View,
+} from 'react-native';
+import { connect } from 'react-redux';
 
 class Starred extends React.Component {
   static navigationOptions = {
-    title: "Starred"
+    title: null,
   };
 
   render() {
     const starredRecipes = this.props.user.starred;
     return (
       <View style={styles.container}>
-        <ScrollView>
-          {starredRecipes.map((starredRecipe, index) => (
-            <View key={index}>
-              <Text>{starredRecipe}</Text>
-            </View>
-          ))}
-        </ScrollView>
+        <View style={styles.starred}>
+          <ScrollView>
+            {starredRecipes.map((starredRecipe, index) => (
+              <View key={index} style={styles.textContainer}>
+                <Text style={styles.text}>Recipe</Text>
+                <Text style={styles.link}>{starredRecipe}</Text>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
       </View>
     );
   }
@@ -34,17 +37,43 @@ class Starred extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
-  }
+    backgroundColor: '#c4e4cf',
+    alignItems: 'center',
+  },
+  starred: {
+    alignItems: 'center',
+    marginTop: 50,
+    backgroundColor: '#ffffff',
+    width: 350,
+    height: 630,
+    borderRadius: 30,
+  },
+  textContainer: {
+    marginTop: 30,
+  },
+  text: {
+    textAlign: 'center',
+    fontFamily: 'Futura-Medium',
+    color: 'black',
+    fontSize: 15,
+    padding: 5,
+  },
+  link: {
+    textAlign: 'center',
+    fontFamily: 'Futura',
+    color: '#b6e1e0',
+    fontSize: 12,
+    padding: 5,
+  },
 });
 
 const mapStateToProps = state => ({
   allRecipes: state.recipes.allRecipes,
-  user: state.user.user
+  user: state.user.user,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchStarredRecipes: userId => dispatch(fetchStarredRecipes(userId))
+  fetchStarredRecipes: userId => dispatch(fetchStarredRecipes(userId)),
 });
 
 export default connect(
