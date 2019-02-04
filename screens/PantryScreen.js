@@ -45,8 +45,8 @@ class PantryScreen extends React.Component {
   }
 
   removeIngredient(item) {
-    const { email } = this.props.user;
-    this.props.deleteFromPantry(item, email);
+    const { uid } = this.props.user;
+    this.props.deleteFromPantry(item, uid);
   }
 
   render() {
@@ -161,10 +161,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    addToPantry: (item, email) => dispatch(addToPantry(item, email)),
-    deleteFromPantry: (item, email) => dispatch(deleteFromPantry(item, email)),
+    addToPantry: (item, uid) => dispatch(addToPantry(item, uid)),
+    deleteFromPantry: (item, uid) => dispatch(deleteFromPantry(item, uid)),
     fetchNewRecipes: ingredients => dispatch(fetchNewRecipes(ingredients)),
-    fetchPantry: userId => dispatch(fetchPantry(userId))
+    fetchPantry: uid => dispatch(fetchPantry(uid))
   };
 };
 
