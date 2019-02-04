@@ -9,9 +9,9 @@ const defaultUser = {
   uid: null
 };
 
-const loggedinUser = uid => ({ type: LOGGEDIN_USER, user, uid });
+const loggedinUser = uid => ({ type: LOGGEDIN_USER, uid });
 const loggedoutUser = () => ({ type: LOGGEDOUT_USER });
-const signedUpUser = uid => ({ type: SIGNED_UP_USER, userData, uid });
+const signedUpUser = uid => ({ type: SIGNED_UP_USER, uid });
 
 export const login = (uid) => async dispatch => {
   try {
