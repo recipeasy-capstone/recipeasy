@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 class SettingScreen extends React.Component {
   static navigationOptions = {
-    title: 'Setting',
+    title: null,
   };
 
   handleLogout() {
@@ -29,9 +29,18 @@ class SettingScreen extends React.Component {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={() => this.handleLogout()}>
-          <Text>Log Out</Text>
-        </TouchableOpacity>
+        <View style={styles.logout}>
+          <Image
+            source={require('../assets/images/logout.png')}
+            style={styles.image}
+          />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigate('Home')}
+          >
+            <Text style={styles.text}>log out</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -39,11 +48,34 @@ class SettingScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 100,
+    flex: 1,
+    backgroundColor: '#c4e4cf',
+    alignItems: 'center',
   },
-  form: {
-    borderWidth: 2,
-    borderColor: 'black',
+  logout: {
+    alignItems: 'center',
+    marginTop: 50,
+    backgroundColor: '#ffffff',
+    width: 350,
+    height: 630,
+    borderRadius: 30,
+  },
+  image: {
+    alignItems: 'center',
+    marginTop: 100,
+  },
+  button: {
+    alignItems: 'center',
+    width: 200,
+    marginTop: 40,
+    backgroundColor: '#c4e4cf',
+    borderRadius: 30,
+  },
+  text: {
+    fontFamily: 'Futura',
+    color: 'white',
+    fontSize: 30,
+    padding: 5,
   },
 });
 

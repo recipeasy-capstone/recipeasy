@@ -73,22 +73,20 @@ class HomeScreen extends React.Component {
             style={styles.form}
             onChangeText={email => this.setState({ email })}
             value={this.state.email}
+
           />
           <Input
             placeholder="Password"
-            style={styles.form}
             onChangeText={password => this.setState({ password })}
             value={this.state.password.replace(/./g, '*')}
           />
           <View style={styles.buttonBox}>
             <Button
-              style={styles.button}
               onPress={() => this.handleLogin()}
               title="Log In"
               type="outline"
             />
             <Button
-              style={styles.button}
               onPress={() => this.handleSignUp()}
               title="Sign Up"
               type="outline"
@@ -107,24 +105,17 @@ const styles = StyleSheet.create({
   },
   image: {
     alignItems: 'center',
-    margin: 15,
+    marginTop: 80,
+    marginLeft: 15,
   },
   loginBox: {
-    marginTop: 20,
-  },
-  form: {
-    margin: 10,
-    borderWidth: 2,
-    borderColor: 'black',
+    marginTop: 40,
   },
   input: {
     marginBottom: 10,
   },
   buttonBox: {
-    padding: 10,
-  },
-  button: {
-    alignItems: 'center',
+    paddingTop: 20,
   },
 });
 
