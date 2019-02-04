@@ -20,8 +20,7 @@ class PantryScreen extends React.Component {
     super();
     this.state = {
       selectedIngredients: [],
-      itemToPantry: null,
-      checked: false
+      itemToPantry: null
     };
   }
   static navigationOptions = {
@@ -70,14 +69,11 @@ class PantryScreen extends React.Component {
                 />
                 <CheckBox
                   title="Add Ingredient"
-                  checked={this.state.checked}
                   onPress={() =>
                     this.setState({
-                      checked: !this.state.checked,
-                      selectedIngredients: [
-                        ...this.state.selectedIngredients,
+                      selectedIngredients: this.state.selectedIngredients.push(
                         item
-                      ]
+                      )
                     })
                   }
                 />
@@ -98,7 +94,7 @@ class PantryScreen extends React.Component {
             title="Select All"
             onPress={() => {
               this.setState({
-                selectedIngredients: [...this.state.selectedIngredients, ...pantry]
+                selectedIngredients: this.state.selectedIngredients.push(pantry)
               });
             }}
           />

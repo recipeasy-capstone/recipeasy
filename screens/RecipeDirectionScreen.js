@@ -36,16 +36,23 @@ class RecipeDirectionScreen extends React.Component {
         <Button
           title="I'd like to save this recipe!"
           onPress={async () => {
-            await this.props.addingStarRecipe(starred, this.props.user.email);
-            await this.props.fetchStarredRecipes(this.props.user.email);
-            navigate("Starred");
+            try {
+              await this.props.addingStarRecipe(starred, this.props.user.email);
+              navigate("Starred");
+            } catch (err) {
+              console.error(err);
+            }
           }}
         />
         <Button
           title="I'd like to keep looking!"
           onPress={async () => {
-            this.props.fetchNewRecipes(this.props.recipeIngredients);
-            navigate("RecipeList");
+            try {
+              this.props.fetchNewRecipes(this.props.recipeIngredients);
+              navigate("RecipeList");
+            } catch (err) {
+              console.error(err);
+            }
           }}
         />
         <Button

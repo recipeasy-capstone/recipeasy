@@ -10,14 +10,31 @@ import {
 } from "react-native";
 import Hyperlink from "react-native-hyperlink";
 import { connect } from "react-redux";
+import { fetchStarredRecipes } from "../store/recipes";
 
 class Starred extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      starred: this.props.user.starred
+    };
+  }
   static navigationOptions = {
     title: "Starred"
   };
 
+  async componentDidMount() {
+    const { email } = this.props.user;
+    try {
+      await this.props.fetchStarredRecipes(email);
+      this.setState({ starred: this.props.recipes.starredRecipes });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   render() {
-    const starredRecipes = this.props.user.starred;
+    const starredRecipes = this.state.starred;
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -44,8 +61,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  allRecipes: state.recipes.allRecipes,
-  user: state.user.user
+  user: state.user.user,
+  recipes: state.recipes
 });
 
 const mapDispatchToProps = dispatch => ({
