@@ -174,14 +174,15 @@ const styles = StyleSheet.create({
   },
   cameraContainer: {
     alignItems: 'center',
-    marginTop: 100,
+    marginTop: 50,
     backgroundColor: '#ffffff',
-    width: 300,
-    height: 500,
+    width: 350,
+    height: 600,
+    borderRadius: 30,
   },
   image: {
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: 80,
   },
   button: {
     alignItems: 'center',
