@@ -85,13 +85,6 @@ class PantryScreen extends React.Component {
                         })
                       }
                     />
-                    {console.log(
-                      'CHEKED',
-                      this.state.checked,
-                      item,
-                      'IDX',
-                      idx
-                    )}
                   </View>
                 )
               )
