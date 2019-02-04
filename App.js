@@ -25,6 +25,7 @@ export default class App extends React.Component {
   componentDidMount() {
     this.authListener();
   }
+
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
