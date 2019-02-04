@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Image,
   Platform,
@@ -7,64 +7,34 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Button,
-  Alert
-} from "react-native";
-import { Permissions, ImagePicker } from "expo";
-import { connect } from "react-redux";
-import { settingIngredientsList } from "../store/pantry";
-import API_KEY from '../secrets/googleAPI'
-import notFood from '../utils/notFood'
+  Alert,
+  ActivityIndicator,
+} from 'react-native';
+import { Button } from 'react-native-elements';
+import { Permissions, ImagePicker, Magnetometer } from 'expo';
+import { connect } from 'react-redux';
+import { settingIngredientsList } from '../store/pantry';
+import API_KEY from '../secrets/googleAPI';
+import notFood from '../utils/notFood';
 
 class CameraScreen extends React.Component {
   constructor() {
     super();
     this.state = {
-      pantry: []
+      pantry: [],
+      isLoading: false,
     };
     this.takePhoto = this.takePhoto.bind(this);
     this.selectPhoto = this.selectPhoto.bind(this);
   }
 
   static navigationOptions = {
-    title: "Camera"
+    title: 'CAMERA',
   };
 
-  async takePhoto() {
-    const { status: cameraPerm } = await Permissions.askAsync(
-      Permissions.CAMERA
-    );
-    const { status: cameraRollPerm } = await Permissions.askAsync(
-      Permissions.CAMERA_ROLL
-    );
-
-    if (cameraPerm === "granted" && cameraRollPerm === "granted") {
-      let selectedPhoto = await ImagePicker.launchCameraAsync({
-        allowsEditing: true,
-        aspect: [4, 3],
-        base64: true
-      });
-      this._convertToText(selectedPhoto.base64)
-    }
-  }
-
-  async selectPhoto() {
-    const { status: cameraRollPerm } = await Permissions.askAsync(
-      Permissions.CAMERA_ROLL
-    );
-
-    if (cameraRollPerm === "granted") {
-      let selectedPhoto = await ImagePicker.launchImageLibraryAsync({
-        allowsEditing: true,
-        aspect: [4, 3],
-        base64: true
-      });
-      this._convertToText(selectedPhoto.base64)
-    }
-  }
-
-  _convertToText = async (imageURI) => {
+  convertToText = async imageURI => {
     try {
+      this.setState({ isLoading: true });
       let response = await fetch(
         'https://vision.googleapis.com/v1/images:annotate?key=' + API_KEY,
         {
@@ -92,7 +62,7 @@ class CameraScreen extends React.Component {
           }),
         }
       );
-      const responseJSON = await response.json();
+      let responseJSON = await response.json();
       if (
         !(
           responseJSON &&
@@ -106,31 +76,91 @@ class CameraScreen extends React.Component {
         );
         this.setState({ isLoading: false });
       } else {
-        const { email, pantry } = this.props.user
+        const { email, pantry } = this.props.user;
         const food = /[A-Z]/g;
         const text = responseJSON.responses[0].fullTextAnnotation.text;
-        const splitText = text.split('\n')
-        const ingredients = splitText.filter(str => str.length !== 0 && str[0].match(food) && !notFood.includes(str))
-        await this.props.settingIngredientsList([...pantry].concat(ingredients), email)
+        const splitText = text.split('\n');
+        const ingredients = splitText.filter(
+          str =>
+            str.length !== 0 && str[0].match(food) && !notFood.includes(str)
+        );
+        await this.props.settingIngredientsList(
+          [...pantry].concat(ingredients),
+          email
+        );
         Alert.alert(
           'Success!',
           'Items have been added to your pantry!',
-          [
-            {text: 'OK', onPress: () => console.log('OK Pressed')},
-          ],
-          {cancelable: false},
+          [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+          { cancelable: false }
         );
       }
     } catch (err) {
       console.error('An error occurred during text conversion:', err);
+    } finally {
+      this.setState({ isLoading: false });
     }
   };
+
+  async takePhoto() {
+    const { status: cameraPerm } = await Permissions.askAsync(
+      Permissions.CAMERA
+    );
+    const { status: cameraRollPerm } = await Permissions.askAsync(
+      Permissions.CAMERA_ROLL
+    );
+
+    if (cameraPerm === 'granted' && cameraRollPerm === 'granted') {
+      let selectedPhoto = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+        base64: true,
+      });
+      this.convertToText(selectedPhoto.base64);
+    }
+  }
+
+  async selectPhoto() {
+    const { status: cameraRollPerm } = await Permissions.askAsync(
+      Permissions.CAMERA_ROLL
+    );
+
+    if (cameraRollPerm === 'granted') {
+      let selectedPhoto = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+        base64: true,
+      });
+      this.convertToText(selectedPhoto.base64);
+    }
+  }
 
   render() {
     return (
       <View style={styles.container}>
-        <Button title="Take Photo" onPress={this.takePhoto} />
-        <Button title="Select Photo" onPress={this.selectPhoto} />
+        <View style={styles.cameraContainer}>
+          <Image
+            source={require('../assets/images/camera.png')}
+            style={styles.image}
+          />
+          <TouchableOpacity style={styles.button} onPress={this.takePhoto}>
+            <Text style={styles.text}>take photo</Text>
+          </TouchableOpacity>
+
+          <ActivityIndicator
+            animating={this.state.isLoading}
+            size="large"
+            color="#0000ff"
+          />
+
+          <Image
+            source={require('../assets/images/photo.png')}
+            style={styles.image}
+          />
+          <TouchableOpacity style={styles.button} onPress={this.selectPhoto}>
+            <Text style={styles.text}>select photo</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -139,19 +169,44 @@ class CameraScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 15,
-    backgroundColor: "#fff"
-  }
+    backgroundColor: '#c4e4cf',
+    alignItems: 'center',
+  },
+  cameraContainer: {
+    alignItems: 'center',
+    marginTop: 100,
+    backgroundColor: '#ffffff',
+    width: 300,
+    height: 500,
+  },
+  image: {
+    alignItems: 'center',
+    marginTop: 50,
+  },
+  button: {
+    alignItems: 'center',
+    width: 180,
+    marginTop: 20,
+    backgroundColor: '#c4e4cf',
+    borderRadius: 30,
+  },
+  text: {
+    fontFamily: 'Futura',
+    color: 'white',
+    fontSize: 30,
+    padding: 5,
+  },
 });
 
 const mapStateToProps = state => ({
   user: state.user.user,
-  filteredIngredientList: state.pantry.filteredIngredientList
+  filteredIngredientList: state.pantry.filteredIngredientList,
 });
 
 const mapDispatchToProps = dispatch => {
   return {
-    settingIngredientsList: (pantry, userId) => dispatch(settingIngredientsList(pantry, userId))
+    settingIngredientsList: (pantry, userId) =>
+      dispatch(settingIngredientsList(pantry, userId)),
   };
 };
 
