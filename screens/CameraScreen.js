@@ -35,6 +35,7 @@ class CameraScreen extends React.Component {
   convertToText = async imageURI => {
     try {
       this.setState({ isLoading: true });
+      //CG: ConvertToText can be a mobile app utility function. 
       let response = await fetch(
         'https://vision.googleapis.com/v1/images:annotate?key=' + API_KEY,
         {
@@ -74,6 +75,7 @@ class CameraScreen extends React.Component {
         Alert.alert(
           'There was no readable text in your image. Please try again.'
         );
+        // CG: If you are doing this in finally then no need here.
         this.setState({ isLoading: false });
       } else {
         const { email, pantry } = this.props.user;
@@ -103,8 +105,9 @@ class CameraScreen extends React.Component {
   };
 
   async takePhoto() {
+    //CG: Look inro if this function takes multiple args.
     const { status: cameraPerm } = await Permissions.askAsync(
-      Permissions.CAMERA
+      Permissions.CAMERA,
     );
     const { status: cameraRollPerm } = await Permissions.askAsync(
       Permissions.CAMERA_ROLL

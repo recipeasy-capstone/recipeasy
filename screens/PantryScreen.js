@@ -52,7 +52,7 @@ class PantryScreen extends React.Component {
   render() {
     const { pantry } = this.props;
     const { navigate } = this.props.navigation;
-
+    //TODO: Return an image or something to denote they have no items here.
     if (!pantry) {
       return <View />;
     }

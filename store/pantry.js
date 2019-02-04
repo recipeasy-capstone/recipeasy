@@ -42,7 +42,7 @@ export const settingIngredientsList = (ingredients, userId) => async dispatch =>
 export const fetchPantry = userId => async dispatch => {
   try {
     const data = await userInfo(userId);
-    const pantry = data.pantry;
+    const pantry = data.pantry; //CG: This will allow for pantry screen to work.  || []
     dispatch(gotPantry(pantry));
   } catch (error) {
     console.error(error);
@@ -80,6 +80,7 @@ export default function(state = initialState, action) {
     case ADDED_TO_PANTRY:
       return {pantry: [...state.pantry, action.ingredient]};
     case DELETED_FROM_PANTRY:
+    // CG: This nested ... is unnecessary as .filter returns a new array.
       return {pantry: [...state.pantry].filter(item => item !== action.ingredient)};
     case ADDED_TO_RECIPE_INGREDIENTS:
       return {...state, recipeIngredients: [...state.recipeIngredients, action.recipeIngredients]};
