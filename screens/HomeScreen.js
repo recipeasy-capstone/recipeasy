@@ -62,7 +62,7 @@ class HomeScreen extends React.Component {
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior='padding'>
         <Image
           source={require('../assets/images/recipeasy_logo-01.png')}
           style={styles.image}

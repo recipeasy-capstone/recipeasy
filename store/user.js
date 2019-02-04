@@ -34,7 +34,7 @@ export const signUpUser = (uid, data) => async dispatch => {
 
 export const logout = () => async dispatch => {
   try {
-    dispatch(removeUser());
+    dispatch(loggedoutUser());
   } catch (err) {
     console.error(err);
   }
