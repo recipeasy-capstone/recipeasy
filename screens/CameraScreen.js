@@ -76,7 +76,7 @@ class CameraScreen extends React.Component {
         );
         this.setState({ isLoading: false });
       } else {
-        const { email, pantry } = this.props.user;
+        const { uid, pantry } = this.props;
         const food = /[A-Z]/g;
         const text = responseJSON.responses[0].fullTextAnnotation.text;
         const splitText = text.split('\n');
@@ -86,7 +86,7 @@ class CameraScreen extends React.Component {
         );
         await this.props.settingIngredientsList(
           [...pantry].concat(ingredients),
-          email
+          uid
         );
         Alert.alert(
           'Success!',
@@ -200,14 +200,15 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  user: state.user.user,
+  user: state.user.uid,
+  pantry: state.pantry.pantry,
   filteredIngredientList: state.pantry.filteredIngredientList,
 });
 
 const mapDispatchToProps = dispatch => {
   return {
-    settingIngredientsList: (pantry, userId) =>
-      dispatch(settingIngredientsList(pantry, userId)),
+    settingIngredientsList: (pantry, uid) =>
+      dispatch(settingIngredientsList(pantry, uid)),
   };
 };
 
