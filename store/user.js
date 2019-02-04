@@ -1,4 +1,4 @@
-import { firestore } from '../firebaseconfig';
+import { fire, firestore } from '../firebaseconfig';
 import { userInfo } from '../utils/firebaseFunc';
 
 const LOGGEDIN_USER = 'LOGGEDIN_USER';
@@ -6,45 +6,35 @@ const LOGGEDOUT_USER = 'LOGGEDOUT_USER';
 const SIGNED_UP_USER = 'SIGNED_UP_USER';
 
 const defaultUser = {
-  user: {},
+  uid: null
 };
 
-const loggedinUser = user => ({ type: LOGGEDIN_USER, user });
+const loggedinUser = uid => ({ type: LOGGEDIN_USER, uid });
 const loggedoutUser = () => ({ type: LOGGEDOUT_USER });
-const signedUpUser = userData => ({ type: SIGNED_UP_USER, userData });
+const signedUpUser = uid => ({ type: SIGNED_UP_USER, uid });
 
-export const signUpUser = data => async dispatch => {
+export const login = (uid) => async dispatch => {
   try {
-    const info = {
-      email: data.userId,
-      pantry: data.pantry,
-      password: data.password,
-      recipes: data.recipes,
-      starred: data.starred,
-    };
-    await firestore
-      .collection('User')
-      .doc(data.userId)
-      .set(info);
-    dispatch(signedUpUser(data));
+    const user = await userInfo(uid)
+    dispatch(loggedinUser(uid))
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
 };
 
-export const login = (userId, password) => async dispatch => {
+export const signUpUser = (uid, data) => async dispatch => {
   try {
-    const user = await userInfo(userId);
-    dispatch(loggedinUser(user));
+    await firestore.collection('User').doc(uid).set(data)
+    dispatch(signedUpUser(uid))
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
+  
 };
 
 export const logout = () => async dispatch => {
   try {
-    await axios.post('/auth/logout');
-    dispatch(removeUser());
+    dispatch(loggedoutUser());
   } catch (err) {
     console.error(err);
   }
@@ -53,13 +43,11 @@ export const logout = () => async dispatch => {
 export default function(state = defaultUser, action) {
   switch (action.type) {
     case SIGNED_UP_USER:
-      return {
-        user: action.userData,
-      };
+      return { uid: action.uid };
     case LOGGEDIN_USER:
-      return { user: action.user };
+      return { uid: action.uid };
     case LOGGEDOUT_USER:
-      return state.user;
+      return defaultUser;
     default:
       return state;
   }
