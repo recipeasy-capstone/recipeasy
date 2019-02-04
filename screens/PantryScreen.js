@@ -23,18 +23,21 @@ class PantryScreen extends React.Component {
       itemToPantry: null,
       checked: false
     };
+    this.addIngredient = this.addIngredient.bind(this);
+    this.removeIngredient = this.removeIngredient.bind(this);
   }
   static navigationOptions = {
     title: "Pantry"
   };
 
   async componentDidMount() {
-    const { uid } = this.props.user;
+    const { uid } = this.props;
     await this.props.fetchPantry(uid);
   }
 
   addIngredient() {
-    const { pantry, uid } = this.props.user;
+    const { uid } = this.props;
+    const { pantry } = this.props;
     if (!this.state.itemToPantry) {
       alert("You must enter an ingredient!");
     } else if (pantry.includes(this.state.itemToPantry)) {
@@ -45,7 +48,7 @@ class PantryScreen extends React.Component {
   }
 
   removeIngredient(item) {
-    const { uid } = this.props.user;
+    const { uid } = this.props;
     this.props.deleteFromPantry(item, uid);
   }
 
@@ -154,10 +157,12 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = state => ({
-  user: state.user.uid,
-  pantry: state.pantry.pantry
-});
+const mapStateToProps = state => {
+  return {
+    uid: state.user.uid,
+    pantry: state.pantry.pantry
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {

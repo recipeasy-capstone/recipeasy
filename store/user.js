@@ -1,5 +1,4 @@
 import { firestore } from "../firebaseconfig";
-import { userInfo } from "../utils/firebaseFunc";
 
 const LOGGEDIN_USER = "LOGGEDIN_USER";
 const LOGGEDOUT_USER = "LOGGEDOUT_USER";
@@ -15,7 +14,6 @@ const signedUpUser = uid => ({ type: SIGNED_UP_USER, uid });
 
 export const login = uid => async dispatch => {
   try {
-    const user = await userInfo(uid);
     dispatch(loggedinUser(uid));
   } catch (error) {
     console.error(error);
