@@ -28,8 +28,8 @@ const gotRecipeDirections = recipeDirections => ({
 //Thunks
 export const fetchStarredRecipes = userId => async dispatch => {
   try {
-    const { data } = await userInfo(userId).child("starred");
-    dispatch(gotStarredRecipes(data));
+    const data = await userInfo(userId);
+    dispatch(gotStarredRecipes(data.starred));
   } catch (error) {
     console.error(error);
   }
@@ -51,6 +51,7 @@ export const addingStarRecipe = (recipe, userId) => async dispatch => {
       .doc(userId)
       .set(currentUserInfo);
     dispatch(gotStarredRecipes(recipe));
+    fetchStarredRecipes(userId);
   } catch (error) {
     console.error(error);
   }
@@ -68,9 +69,9 @@ export const fetchRecipeDirections = id => async dispatch => {
 export default function(state = initialState, action) {
   switch (action.type) {
     case GOT_STARRED_RECIPES:
-      return { ...state, starredRecipes: action.starredRecipes };
+      return { starredRecipes: action.starredRecipes };
     case GOT_NEW_RECIPES:
-      return { ...state, newRecipes: action.newRecipes };
+      return { newRecipes: action.newRecipes };
     case GOT_RECIPE_DIRECTIONS:
       return {
         recipeDirections: action.recipeDirections

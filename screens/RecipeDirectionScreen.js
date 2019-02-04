@@ -11,7 +11,12 @@ import {
   WebView
 } from "react-native";
 import { connect } from "react-redux";
-import { fetchRecipeDirections, addingStarRecipe } from "../store/recipes";
+import {
+  fetchRecipeDirections,
+  addingStarRecipe,
+  fetchStarredRecipes,
+  fetchNewRecipes
+} from "../store/recipes";
 
 class RecipeDirectionScreen extends React.Component {
   static navigationOptions = {
@@ -31,14 +36,23 @@ class RecipeDirectionScreen extends React.Component {
         <Button
           title="I'd like to save this recipe!"
           onPress={async () => {
-            await this.props.addingStarRecipe(starred, this.props.user.email);
-            navigate("Starred");
+            try {
+              await this.props.addingStarRecipe(starred, this.props.user.email);
+              navigate("Starred");
+            } catch (err) {
+              console.error(err);
+            }
           }}
         />
         <Button
           title="I'd like to keep looking!"
-          onPress={() => {
-            navigate("RecipeList");
+          onPress={async () => {
+            try {
+              this.props.fetchNewRecipes(this.props.recipeIngredients);
+              navigate("RecipeList");
+            } catch (err) {
+              console.error(err);
+            }
           }}
         />
         <Button
@@ -73,13 +87,17 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   recipeDirections: state.recipes.recipeDirections,
-  user: state.user.user
+  user: state.user.user,
+  recipeIngredients: state.pantry.recipeIngredients,
+  starredRecipes: state.recipes.starredRecipes
 });
 
 const mapDispatchToProps = dispatch => ({
   addingStarRecipe: (recipe, userId) =>
     dispatch(addingStarRecipe(recipe, userId)),
-  fetchRecipeDirections: id => dispatch(fetchRecipeDirections(id))
+  fetchRecipeDirections: id => dispatch(fetchRecipeDirections(id)),
+  fetchNewRecipes: ingredients => dispatch(fetchNewRecipes(ingredients)),
+  fetchStarredRecipes: userId => dispatch(fetchStarredRecipes(userId))
 });
 
 export default connect(

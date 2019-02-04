@@ -10,11 +10,7 @@ import {
   Button
 } from "react-native";
 import { connect } from "react-redux";
-import {
-  fetchNewRecipes,
-  addingStarRecipe,
-  fetchRecipeDirections
-} from "../store/recipes";
+import { fetchNewRecipes, fetchRecipeDirections } from "../store/recipes";
 
 class RecipeListScreen extends React.Component {
   static navigationOptions = {
@@ -22,7 +18,6 @@ class RecipeListScreen extends React.Component {
   };
 
   render() {
-    const userId = this.props.user.email;
     const newRecipes = this.props.newRecipes;
     const { navigate } = this.props.navigation;
     return (
