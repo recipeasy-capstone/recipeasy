@@ -18,8 +18,7 @@ class HomeScreen extends React.Component {
       password: '',
       data: {
         pantry: [],
-        recipes: [],
-        starred: [],
+        starred: []
       },
     };
   }
@@ -31,9 +30,11 @@ class HomeScreen extends React.Component {
     const { navigate } = this.props.navigation
     const { email, password } = this.state
     fire.auth().signInWithEmailAndPassword(email, password)
-      .then(ref => 
-        this.props.login(req.user.uid))
+      .then(ref => {
+        console.log('this is the ref.user', ref.user)
+        this.props.login(ref.user.uid)
         navigate('Main')
+      })
       .catch(error => {
         alert('Either your email or password is incorrect')
       }) 
@@ -44,6 +45,7 @@ class HomeScreen extends React.Component {
     const { email, password, data } = this.state
       fire.auth().createUserWithEmailAndPassword(email, password)
         .then(ref => {
+          console.log('this is the ref.user', ref.user)
           this.props.signUpUser(ref.user.uid, data)
           navigate('Main')
         })
@@ -120,7 +122,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  user: state.user.user,
+  user: state.user.user
 });
 
 const mapDispatchToProps = dispatch => ({

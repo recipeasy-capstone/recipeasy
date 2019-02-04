@@ -16,16 +16,13 @@ export default class App extends React.Component {
     fire.auth().onAuthStateChanged(user => {
       if (user) {
         this.setState({ user });
-        console.log('user in user', user);
       } else {
-        console.log('no user in user');
         this.setState({ user: null });
       }
     });
   };
 
   componentDidMount() {
-    console.log('componentdid mount');
     this.authListener();
   }
   render() {
