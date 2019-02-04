@@ -10,12 +10,20 @@ import {
   Alert,
 } from 'react-native';
 import { logout } from '../store/user';
+import { fire } from '../firebaseconfig'
 import { connect } from 'react-redux';
 
 class SettingScreen extends React.Component {
   static navigationOptions = {
     title: null,
   };
+
+  handleLogout() {
+    const { navigate } = this.props.navigation
+    fire.auth().signOut()
+    this.props.logout()
+    navigate('Home')
+  }
 
   render() {
     const { navigate } = this.props.navigation;

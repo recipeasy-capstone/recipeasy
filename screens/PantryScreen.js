@@ -29,18 +29,18 @@ class PantryScreen extends React.Component {
   };
 
   async componentDidMount() {
-    const { email } = this.props.user;
-    await this.props.fetchPantry(email);
+    const { uid } = this.props.user;
+    await this.props.fetchPantry(uid);
   }
 
   addIngredient() {
-    const { pantry, email } = this.props.user;
+    const { pantry, uid } = this.props.user;
     if (!this.state.itemToPantry) {
       alert("You must enter an ingredient!");
     } else if (pantry.includes(this.state.itemToPantry)) {
       alert("This item is already in your pantry!");
     } else {
-      this.props.addToPantry(this.state.itemToPantry, email);
+      this.props.addToPantry(this.state.itemToPantry, uid);
     }
   }
 
@@ -52,7 +52,6 @@ class PantryScreen extends React.Component {
   render() {
     const { pantry } = this.props;
     const { navigate } = this.props.navigation;
-
     if (!pantry) {
       return <View />;
     }
