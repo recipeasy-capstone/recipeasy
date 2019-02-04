@@ -15,7 +15,6 @@ const signedUpUser = uid => ({ type: SIGNED_UP_USER, uid });
 
 export const login = (uid) => async dispatch => {
   try {
-    console.log('this is the uid', uid)
     const user = await userInfo(uid)
     dispatch(loggedinUser(uid))
   } catch (error) {
@@ -25,7 +24,6 @@ export const login = (uid) => async dispatch => {
 
 export const signUpUser = (uid, data) => async dispatch => {
   try {
-    console.log('this is the uid', uid)
     await firestore.collection('User').doc(uid).set(data)
     dispatch(signedUpUser(uid))
   } catch (error) {
