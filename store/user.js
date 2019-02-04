@@ -1,9 +1,9 @@
-import { fire, firestore } from '../firebaseconfig';
-import { userInfo } from '../utils/firebaseFunc';
+import { firestore } from "../firebaseconfig";
+import { userInfo } from "../utils/firebaseFunc";
 
-const LOGGEDIN_USER = 'LOGGEDIN_USER';
-const LOGGEDOUT_USER = 'LOGGEDOUT_USER';
-const SIGNED_UP_USER = 'SIGNED_UP_USER';
+const LOGGEDIN_USER = "LOGGEDIN_USER";
+const LOGGEDOUT_USER = "LOGGEDOUT_USER";
+const SIGNED_UP_USER = "SIGNED_UP_USER";
 
 const defaultUser = {
   uid: null
@@ -13,23 +13,25 @@ const loggedinUser = uid => ({ type: LOGGEDIN_USER, uid });
 const loggedoutUser = () => ({ type: LOGGEDOUT_USER });
 const signedUpUser = uid => ({ type: SIGNED_UP_USER, uid });
 
-export const login = (uid) => async dispatch => {
+export const login = uid => async dispatch => {
   try {
-    const user = await userInfo(uid)
-    dispatch(loggedinUser(uid))
+    const user = await userInfo(uid);
+    dispatch(loggedinUser(uid));
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 };
 
 export const signUpUser = (uid, data) => async dispatch => {
   try {
-    await firestore.collection('User').doc(uid).set(data)
-    dispatch(signedUpUser(uid))
+    await firestore
+      .collection("User")
+      .doc(uid)
+      .set(data);
+    dispatch(signedUpUser(uid));
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
-  
 };
 
 export const logout = () => async dispatch => {

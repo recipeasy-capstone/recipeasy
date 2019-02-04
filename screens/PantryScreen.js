@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  user: state.user.user,
+  user: state.user.uid,
   pantry: state.pantry.pantry
 });
 
