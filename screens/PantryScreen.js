@@ -20,7 +20,8 @@ class PantryScreen extends React.Component {
     super();
     this.state = {
       selectedIngredients: [],
-      itemToPantry: null
+      itemToPantry: null,
+      checked: false
     };
   }
   static navigationOptions = {
@@ -59,26 +60,35 @@ class PantryScreen extends React.Component {
       <View style={styles.container}>
         <ScrollView style={styles.container}>
           <View style={styles.pantryContainer}>
-            {pantry.map((item, idx) => (
-              <View style={styles.pantryIngredient} key={idx}>
-                <Text>{item}</Text>
-                <Button
-                  type="clear"
-                  title="X"
-                  onPress={() => this.removeIngredient(item)}
-                />
-                <CheckBox
-                  title="Add Ingredient"
-                  onPress={() =>
-                    this.setState({
-                      selectedIngredients: this.state.selectedIngredients.push(
-                        item
-                      )
-                    })
-                  }
-                />
-              </View>
-            ))}
+            {pantry.map(
+              (item, idx) => (
+                (item.checked = false),
+                (
+                  <View style={styles.pantryIngredient} key={idx}>
+                    <Text>{item}</Text>
+                    <Button
+                      type="clear"
+                      title="X"
+                      onPress={() => this.removeIngredient(item)}
+                    />
+                    <CheckBox
+                      key={item}
+                      title="Add Ingredient"
+                      checked={this.state.checked}
+                      onPress={() =>
+                        this.setState({
+                          checked: !this.state.checked,
+                          selectedIngredients: [
+                            ...this.state.selectedIngredients,
+                            item
+                          ]
+                        })
+                      }
+                    />
+                  </View>
+                )
+              )
+            )}
           </View>
         </ScrollView>
         <View>
@@ -94,7 +104,10 @@ class PantryScreen extends React.Component {
             title="Select All"
             onPress={() => {
               this.setState({
-                selectedIngredients: this.state.selectedIngredients.push(pantry)
+                selectedIngredients: [
+                  ...this.state.selectedIngredients,
+                  ...pantry
+                ]
               });
             }}
           />

@@ -20,7 +20,7 @@ class Starred extends React.Component {
     };
   }
   static navigationOptions = {
-    title: "Starred"
+    title: null
   };
 
   async componentDidMount() {
@@ -37,17 +37,16 @@ class Starred extends React.Component {
     const starredRecipes = this.state.starred;
     return (
       <View style={styles.container}>
-        <ScrollView>
-          {starredRecipes.map((starredRecipe, index) => (
-            <View key={index}>
-              <Hyperlink linkDefault={true}>
-                <Text>
-                  {index}: {starredRecipe}
-                </Text>
-              </Hyperlink>
-            </View>
-          ))}
-        </ScrollView>
+        <View style={styles.starred}>
+          <ScrollView>
+            {starredRecipes.map((starredRecipe, index) => (
+              <View key={index} style={styles.textContainer}>
+                <Text style={styles.text}>Recipe</Text>
+                <Text style={styles.link}>{starredRecipe}</Text>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
       </View>
     );
   }
@@ -56,13 +55,39 @@ class Starred extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#c4e4cf",
+    alignItems: "center"
+  },
+  starred: {
+    alignItems: "center",
+    marginTop: 50,
+    backgroundColor: "#ffffff",
+    width: 350,
+    height: 630,
+    borderRadius: 30
+  },
+  textContainer: {
+    marginTop: 30
+  },
+  text: {
+    textAlign: "center",
+    fontFamily: "Futura-Medium",
+    color: "black",
+    fontSize: 15,
+    padding: 5
+  },
+  link: {
+    textAlign: "center",
+    fontFamily: "Futura",
+    color: "#b6e1e0",
+    fontSize: 12,
+    padding: 5
   }
 });
 
 const mapStateToProps = state => ({
-  user: state.user.user,
-  recipes: state.recipes
+  allRecipes: state.recipes.allRecipes,
+  user: state.user.user
 });
 
 const mapDispatchToProps = dispatch => ({
