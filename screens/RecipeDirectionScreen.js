@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import { connect } from 'react-redux';
 import {
@@ -19,6 +19,16 @@ class RecipeDirectionScreen extends React.Component {
   static navigationOptions = {
     title: 'Recipe Direction',
   };
+
+  handleRecipes(){
+    const {recipeIngredients} = this.props
+    const { navigate } = this.props.navigation;
+    if (recipeIngredients.length!== 0){
+      navigate('RecipeList'); 
+    } else {
+      alert('Please select ingredients from pantry!')
+    }
+  }
 
   render() {
     const { navigate } = this.props.navigation;
@@ -58,16 +68,8 @@ class RecipeDirectionScreen extends React.Component {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
-              onPress={async () => {
-                try {
-                  await this.props.fetchNewRecipes(
-                    this.props.recipeIngredients
-                  );
-                  navigate('RecipeList');
-                } catch (err) {
-                  console.error(err);
-                }
-              }}
+              onPress={() => { this.handleRecipes() }
+          }
             >
               <Text style={styles.buttonText}>I'd like to keep looking!</Text>
             </TouchableOpacity>

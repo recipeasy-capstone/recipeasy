@@ -8,12 +8,13 @@ import {
   TouchableOpacity,
   View,
   Button,
-  TextInput,
+  TextInput
 } from 'react-native';
 import { connect } from 'react-redux';
 import { deleteFromPantry, addToPantry, fetchPantry } from '../store/pantry';
 import { CheckBox, Input } from 'react-native-elements';
 import { fetchNewRecipes } from '../store/recipes';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 
 class PantryScreen extends React.Component {
   constructor() {
@@ -22,6 +23,7 @@ class PantryScreen extends React.Component {
       selectedIngredients: [],
       itemToPantry: null,
       checked: false,
+      addText: ''
     };
     this.addIngredient = this.addIngredient.bind(this);
     this.removeIngredient = this.removeIngredient.bind(this);
@@ -52,6 +54,17 @@ class PantryScreen extends React.Component {
     this.props.deleteFromPantry(item, uid);
   }
 
+  handleNewRecipes(){
+    const { selectedIngredients} = this.state
+    const { navigate } = this.props.navigation;
+    if (selectedIngredients.length === 0) {
+      alert('Please select ingredients!')
+    } else {
+      this.props.fetchNewRecipes(selectedIngredients);
+      navigate('RecipeList');
+    }
+  }
+
   render() {
     const { pantry } = this.props;
     const { navigate } = this.props.navigation;
@@ -73,8 +86,7 @@ class PantryScreen extends React.Component {
             />
             <TouchableOpacity
               style={styles.button}
-              onPress={() => this.addIngredient()}
-            >
+              onPress={() => {this.addIngredient()}}>
               <Text style={styles.buttonText}>Add</Text>
             </TouchableOpacity>
           </View>
@@ -144,12 +156,7 @@ class PantryScreen extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => {
-              if (this.state.selectedIngredients) {
-                this.props.fetchNewRecipes(this.state.selectedIngredients);
-              }
-              navigate('RecipeList');
-            }}
+            onPress={() => {this.handleNewRecipes()}}
           >
             <Text style={styles.buttonText}>Get Recipes!</Text>
           </TouchableOpacity>
@@ -169,8 +176,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#ffffff',
     marginTop: 50,
-    width: 350,
-    height: 630,
+    width: hp('50%'),
+    height: hp('70%'),
     borderRadius: 30,
   },
   ingredients: {
@@ -225,6 +232,7 @@ const mapStateToProps = state => {
   return {
     uid: state.user.uid,
     pantry: state.pantry.pantry,
+    recipeIngredients: state.pantry.recipeIngredients
   };
 };
 

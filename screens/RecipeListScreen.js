@@ -88,6 +88,7 @@ const mapStateToProps = state => ({
   recipeIngredients: state.pantry.recipeIngredients,
   newRecipes: state.recipes.newRecipes,
   uid: state.user.uid,
+  selectedIngredients: state.pantry.selectedIngredients
 });
 
 const mapDispatchToProps = dispatch => ({
