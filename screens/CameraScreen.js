@@ -77,15 +77,15 @@ class CameraScreen extends React.Component {
         this.setState({ isLoading: false });
       } else {
         const { uid, pantry } = this.props;
-        const food = /[A-Z]/g;
+        const letters = /[A-Z]/g;
         const text = responseJSON.responses[0].fullTextAnnotation.text;
         const splitText = text.split('\n');
         const ingredients = splitText.filter(
           str =>
-            str.length !== 0 && str[0].match(food) && !notFood.includes(str)
+            str.length !== 0 && str[0].match(letters) && !notFood.includes(str)
         );
         await this.props.settingIngredientsList(
-          pantry.concat(ingredients),
+          ingredients,
           uid
         );
         Alert.alert(
