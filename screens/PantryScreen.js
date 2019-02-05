@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { deleteFromPantry, addToPantry, fetchPantry } from '../store/pantry';
 import { CheckBox, Input } from 'react-native-elements';
 import { fetchNewRecipes } from '../store/recipes';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 
 class PantryScreen extends React.Component {
   constructor() {
@@ -169,8 +170,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#ffffff',
     marginTop: 50,
-    width: 350,
-    height: 630,
+    width: hp('50%'),
+    height: hp('70%'),
     borderRadius: 30,
   },
   ingredients: {
