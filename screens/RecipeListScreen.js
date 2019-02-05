@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchNewRecipes, fetchRecipeDirections } from '../store/recipes';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 
 class RecipeListScreen extends React.Component {
   static navigationOptions = {
@@ -22,7 +23,7 @@ class RecipeListScreen extends React.Component {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-      <View style={styles.recipes}>
+      <View style={styles.recipesContainer}>
         <ScrollView
           contentContainerStyle={styles.contentContainer}
         >
@@ -68,12 +69,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#c4e4cf',
     alignItems: 'center',
   },
-  recipes: {
+  recipesContainer: {
     alignItems: 'center',
     marginTop: 50,
     backgroundColor: '#ffffff',
-    width: 350,
-    height: 630,
+    width: wp('75%'),
+    height: hp('70%'),
     borderRadius: 30,
   },
   textContainer: {

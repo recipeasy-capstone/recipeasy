@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { deleteFromPantry, addToPantry, fetchPantry } from '../store/pantry';
-import { CheckBox, Input } from 'react-native-elements';
 import { fetchNewRecipes } from '../store/recipes';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 
@@ -133,10 +132,11 @@ class PantryScreen extends React.Component {
             onChangeText={itemToPantry => this.setState({ itemToPantry })}
             value={this.state.itemToPantry}
             clearButtonMode="always"
+            ref="add"
           />
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.addIngredient()}
+            onPress={() => {this.addIngredient(), this.refs.add.clear()}}
           >
             <Text style={styles.buttonText}>Add</Text>
           </TouchableOpacity>

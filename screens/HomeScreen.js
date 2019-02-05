@@ -5,6 +5,7 @@ import { Input, Button } from "react-native-elements";
 import { login, signUpUser } from "../store/user";
 import { connect } from "react-redux";
 import { fire } from "../firebaseconfig";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 
 class HomeScreen extends React.Component {
   constructor(props) {
