@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
 import { connect } from 'react-redux';
 import {
@@ -14,19 +14,23 @@ import {
   fetchStarredRecipes,
   fetchNewRecipes,
 } from '../store/recipes';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 class RecipeDirectionScreen extends React.Component {
   static navigationOptions = {
     title: 'Recipe Direction',
   };
 
-  handleRecipes(){
-    const {recipeIngredients} = this.props
+  handleRecipes() {
+    const { recipeIngredients } = this.props;
     const { navigate } = this.props.navigation;
-    if (recipeIngredients.length!== 0){
-      navigate('RecipeList'); 
+    if (recipeIngredients.length !== 0) {
+      navigate('RecipeList');
     } else {
-      alert('Please select ingredients from pantry!')
+      alert('Please select ingredients from pantry!');
     }
   }
 
@@ -68,8 +72,9 @@ class RecipeDirectionScreen extends React.Component {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => { this.handleRecipes() }
-          }
+              onPress={() => {
+                this.handleRecipes();
+              }}
             >
               <Text style={styles.buttonText}>I'd like to keep looking!</Text>
             </TouchableOpacity>
@@ -111,12 +116,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fbeb9e',
   },
   white: {
-    margin: 55,
-    backgroundColor: '#ffffff',
-    width: 350,
-    height: 630,
-    borderRadius: 30,
     alignItems: 'center',
+    backgroundColor: '#ffffff',
+    margin: 30,
+    width: wp('85%'),
+    height: hp('75%'),
+    borderRadius: 10,
   },
   button: {
     backgroundColor: '#fbfbfb',

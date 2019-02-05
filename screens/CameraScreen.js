@@ -1,8 +1,6 @@
 import React from 'react';
 import {
   Image,
-  Platform,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -10,12 +8,15 @@ import {
   Alert,
   ActivityIndicator,
 } from 'react-native';
-import { Button } from 'react-native-elements';
-import { Permissions, ImagePicker, Magnetometer } from 'expo';
+import { Permissions, ImagePicker } from 'expo';
 import { connect } from 'react-redux';
 import { settingIngredientsList } from '../store/pantry';
 import API_KEY from '../secrets/googleAPI';
 import notFood from '../utils/notFood';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 class CameraScreen extends React.Component {
   constructor() {
@@ -79,13 +80,14 @@ class CameraScreen extends React.Component {
         const { uid } = this.props;
         const text = responseJSON.responses[0].fullTextAnnotation.text;
         const splitText = text.split('\n');
-        const ingredients = splitText.map(item => item.replace(/[^a-zA-Z]+/g, '').toLowerCase())
-        const filteredIngredients = ingredients.filter(word => word.length !== 0 && !notFood.includes(word))
-
-        await this.props.settingIngredientsList(
-          filteredIngredients,
-          uid
+        const ingredients = splitText.map(item =>
+          item.replace(/[^a-zA-Z]+/g, '').toLowerCase()
         );
+        const filteredIngredients = ingredients.filter(
+          word => word.length !== 0 && !notFood.includes(word)
+        );
+
+        await this.props.settingIngredientsList(filteredIngredients, uid);
         Alert.alert(
           'Success!',
           'Items have been added to your pantry!',
@@ -172,22 +174,22 @@ const styles = StyleSheet.create({
   },
   cameraContainer: {
     alignItems: 'center',
-    marginTop: 50,
     backgroundColor: '#ffffff',
-    width: 350,
-    height: 630,
-    borderRadius: 30,
+    margin: 30,
+    width: wp('85%'),
+    height: hp('75%'),
+    borderRadius: 10,
   },
   image: {
     alignItems: 'center',
-    marginTop: 80,
+    marginTop: 110,
   },
   button: {
     alignItems: 'center',
     width: 180,
     marginTop: 20,
     backgroundColor: '#c4e4cf',
-    borderRadius: 30,
+    borderRadius: 10,
   },
   text: {
     fontFamily: 'Futura',

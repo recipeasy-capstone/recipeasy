@@ -12,6 +12,10 @@ import {
 import { logout } from '../store/user';
 import { fire } from '../firebaseconfig';
 import { connect } from 'react-redux';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 class SettingScreen extends React.Component {
   static navigationOptions = {
@@ -54,11 +58,11 @@ const styles = StyleSheet.create({
   },
   logout: {
     alignItems: 'center',
-    marginTop: 50,
     backgroundColor: '#ffffff',
-    width: 350,
-    height: 630,
-    borderRadius: 30,
+    margin: 30,
+    width: wp('85%'),
+    height: hp('75%'),
+    borderRadius: 10,
   },
   image: {
     alignItems: 'center',
@@ -69,7 +73,7 @@ const styles = StyleSheet.create({
     width: 200,
     marginTop: 40,
     backgroundColor: '#c4e4cf',
-    borderRadius: 30,
+    borderRadius: 10,
   },
   text: {
     fontFamily: 'Futura',
