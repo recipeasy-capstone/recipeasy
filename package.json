@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@expo/samples": "2.1.1",
+    "@expo/vector-icons": "^9.0.0",
     "@google-cloud/vision": "^0.24.0",
     "@tradle/react-native-http": "^2.0.1",
     "axios": "^0.18.0",
