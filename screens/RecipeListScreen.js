@@ -43,9 +43,13 @@ class RecipeListScreen extends React.Component {
                   <Text>Likes: {recipe.likes}</Text>
                   <Button
                     title="Recipe"
-                    onPress={() => {
-                      this.props.fetchRecipeDirections(recipe.id);
-                      navigate("RecipeDirection");
+                    onPress={async () => {
+                      try {
+                        await this.props.fetchRecipeDirections(recipe.id);
+                        navigate("RecipeDirection");
+                      } catch (err) {
+                        console.error(err);
+                      }
                     }}
                   />
                 </View>

@@ -25,30 +25,28 @@ class RecipeDirectionScreen extends React.Component {
 
   render() {
     const { navigate } = this.props.navigation;
-    let starred = [...this.props.user.starred, this.props.recipeDirections];
-
+    // let starred = this.props.starredRecipes.push(this.props.recipeDirections);
+    console.log("PROPS", this.props, "RECIPEDIR", this.props.recipeDirections);
+    const recipeDir = this.props.recipeDirections;
     return (
       <View>
-        <WebView
-          originWhitelist={["file://"]}
-          source={{ uri: this.props.recipeDirections }}
-        />
-        <Button
+        <Text>{recipeDir.instructions}</Text>
+        {/* <Button
           title="I'd like to save this recipe!"
           onPress={async () => {
             try {
-              await this.props.addingStarRecipe(starred, this.props.user.email);
+              await this.props.addingStarRecipe(starred, this.props.uid);
               navigate("Starred");
             } catch (err) {
               console.error(err);
             }
           }}
-        />
+        /> */}
         <Button
           title="I'd like to keep looking!"
           onPress={async () => {
             try {
-              this.props.fetchNewRecipes(this.props.recipeIngredients);
+              await this.props.fetchNewRecipes(this.props.recipeIngredients);
               navigate("RecipeList");
             } catch (err) {
               console.error(err);
@@ -87,17 +85,16 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   recipeDirections: state.recipes.recipeDirections,
-  user: state.user.user,
+  uid: state.user.uid,
   recipeIngredients: state.pantry.recipeIngredients,
   starredRecipes: state.recipes.starredRecipes
 });
 
 const mapDispatchToProps = dispatch => ({
-  addingStarRecipe: (recipe, userId) =>
-    dispatch(addingStarRecipe(recipe, userId)),
+  addingStarRecipe: (recipe, uid) => dispatch(addingStarRecipe(recipe, uid)),
   fetchRecipeDirections: id => dispatch(fetchRecipeDirections(id)),
   fetchNewRecipes: ingredients => dispatch(fetchNewRecipes(ingredients)),
-  fetchStarredRecipes: userId => dispatch(fetchStarredRecipes(userId))
+  fetchStarredRecipes: uid => dispatch(fetchStarredRecipes(uid))
 });
 
 export default connect(
