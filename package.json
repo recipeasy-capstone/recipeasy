@@ -19,17 +19,15 @@
     "axios": "^0.18.0",
     "browserify-zlib": "^0.1.4",
     "buffer": "^4.9.1",
-    "check-word": "^1.1.0",
     "dns.js": "^1.0.1",
     "eslint": "^5.12.1",
     "expo": "^32.0.0",
-    "express": "^4.16.4",
     "firebase": "^5.8.1",
     "firebase-admin": "^6.5.1",
     "firebase-functions": "^2.1.0",
     "https-browserify": "0.0.1",
+    "leven": "^2.1.0",
     "lint": "^1.1.2",
-    "morgan": "^1.9.1",
     "node-libs-react-native": "^1.0.3",
     "nodemon": "^1.18.9",
     "path": "^0.12.7",
@@ -43,8 +41,8 @@
     "react-native-crypto": "^2.1.2",
     "react-native-custom-webview": "^1.0.37",
     "react-native-elements": "^1.0.0",
+    "react-native-fs": "^2.13.3",
     "react-native-hyperlink": "0.0.14",
-    "react-native-level-fs": "^3.0.1",
     "react-native-os": "^1.2.2",
     "react-native-randombytes": "^3.5.2",
     "react-native-rapid-api": "^1.0.3",
@@ -65,12 +63,12 @@
     "timers-browserify": "^1.4.2",
     "unirest": "^0.5.1",
     "url": "^0.10.3",
-    "vm-browserify": "0.0.4"
+    "vm-browserify": "0.0.4",
+    "word-list": "^2.0.0"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0",
-    "jest-expo": "^32.0.0",
-    "rn-nodeify": "github:tradle/rn-nodeify"
+    "jest-expo": "^32.0.0"
   },
   "private": true,
   "react-native": {
@@ -112,7 +110,7 @@
     "os": "react-native-os",
     "path": "path-browserify",
     "querystring": "querystring-es3",
-    "fs": "react-native-level-fs",
+    "fs": "react-native-fs",
     "_stream_transform": "readable-stream/transform",
     "_stream_readable": "readable-stream/readable",
     "_stream_writable": "readable-stream/writable",

@@ -1,5 +1,6 @@
 import { userInfo } from '../utils/firebaseFunc';
 import { firestore } from '../firebaseconfig';
+import autocorrect from '../utils/autocorrect'
 
 const SET_INGREDIENTS_LIST = 'SET_INGREDIENTS_LIST';
 const GOT_PANTRY = 'GOT_PANTRY';
@@ -32,13 +33,16 @@ const deletedFromPantry = ingredient => ({
 
 export const settingIngredientsList = (ingredients, uid) => async dispatch => {
   try {
+    const foodArr = ingredients.map(item => autocorrect(item))
     const currentUserInfo = await userInfo(uid);
-    currentUserInfo.pantry = ingredients;
+    foodArr.forEach(item => {
+      if (!currentUserInfo.pantry.includes(item)) currentUserInfo.pantry.push(item)
+    })
     await firestore
       .collection('User')
       .doc(uid)
       .set(currentUserInfo);
-    dispatch(setIngredientsList(ingredients));
+    dispatch(setIngredientsList(currentUserInfo.pantry));
   } catch (error) {
     console.error(error);
   }
