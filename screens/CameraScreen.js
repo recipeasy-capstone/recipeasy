@@ -83,7 +83,7 @@ class CameraScreen extends React.Component {
         const ingredients = splitText.filter(
           str =>
             str.length !== 0 && str[0].match(letters) && !notFood.includes(str)
-        );
+        ).map(item => item.toLowerCase());
         await this.props.settingIngredientsList(
           ingredients,
           uid

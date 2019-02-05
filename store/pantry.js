@@ -1,7 +1,5 @@
 import { userInfo } from '../utils/firebaseFunc';
 import { firestore } from '../firebaseconfig';
-import axios from 'axios';
-import { fsAutocomplete } from '../secrets/fireFunctions';
 import autocorrect from '../utils/autocorrect'
 
 const SET_INGREDIENTS_LIST = 'SET_INGREDIENTS_LIST';
@@ -35,9 +33,13 @@ const deletedFromPantry = ingredient => ({
 
 export const settingIngredientsList = (ingredients, uid) => async dispatch => {
   try {
+    console.log('ingredients list from camera', ingredients)
     const foodArr = ingredients.map(item => autocorrect(item))
+    console.log('food array items', foodArr)
     const currentUserInfo = await userInfo(uid);
-    (currentUserInfo.pantry ? currentUserInfo.pantry = [...currentUserInfo.pantry, ...foodArr] : currentUserInfo.pantry = foodArr)
+    foodArr.forEach(item => {
+      if (!currentUserInfo.pantry.includes(item)) currentUserInfo.pantry.push(item)
+    })
     await firestore
       .collection('User')
       .doc(uid)
