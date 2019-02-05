@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet, View, KeyboardAvoidingView } from "react-native";
+import { Image, StyleSheet, View, KeyboardAvoidingView, ScrollView } from "react-native";
 import { Input, Button } from "react-native-elements";
 import { login, signUpUser } from "../store/user";
 import { connect } from "react-redux";
@@ -59,7 +59,9 @@ class HomeScreen extends React.Component {
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <KeyboardAvoidingView behavior="position"
+      style={styles.container}
+      >
         <Image
           source={require("../assets/images/recipeasy_logo-01.png")}
           style={styles.image}
