@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#ffffff',
     marginTop: 50,
-    width: hp('50%'),
+    width: wp('75%'),
     height: hp('70%'),
     borderRadius: 30,
   },

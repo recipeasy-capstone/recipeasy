@@ -22,25 +22,25 @@ class RecipeListScreen extends React.Component {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
+      <View style={styles.recipes}>
         <ScrollView
-          style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          <View style={styles.pantryContainer}>
+          <View style={styles.textContainer}>
             {newRecipes &&
               newRecipes.body &&
               newRecipes.body.map((recipe, index) => (
                 <View key={index}>
-                  <Text>Title: {recipe.title}</Text>
-                  <Image
-                    style={{ width: 193, height: 110 }}
+                 <Image
+                   style={styles.image} 
                     source={{ uri: recipe.image }}
                   />
-                  <Text>Used Ingredients: {recipe.usedIngredientCount}</Text>
-                  <Text>
+                  <Text style={styles.title}>{recipe.title}</Text>
+                  <Text style={styles.text}>Used Ingredients: {recipe.usedIngredientCount}</Text>
+                  <Text style={styles.text}>
                     Missed Ingredients: {recipe.missedIngredientCount}
                   </Text>
-                  <Text>Likes: {recipe.likes}</Text>
+                  <Text style={styles.text}>Likes: {recipe.likes}</Text>
                   <Button
                     title="Recipe"
                     onPress={async () => {
@@ -56,6 +56,7 @@ class RecipeListScreen extends React.Component {
               ))}
           </View>
         </ScrollView>
+        </View>
       </View>
     );
   }
@@ -64,23 +65,48 @@ class RecipeListScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-  },
-  pantryContainer: {
+    backgroundColor: '#c4e4cf',
     alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 20,
   },
-  button: {
-    backgroundColor: '#fbfbfb',
-    width: 100,
+  recipes: {
+    alignItems: 'center',
     marginTop: 50,
-    padding: 20,
-    alignItems: 'center',
+    backgroundColor: '#ffffff',
+    width: 350,
+    height: 630,
+    borderRadius: 30,
   },
-  buttonText: {
+  textContainer: {
+    marginTop: 30,
+  },
+  image: {
+    alignItems: 'center',
+    margin: 15,
+    height: 110,
+  },
+  title: {
+    textAlign: 'center',
+    fontFamily: 'Futura',
+    color: 'black',
     fontSize: 20,
-    fontFamily: 'Helvetica',
+    fontWeight: 'bold',
+    padding: 2,
+    marginBottom: 20,
+    marginTop: 20,
+  },
+  text: {
+    textAlign: 'center',
+    fontFamily: 'Futura-Medium',
+    color: 'black',
+    fontSize: 15,
+    padding: 5,
+  },
+  link: {
+    textAlign: 'center',
+    fontFamily: 'Futura',
+    color: '#b6e1e0',
+    fontSize: 12,
+    padding: 5,
   },
 });
 
