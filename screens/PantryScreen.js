@@ -54,7 +54,6 @@ class PantryScreen extends React.Component {
 
   render() {
     const { pantry } = this.props;
-    console.log('dsadasdae', pantry.length);
     const { navigate } = this.props.navigation;
     if (pantry.length === 0) {
       return (
@@ -217,8 +216,8 @@ const styles = StyleSheet.create({
   image: {
     alignItems: 'center',
     margin: 50,
-    width: 280,
-    height: 280,
+    width: 300,
+    height: 300,
   },
 });
 

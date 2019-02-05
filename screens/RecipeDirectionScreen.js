@@ -1,32 +1,30 @@
-import React from "react";
+import React from 'react';
 import {
   Image,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  Button,
-  WebView
-} from "react-native";
-import { connect } from "react-redux";
+} from 'react-native';
+import { connect } from 'react-redux';
 import {
   fetchRecipeDirections,
   addingStarRecipe,
   fetchStarredRecipes,
-  fetchNewRecipes
-} from "../store/recipes";
-import { BorderlessButton } from "react-native-gesture-handler";
+  fetchNewRecipes,
+} from '../store/recipes';
 
 class RecipeDirectionScreen extends React.Component {
   static navigationOptions = {
-    title: "Recipe Direction"
+    title: 'Recipe Direction',
   };
 
   render() {
     const { navigate } = this.props.navigation;
-    // let starred = this.props.starredRecipes.push(this.props.recipeDirections);
+
+    let starred = this.props.starredRecipes.push(this.props.recipeDirections);
+
     const recipeDir = this.props.recipeDirections;
     return (
       <View style={styles.container}>
@@ -44,16 +42,21 @@ class RecipeDirectionScreen extends React.Component {
               </Text>
             ))}
             <Text style={styles.instructions}>{recipeDir.instructions}</Text>
-            {/* <TouchableOpacity style={styles.button}
-          onPress={async () => {
-            try {
-              await this.props.addingStarRecipe(starred, this.props.uid);
-              navigate("Starred");
-            } catch (err) {
-              console.error(err);
-            }
-          }}
-        ><Text style={styles.buttonText}>I'd like to save this recipe!</Text></TouchableOpacity> */}
+            <TouchableOpacity
+              style={styles.button}
+              onPress={async () => {
+                try {
+                  await this.props.addingStarRecipe(starred, this.props.uid);
+                  navigate('Starred');
+                } catch (err) {
+                  console.error(err);
+                }
+              }}
+            >
+              <Text style={styles.buttonText}>
+                I'd like to save this recipe!
+              </Text>
+            </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
               onPress={async () => {
@@ -61,7 +64,7 @@ class RecipeDirectionScreen extends React.Component {
                   await this.props.fetchNewRecipes(
                     this.props.recipeIngredients
                   );
-                  navigate("RecipeList");
+                  navigate('RecipeList');
                 } catch (err) {
                   console.error(err);
                 }
@@ -72,7 +75,7 @@ class RecipeDirectionScreen extends React.Component {
             <TouchableOpacity
               style={styles.button}
               onPress={() => {
-                navigate("Pantry");
+                navigate('Pantry');
               }}
             >
               <Text style={styles.buttonText}>
@@ -86,81 +89,81 @@ class RecipeDirectionScreen extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    flex: 1,
-    backgroundColor: "#fbeb9e"
-  },
-  white: {
-    margin: 55,
-    backgroundColor: "#ffffff",
-    width: 350,
-    height: 630,
-    borderRadius: 30,
-    alignItems: "center"
-  },
-  button: {
-    backgroundColor: "#fbfbfb",
-    alignItems: "center",
-    marginLeft: 20,
-    marginRight: 20,
-    marginBottom: 10,
-    padding: 20,
-    borderRadius: 30,
-    backgroundColor: "#c4e4cf"
-  },
-  buttonText: {
-    textAlign: "center",
-    fontFamily: "Futura",
-    color: "white",
-    fontSize: 15,
-    padding: 3
-  },
-  title: {
-    textAlign: "center",
-    fontFamily: "Futura",
-    color: "black",
-    fontSize: 20,
-    fontWeight: "bold",
-    padding: 2,
-    marginBottom: 20,
-    marginTop: 20
-  },
-  image: {
-    alignItems: "center",
-    margin: 15,
-    height: 110
-  },
-  addOns: {
-    textAlign: "center",
-    fontFamily: "Futura",
-    color: "#828282",
-    fontSize: 12,
-    padding: 2
-  },
-  instructions: {
-    fontFamily: "Futura",
-    color: "black",
-    fontSize: 15,
-    padding: 2,
-    alignItems: "center",
-    margin: 15
-  }
-});
-
 const mapStateToProps = state => ({
   recipeDirections: state.recipes.recipeDirections,
   uid: state.user.uid,
   recipeIngredients: state.pantry.recipeIngredients,
-  starredRecipes: state.recipes.starredRecipes
+  starredRecipes: state.recipes.starredRecipes,
 });
 
 const mapDispatchToProps = dispatch => ({
   addingStarRecipe: (recipe, uid) => dispatch(addingStarRecipe(recipe, uid)),
   fetchRecipeDirections: id => dispatch(fetchRecipeDirections(id)),
   fetchNewRecipes: ingredients => dispatch(fetchNewRecipes(ingredients)),
-  fetchStarredRecipes: uid => dispatch(fetchStarredRecipes(uid))
+  fetchStarredRecipes: uid => dispatch(fetchStarredRecipes(uid)),
+});
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    flex: 1,
+    backgroundColor: '#fbeb9e',
+  },
+  white: {
+    margin: 55,
+    backgroundColor: '#ffffff',
+    width: 350,
+    height: 630,
+    borderRadius: 30,
+    alignItems: 'center',
+  },
+  button: {
+    backgroundColor: '#fbfbfb',
+    alignItems: 'center',
+    marginLeft: 20,
+    marginRight: 20,
+    marginBottom: 10,
+    padding: 20,
+    borderRadius: 30,
+    backgroundColor: '#c4e4cf',
+  },
+  buttonText: {
+    textAlign: 'center',
+    fontFamily: 'Futura',
+    color: 'white',
+    fontSize: 15,
+    padding: 3,
+  },
+  title: {
+    textAlign: 'center',
+    fontFamily: 'Futura',
+    color: 'black',
+    fontSize: 20,
+    fontWeight: 'bold',
+    padding: 2,
+    marginBottom: 20,
+    marginTop: 20,
+  },
+  image: {
+    alignItems: 'center',
+    margin: 15,
+    height: 110,
+  },
+  addOns: {
+    textAlign: 'center',
+    fontFamily: 'Futura',
+    color: '#828282',
+    fontSize: 12,
+    padding: 2,
+  },
+  instructions: {
+    fontFamily: 'Futura',
+    color: 'black',
+    fontSize: 15,
+    padding: 2,
+    alignItems: 'center',
+    margin: 15,
+  },
 });
 
 export default connect(
