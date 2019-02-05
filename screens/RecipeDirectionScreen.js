@@ -20,6 +20,16 @@ class RecipeDirectionScreen extends React.Component {
     title: 'Recipe Direction',
   };
 
+  handleRecipes(){
+    const {recipeIngredients} = this.props
+    const { navigate } = this.props.navigation;
+    if (recipeIngredients.length!== 0){
+      navigate('RecipeList'); 
+    } else {
+      alert('Please select ingredients from pantry!')
+    }
+  }
+
   render() {
     const { navigate } = this.props.navigation;
     let starred = [...this.props.starredRecipes, this.props.recipeDirections];
@@ -58,13 +68,7 @@ class RecipeDirectionScreen extends React.Component {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => { 
-                if (this.props.recipeIngredients){
-                navigate('RecipeList'); 
-              } else {
-                alert('Please select ingredients from pantry!')
-              }
-            }
+              onPress={() => { this.handleRecipes() }
           }
             >
               <Text style={styles.buttonText}>I'd like to keep looking!</Text>
