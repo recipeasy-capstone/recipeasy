@@ -26,11 +26,20 @@ class RecipeDirectionScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     // let starred = this.props.starredRecipes.push(this.props.recipeDirections);
-    console.log("PROPS", this.props, "RECIPEDIR", this.props.recipeDirections);
     const recipeDir = this.props.recipeDirections;
     return (
       <View>
-        <Text>{recipeDir.instructions}</Text>
+        <Text>{recipeDir.title}</Text>
+        <Image
+          style={{ width: 193, height: 110 }}
+          source={{ uri: recipeDir.image }}
+        />
+        <Text>Servings: {recipeDir.servings}</Text>
+        <Text>Time: {recipeDir.readyInMinutes} minutes</Text>
+        {recipeDir.extendedIngredients.map((food, indx) => (
+          <Text key={indx}>{food.original}</Text>
+        ))}
+        <Text>Instructions: {recipeDir.instructions}</Text>
         {/* <Button
           title="I'd like to save this recipe!"
           onPress={async () => {
