@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Image, StyleSheet, View, KeyboardAvoidingView, ScrollView } from "react-native";
 import { Input, Button } from "react-native-elements";
@@ -10,15 +11,15 @@ class HomeScreen extends React.Component {
     super(props);
     this.state = {
       email: null,
-      password: "",
+      password: '',
       data: {
         pantry: [],
-        starred: []
-      }
+        starred: [],
+      },
     };
   }
   static navigationOptions = {
-    title: "Home"
+    title: 'Home',
   };
 
   handleLogin() {
@@ -29,10 +30,10 @@ class HomeScreen extends React.Component {
       .signInWithEmailAndPassword(email, password)
       .then(ref => {
         this.props.login(ref.user.uid);
-        navigate("Main");
+        navigate('Main');
       })
       .catch(error => {
-        alert("Either your email or password is incorrect");
+        alert('Either your email or password is incorrect');
       });
   }
 
@@ -44,15 +45,15 @@ class HomeScreen extends React.Component {
       .createUserWithEmailAndPassword(email, password)
       .then(ref => {
         this.props.signUpUser(ref.user.uid, data);
-        navigate("Main");
+        navigate('Main');
       })
       .catch(error => {
         if ((email && !password) || (!email && password)) {
-          alert("Both fields must be filled!");
+          alert('Both fields must be filled!');
         } else if (password.length < 6) {
-          alert("Password must be at least six characters");
+          alert('Password must be at least six characters');
         } else if (email && password) {
-          alert("This email is already being used!");
+          alert('This email is already being used!');
         }
       });
   }
@@ -63,7 +64,7 @@ class HomeScreen extends React.Component {
       style={styles.container}
       >
         <Image
-          source={require("../assets/images/recipeasy_logo-01.png")}
+          source={require('../assets/images/recipeasy_logo-01.png')}
           style={styles.image}
         />
         <View style={styles.loginBox}>
@@ -76,7 +77,7 @@ class HomeScreen extends React.Component {
           <Input
             placeholder="Password"
             onChangeText={password => this.setState({ password })}
-            value={this.state.password.replace(/./g, "*")}
+            value={this.state.password.replace(/./g, '*')}
           />
           <View style={styles.buttonBox}>
             <Button
@@ -99,27 +100,27 @@ class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     margin: 100,
-    justifyContent: "space-evenly"
+    justifyContent: 'space-evenly',
   },
   image: {
-    alignItems: "center",
+    alignItems: 'center',
     marginTop: 80,
-    marginLeft: 15
+    marginLeft: 15,
   },
   loginBox: {
-    marginTop: 40
+    marginTop: 40,
   },
   input: {
-    marginBottom: 10
+    marginBottom: 10,
   },
   buttonBox: {
-    paddingTop: 20
-  }
+    paddingTop: 20,
+  },
 });
 
 const mapDispatchToProps = dispatch => ({
   login: uid => dispatch(login(uid)),
-  signUpUser: (uid, data) => dispatch(signUpUser(uid, data))
+  signUpUser: (uid, data) => dispatch(signUpUser(uid, data)),
 });
 
 export default connect(

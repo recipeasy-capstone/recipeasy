@@ -10,7 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import { logout } from '../store/user';
-import { fire } from '../firebaseconfig'
+import { fire } from '../firebaseconfig';
 import { connect } from 'react-redux';
 
 class SettingScreen extends React.Component {
@@ -19,10 +19,10 @@ class SettingScreen extends React.Component {
   };
 
   handleLogout() {
-    const { navigate } = this.props.navigation
-    fire.auth().signOut()
-    this.props.logout()
-    navigate('Home')
+    const { navigate } = this.props.navigation;
+    fire.auth().signOut();
+    this.props.logout();
+    navigate('Home');
   }
 
   render() {
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   image: {
     alignItems: 'center',
-    marginTop: 100,
+    marginTop: 150,
   },
   button: {
     alignItems: 'center',

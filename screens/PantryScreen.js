@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Image,
   Platform,
@@ -8,12 +8,12 @@ import {
   TouchableOpacity,
   View,
   Button,
-  TextInput
-} from "react-native";
-import { connect } from "react-redux";
-import { deleteFromPantry, addToPantry, fetchPantry } from "../store/pantry";
-import { CheckBox, Input } from "react-native-elements";
-import { fetchNewRecipes } from "../store/recipes";
+  TextInput,
+} from 'react-native';
+import { connect } from 'react-redux';
+import { deleteFromPantry, addToPantry, fetchPantry } from '../store/pantry';
+import { CheckBox, Input } from 'react-native-elements';
+import { fetchNewRecipes } from '../store/recipes';
 
 class PantryScreen extends React.Component {
   constructor() {
@@ -21,13 +21,13 @@ class PantryScreen extends React.Component {
     this.state = {
       selectedIngredients: [],
       itemToPantry: null,
-      checked: false
+      checked: false,
     };
     this.addIngredient = this.addIngredient.bind(this);
     this.removeIngredient = this.removeIngredient.bind(this);
   }
   static navigationOptions = {
-    title: "Pantry"
+    title: 'Pantry',
   };
 
   async componentDidMount() {
@@ -39,9 +39,9 @@ class PantryScreen extends React.Component {
     const { uid } = this.props;
     const { pantry } = this.props;
     if (!this.state.itemToPantry) {
-      alert("You must enter an ingredient!");
+      alert('You must enter an ingredient!');
     } else if (pantry.includes(this.state.itemToPantry)) {
-      alert("This item is already in your pantry!");
+      alert('This item is already in your pantry!');
     } else {
       this.props.addToPantry(this.state.itemToPantry, uid);
     }
@@ -55,71 +55,100 @@ class PantryScreen extends React.Component {
   render() {
     const { pantry } = this.props;
     const { navigate } = this.props.navigation;
-    if (!pantry) {
-      return <View />;
+    if (pantry.length === 0) {
+      return (
+        <View style={styles.container}>
+          <View style={styles.pantryContainer}>
+            <Image
+              source={require('../assets/images/empty.png')}
+              style={styles.image}
+            />
+            <Text style={styles.ingredients}>Add to Pantry:</Text>
+            <TextInput
+              placeholder="Ingredient"
+              style={styles.form}
+              onChangeText={itemToPantry => this.setState({ itemToPantry })}
+              value={this.state.itemToPantry}
+              clearButtonMode="always"
+            />
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.addIngredient()}
+            >
+              <Text style={styles.buttonText}>Add</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
     }
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.container}>
-          <View style={styles.pantryContainer}>
-            {pantry.map(
-              (item, idx) => (
-                (item.checked = false),
-                (
-                  <View style={styles.pantryIngredient} key={idx}>
-                    <Text>{item}</Text>
-                    <Button
-                      type="clear"
-                      title="X"
-                      onPress={() => this.removeIngredient(item)}
-                    />
-                    <CheckBox
-                      key={item}
-                      title="Add Ingredient"
-                      checked={this.state.checked}
-                      onPress={() =>
-                        this.setState({
-                          checked: !this.state.checked,
-                          selectedIngredients: [
-                            ...this.state.selectedIngredients,
-                            item
-                          ]
-                        })
-                      }
-                    />
-                  </View>
-                )
-              )
-            )}
-          </View>
-        </ScrollView>
-        <View>
-          <Text>Add to Pantry:</Text>
-          <Input
+        <View style={styles.pantryContainer}>
+          <ScrollView>
+            {pantry.map((item, idx) => (
+              <View key={idx}>
+                <Text style={styles.ingredients}>{item}</Text>
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity
+                    style={styles.pantryButton}
+                    onPress={() => this.removeIngredient(item)}
+                  >
+                    <Text style={styles.buttonText}>Delete</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.pantryButton}
+                    onPress={() =>
+                      this.setState({
+                        selectedIngredients: [
+                          ...this.state.selectedIngredients,
+                          item,
+                        ],
+                      })
+                    }
+                  >
+                    <Text style={styles.buttonText}>Select</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ))}
+          </ScrollView>
+
+          <Text style={styles.ingredients}>Add to Pantry:</Text>
+          <TextInput
             placeholder="Ingredient"
             style={styles.form}
             onChangeText={itemToPantry => this.setState({ itemToPantry })}
             value={this.state.itemToPantry}
+            clearButtonMode="always"
           />
-          <Button title="Add" onPress={() => this.addIngredient()} />
-          <Button
-            title="Select All"
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.addIngredient()}
+          >
+            <Text style={styles.buttonText}>Add</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.button}
             onPress={() => {
               this.setState({
                 selectedIngredients: [
                   ...this.state.selectedIngredients,
-                  ...pantry
-                ]
+                  ...pantry,
+                ],
               });
             }}
-          />
+          >
+            <Text style={styles.buttonText}>Select All</Text>
+          </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
               if (this.state.selectedIngredients) {
                 this.props.fetchNewRecipes(this.state.selectedIngredients);
               }
-              navigate("RecipeList");
+              navigate('RecipeList');
             }}
           >
             <Text style={styles.buttonText}>Get Recipes!</Text>
@@ -132,35 +161,70 @@ class PantryScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#f5fffa",
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: '#c4e4cf',
+    alignItems: 'center',
   },
   pantryContainer: {
-    alignItems: "center",
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
+    marginTop: 50,
+    width: 350,
+    height: 630,
+    borderRadius: 30,
+  },
+  ingredients: {
+    textAlign: 'center',
+    fontFamily: 'Futura',
+    color: 'black',
+    fontSize: 25,
+    padding: 10,
     marginTop: 10,
-    marginBottom: 20
+  },
+  buttonContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  pantryButton: {
+    width: 100,
+    height: 30,
+    margin: 5,
+    borderWidth: 2,
+    borderColor: '#fbeb9e',
+    borderRadius: 30,
   },
   button: {
-    backgroundColor: "#fbfbfb",
-    margin: 20,
-    padding: 20,
-    alignItems: "center"
+    width: 200,
+    margin: 10,
+    backgroundColor: '#fbeb9e',
+    borderRadius: 30,
   },
   buttonText: {
     fontSize: 20,
-    fontFamily: "Helvetica"
+    fontFamily: 'Futura',
+    textAlign: 'center',
+    color: 'black',
   },
   form: {
     borderWidth: 1,
-    borderColor: "#f2f2f3"
-  }
+    width: 300,
+    height: 30,
+    borderColor: '#c4e4cf',
+  },
+  image: {
+    alignItems: 'center',
+    margin: 50,
+    width: 300,
+    height: 300,
+  },
 });
 
 const mapStateToProps = state => {
   return {
     uid: state.user.uid,
-    pantry: state.pantry.pantry
+    pantry: state.pantry.pantry,
   };
 };
 
@@ -169,7 +233,7 @@ const mapDispatchToProps = dispatch => {
     addToPantry: (item, uid) => dispatch(addToPantry(item, uid)),
     deleteFromPantry: (item, uid) => dispatch(deleteFromPantry(item, uid)),
     fetchNewRecipes: ingredients => dispatch(fetchNewRecipes(ingredients)),
-    fetchPantry: uid => dispatch(fetchPantry(uid))
+    fetchPantry: uid => dispatch(fetchPantry(uid)),
   };
 };
 
