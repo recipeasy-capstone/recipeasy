@@ -38,7 +38,7 @@ class Starred extends React.Component {
             {starredRecipes.map((starredRecipe, index) => (
               <View key={index} style={styles.textContainer}>
                 <Image
-                  style={{ width: 193, height: 110 }}
+                  style={styles.image}
                   source={{ uri: starredRecipe.image }}
                 />
                 <Text style={styles.text}>{starredRecipe.title}</Text>
@@ -67,6 +67,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#c4e4cf',
     alignItems: 'center',
+  },
+  image: {
+    alignItems: 'center',
+    margin: 15,
+    height: 110,
   },
   starred: {
     alignItems: 'center',
