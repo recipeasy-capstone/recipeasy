@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
   Button,
-  TextInput,
+  TextInput
 } from 'react-native';
 import { connect } from 'react-redux';
 import { deleteFromPantry, addToPantry, fetchPantry } from '../store/pantry';
@@ -51,6 +51,17 @@ class PantryScreen extends React.Component {
   removeIngredient(item) {
     const { uid } = this.props;
     this.props.deleteFromPantry(item, uid);
+  }
+
+  handleNewRecipes(){
+    const { selectedIngredients} = this.state
+    const { navigate } = this.props.navigation;
+    if (selectedIngredients.length === 0) {
+      alert('Please select ingredients!')
+    } else {
+      this.props.fetchNewRecipes(selectedIngredients);
+      navigate('RecipeList');
+    }
   }
 
   render() {
@@ -145,12 +156,7 @@ class PantryScreen extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => {
-              if (this.state.selectedIngredients) {
-                this.props.fetchNewRecipes(this.state.selectedIngredients);
-              }
-              navigate('RecipeList');
-            }}
+            onPress={() => {this.handleNewRecipes()}}
           >
             <Text style={styles.buttonText}>Get Recipes!</Text>
           </TouchableOpacity>
@@ -226,6 +232,7 @@ const mapStateToProps = state => {
   return {
     uid: state.user.uid,
     pantry: state.pantry.pantry,
+    recipeIngredients: state.pantry.recipeIngredients
   };
 };
 
