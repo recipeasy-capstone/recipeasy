@@ -7,6 +7,7 @@ import RecipeListScreen from '../screens/RecipeListScreen';
 import HomeScreen from '../screens/HomeScreen';
 import SettingScreen from '../screens/SettingScreen';
 import RecipeDirectionScreen from '../screens/RecipeDirectionScreen';
+import StarredScreen from '../screens/StarredScreen';
 
 export default createAppContainer(
   createSwitchNavigator({
@@ -16,9 +17,9 @@ export default createAppContainer(
     Home: { screen: HomeScreen },
     Main: MainTabNavigator,
     Setting: { screen: SettingScreen },
-
     Pantry: { screen: PantryScreen },
     RecipeList: { screen: RecipeListScreen },
     RecipeDirection: { screen: RecipeDirectionScreen },
+    Starred: { screen: StarredScreen},
   })
 );

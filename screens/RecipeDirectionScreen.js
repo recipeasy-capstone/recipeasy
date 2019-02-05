@@ -58,16 +58,7 @@ class RecipeDirectionScreen extends React.Component {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
-              onPress={async () => {
-                try {
-                  await this.props.fetchNewRecipes(
-                    this.props.recipeIngredients
-                  );
-                  navigate('RecipeList');
-                } catch (err) {
-                  console.error(err);
-                }
-              }}
+              onPress={() => { navigate('RecipeList'); }}
             >
               <Text style={styles.buttonText}>I'd like to keep looking!</Text>
             </TouchableOpacity>
