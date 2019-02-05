@@ -85,7 +85,7 @@ class CameraScreen extends React.Component {
             str.length !== 0 && str[0].match(food) && !notFood.includes(str)
         );
         await this.props.settingIngredientsList(
-          [...pantry].concat(ingredients),
+          pantry.concat(ingredients),
           uid
         );
         Alert.alert(
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  user: state.user.uid,
+  uid: state.user.uid,
   pantry: state.pantry.pantry,
   filteredIngredientList: state.pantry.filteredIngredientList,
 });
