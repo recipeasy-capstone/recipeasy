@@ -23,6 +23,7 @@ class PantryScreen extends React.Component {
       selectedIngredients: [],
       itemToPantry: null,
       checked: false,
+      addText: ''
     };
     this.addIngredient = this.addIngredient.bind(this);
     this.removeIngredient = this.removeIngredient.bind(this);
@@ -85,8 +86,7 @@ class PantryScreen extends React.Component {
             />
             <TouchableOpacity
               style={styles.button}
-              onPress={() => this.addIngredient()}
-            >
+              onPress={() => {this.addIngredient()}}>
               <Text style={styles.buttonText}>Add</Text>
             </TouchableOpacity>
           </View>
