@@ -7,10 +7,10 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Button,
 } from 'react-native';
-import Hyperlink from 'react-native-hyperlink';
 import { connect } from 'react-redux';
-import { fetchStarredRecipes } from '../store/recipes';
+import { fetchStarredRecipes, fetchRecipeDirections } from '../store/recipes';
 
 class Starred extends React.Component {
   static navigationOptions = {
@@ -27,15 +27,32 @@ class Starred extends React.Component {
   }
 
   render() {
+    const { navigate } = this.props.navigation;
     const starredRecipes = this.props.starredRecipes;
+    if (!starredRecipes) starredRecipes = [];
+
     return (
       <View style={styles.container}>
         <View style={styles.starred}>
           <ScrollView>
             {starredRecipes.map((starredRecipe, index) => (
               <View key={index} style={styles.textContainer}>
-                <Text style={styles.text}>Recipe</Text>
-                <Text style={styles.link}>{starredRecipe}</Text>
+                <Image
+                  style={{ width: 193, height: 110 }}
+                  source={{ uri: starredRecipe.image }}
+                />
+                <Text style={styles.text}>{starredRecipe.title}</Text>
+                <Button
+                  title="Recipe"
+                  onPress={async () => {
+                    try {
+                      await this.props.fetchRecipeDirections(starredRecipe.id);
+                      navigate('RecipeDirection');
+                    } catch (err) {
+                      console.error(err);
+                    }
+                  }}
+                />
               </View>
             ))}
           </ScrollView>
@@ -85,6 +102,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchStarredRecipes: uid => dispatch(fetchStarredRecipes(uid)),
+  fetchRecipeDirections: id => dispatch(fetchRecipeDirections(id)),
 });
 
 export default connect(

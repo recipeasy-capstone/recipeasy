@@ -47,9 +47,6 @@ export const settingIngredientsList = (ingredients, uid) => async dispatch => {
 export const fetchPantry = uid => async dispatch => {
   try {
     const pantry = await userInfo(uid);
-    if (!pantry) {
-      pantry = [];
-    }
     dispatch(gotPantry(pantry.pantry));
   } catch (error) {
     console.error(error);
@@ -91,9 +88,9 @@ export default function(state = initialState, action) {
     case SET_INGREDIENTS_LIST:
       return { ...state, pantry: [...state.pantry].concat(action.pantry) };
     case GOT_PANTRY:
-      return { pantry: action.pantry };
+      return { ...state, pantry: action.pantry };
     case ADDED_TO_PANTRY:
-      return { pantry: [...state.pantry, action.ingredient] };
+      return { ...state, pantry: [...state.pantry, action.ingredient] };
     case DELETED_FROM_PANTRY:
       return {
         pantry: [...state.pantry].filter(item => item !== action.ingredient),

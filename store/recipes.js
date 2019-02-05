@@ -68,12 +68,12 @@ export const fetchRecipeDirections = id => async dispatch => {
 export default function(state = initialState, action) {
   switch (action.type) {
     case GOT_STARRED_RECIPES:
-      console.log('GOT STARRED', action.starredRecipes);
-      return { starredRecipes: action.starredRecipes };
+      return { ...state, starredRecipes: action.starredRecipes };
     case GOT_NEW_RECIPES:
-      return { newRecipes: action.newRecipes };
+      return { ...state, newRecipes: action.newRecipes };
     case GOT_RECIPE_DIRECTIONS:
       return {
+        ...state,
         recipeDirections: action.recipeDirections,
       };
     default:

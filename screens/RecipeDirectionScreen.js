@@ -22,8 +22,7 @@ class RecipeDirectionScreen extends React.Component {
 
   render() {
     const { navigate } = this.props.navigation;
-
-    let starred = this.props.starredRecipes.push(this.props.recipeDirections);
+    let starred = [...this.props.starredRecipes, this.props.recipeDirections];
 
     const recipeDir = this.props.recipeDirections;
     return (

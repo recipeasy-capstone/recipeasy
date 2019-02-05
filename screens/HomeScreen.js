@@ -4,7 +4,6 @@ import { Input, Button } from 'react-native-elements';
 import { login, signUpUser } from '../store/user';
 import { connect } from 'react-redux';
 import { fire } from '../firebaseconfig';
-import { fetchStarredRecipes } from '../store/recipes';
 
 class HomeScreen extends React.Component {
   constructor(props) {
@@ -29,9 +28,7 @@ class HomeScreen extends React.Component {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(ref => {
-        console.log('REFFFF', ref);
         this.props.login(ref.user.uid);
-        this.props.fetchStarredRecipes(ref.user.uid);
         navigate('Main');
       })
       .catch(error => {
@@ -121,7 +118,6 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = dispatch => ({
   login: uid => dispatch(login(uid)),
   signUpUser: (uid, data) => dispatch(signUpUser(uid, data)),
-  fetchStarredRecipes: uid => dispatch(fetchStarredRecipes(uid)),
 });
 
 export default connect(
