@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Image,
   Platform,
@@ -7,14 +7,14 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Button
-} from "react-native";
-import { connect } from "react-redux";
-import { fetchNewRecipes, fetchRecipeDirections } from "../store/recipes";
+  Button,
+} from 'react-native';
+import { connect } from 'react-redux';
+import { fetchNewRecipes, fetchRecipeDirections } from '../store/recipes';
 
 class RecipeListScreen extends React.Component {
   static navigationOptions = {
-    title: "RecipeList"
+    title: 'RecipeList',
   };
 
   render() {
@@ -46,7 +46,7 @@ class RecipeListScreen extends React.Component {
                     onPress={async () => {
                       try {
                         await this.props.fetchRecipeDirections(recipe.id);
-                        navigate("RecipeDirection");
+                        navigate('RecipeDirection');
                       } catch (err) {
                         console.error(err);
                       }
@@ -64,35 +64,35 @@ class RecipeListScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: '#fff',
   },
   pantryContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     marginTop: 10,
-    marginBottom: 20
+    marginBottom: 20,
   },
   button: {
-    backgroundColor: "#fbfbfb",
+    backgroundColor: '#fbfbfb',
     width: 100,
     marginTop: 50,
     padding: 20,
-    alignItems: "center"
+    alignItems: 'center',
   },
   buttonText: {
     fontSize: 20,
-    fontFamily: "Helvetica"
-  }
+    fontFamily: 'Helvetica',
+  },
 });
 
 const mapStateToProps = state => ({
   recipeIngredients: state.pantry.recipeIngredients,
   newRecipes: state.recipes.newRecipes,
-  user: state.user.user
+  uid: state.user.uid,
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchNewRecipes: ingredients => dispatch(fetchNewRecipes(ingredients)),
-  fetchRecipeDirections: id => dispatch(fetchRecipeDirections(id))
+  fetchRecipeDirections: id => dispatch(fetchRecipeDirections(id)),
 });
 
 export default connect(

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Image,
   Platform,
@@ -6,43 +6,53 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
-} from "react-native";
-import Hyperlink from "react-native-hyperlink";
-import { connect } from "react-redux";
-import { fetchStarredRecipes } from "../store/recipes";
+  View,
+  Button,
+} from 'react-native';
+import { connect } from 'react-redux';
+import { fetchStarredRecipes, fetchRecipeDirections } from '../store/recipes';
 
 class Starred extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      starred: this.props.user.starred
-    };
-  }
   static navigationOptions = {
-    title: null
+    title: null,
   };
 
   async componentDidMount() {
-    const { email } = this.props.user;
+    const { uid } = this.props;
     try {
-      await this.props.fetchStarredRecipes(email);
-      this.setState({ starred: this.props.recipes.starredRecipes });
+      await this.props.fetchStarredRecipes(uid);
     } catch (err) {
       console.error(err);
     }
   }
 
   render() {
-    const starredRecipes = this.state.starred;
+    const { navigate } = this.props.navigation;
+    const starredRecipes = this.props.starredRecipes;
+    if (!starredRecipes) starredRecipes = [];
+
     return (
       <View style={styles.container}>
         <View style={styles.starred}>
           <ScrollView>
             {starredRecipes.map((starredRecipe, index) => (
               <View key={index} style={styles.textContainer}>
-                <Text style={styles.text}>Recipe</Text>
-                <Text style={styles.link}>{starredRecipe}</Text>
+                <Image
+                  style={{ width: 193, height: 110 }}
+                  source={{ uri: starredRecipe.image }}
+                />
+                <Text style={styles.text}>{starredRecipe.title}</Text>
+                <Button
+                  title="Recipe"
+                  onPress={async () => {
+                    try {
+                      await this.props.fetchRecipeDirections(starredRecipe.id);
+                      navigate('RecipeDirection');
+                    } catch (err) {
+                      console.error(err);
+                    }
+                  }}
+                />
               </View>
             ))}
           </ScrollView>
@@ -55,43 +65,44 @@ class Starred extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#c4e4cf",
-    alignItems: "center"
+    backgroundColor: '#c4e4cf',
+    alignItems: 'center',
   },
   starred: {
-    alignItems: "center",
+    alignItems: 'center',
     marginTop: 50,
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
     width: 350,
     height: 630,
-    borderRadius: 30
+    borderRadius: 30,
   },
   textContainer: {
-    marginTop: 30
+    marginTop: 30,
   },
   text: {
-    textAlign: "center",
-    fontFamily: "Futura-Medium",
-    color: "black",
+    textAlign: 'center',
+    fontFamily: 'Futura-Medium',
+    color: 'black',
     fontSize: 15,
-    padding: 5
+    padding: 5,
   },
   link: {
-    textAlign: "center",
-    fontFamily: "Futura",
-    color: "#b6e1e0",
+    textAlign: 'center',
+    fontFamily: 'Futura',
+    color: '#b6e1e0',
     fontSize: 12,
-    padding: 5
-  }
+    padding: 5,
+  },
 });
 
 const mapStateToProps = state => ({
-  allRecipes: state.recipes.allRecipes,
-  user: state.user.user
+  starredRecipes: state.recipes.starredRecipes,
+  uid: state.user.uid,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchStarredRecipes: userId => dispatch(fetchStarredRecipes(userId))
+  fetchStarredRecipes: uid => dispatch(fetchStarredRecipes(uid)),
+  fetchRecipeDirections: id => dispatch(fetchRecipeDirections(id)),
 });
 
 export default connect(
