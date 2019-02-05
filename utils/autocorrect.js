@@ -1,4 +1,22 @@
-const path = '/Users/me/Senior/recipeasy/secrets/foods.txt'
-const autocorrect = require('autocorrect')({dictionary: path})
+var leven = require('leven')
+var foods = require('../secrets/foods')
+
+var autocorrect = function(str) {
+    var distance, bestWord, i, word, min
+
+    for (i = 0; i < foods.length; i++) {
+      word = foods[i]
+      distance = leven(str, word)
+
+      if (distance === 0) {
+        return word
+      } else if (min === undefined || distance < min) {
+        min = distance
+        bestWord = word
+      }
+    }
+
+    return bestWord
+}
 
 module.exports = autocorrect
