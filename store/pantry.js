@@ -1,45 +1,46 @@
-import { userInfo } from '../utils/firebaseFunc';
-import { firestore } from '../firebaseconfig';
-import autocorrect from '../utils/autocorrect'
+import { userInfo } from "../utils/firebaseFunc";
+import { firestore } from "../firebaseconfig";
+import autocorrect from "../utils/autocorrect";
 
-const SET_INGREDIENTS_LIST = 'SET_INGREDIENTS_LIST';
-const GOT_PANTRY = 'GOT_PANTRY';
-const ADDED_TO_PANTRY = 'ADDED_TO_PANTRY';
-const DELETED_FROM_PANTRY = 'DELETED_FROM_PANTRY';
-const ADDED_TO_RECIPE_INGREDIENTS = 'ADDED_TO_RECIPE_INGREDIENTS';
+const SET_INGREDIENTS_LIST = "SET_INGREDIENTS_LIST";
+const GOT_PANTRY = "GOT_PANTRY";
+const ADDED_TO_PANTRY = "ADDED_TO_PANTRY";
+const DELETED_FROM_PANTRY = "DELETED_FROM_PANTRY";
+const ADDED_TO_RECIPE_INGREDIENTS = "ADDED_TO_RECIPE_INGREDIENTS";
 
 const initialState = {
   filteredIngredientList: [],
   pantry: [],
-  recipeIngredients: [],
+  recipeIngredients: []
 };
 
 const setIngredientsList = pantry => ({
   type: SET_INGREDIENTS_LIST,
-  pantry,
+  pantry
 });
 const gotPantry = pantry => ({
   type: GOT_PANTRY,
-  pantry,
+  pantry
 });
 const addedToPantry = ingredient => ({
   type: ADDED_TO_PANTRY,
-  ingredient,
+  ingredient
 });
 const deletedFromPantry = ingredient => ({
   type: DELETED_FROM_PANTRY,
-  ingredient,
+  ingredient
 });
 
 export const settingIngredientsList = (ingredients, uid) => async dispatch => {
   try {
-    const foodArr = ingredients.map(item => autocorrect(item))
+    const foodArr = ingredients.map(item => autocorrect(item));
     const currentUserInfo = await userInfo(uid);
     foodArr.forEach(item => {
-      if (!currentUserInfo.pantry.includes(item)) currentUserInfo.pantry.push(item)
-    })
+      if (!currentUserInfo.pantry.includes(item))
+        currentUserInfo.pantry.push(item);
+    });
     await firestore
-      .collection('User')
+      .collection("User")
       .doc(uid)
       .set(currentUserInfo);
     dispatch(setIngredientsList(currentUserInfo.pantry));
@@ -62,7 +63,7 @@ export const addToPantry = (ingredient, uid) => async dispatch => {
     const currentUserInfo = await userInfo(uid);
     currentUserInfo.pantry.push(ingredient);
     await firestore
-      .collection('User')
+      .collection("User")
       .doc(uid)
       .set(currentUserInfo);
     dispatch(addedToPantry(ingredient));
@@ -78,7 +79,7 @@ export const deleteFromPantry = (ingredient, uid) => async dispatch => {
       item => item !== ingredient
     );
     await firestore
-      .collection('User')
+      .collection("User")
       .doc(uid)
       .set(currentUserInfo);
     dispatch(deletedFromPantry(ingredient));
@@ -97,15 +98,15 @@ export default function(state = initialState, action) {
       return { ...state, pantry: [...state.pantry, action.ingredient] };
     case DELETED_FROM_PANTRY:
       return {
-        pantry: [...state.pantry].filter(item => item !== action.ingredient),
+        pantry: [...state.pantry].filter(item => item !== action.ingredient)
       };
     case ADDED_TO_RECIPE_INGREDIENTS:
       return {
         ...state,
         recipeIngredients: [
           ...state.recipeIngredients,
-          action.recipeIngredients,
-        ],
+          action.recipeIngredients
+        ]
       };
     default:
       return state;

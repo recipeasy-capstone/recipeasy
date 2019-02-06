@@ -17,6 +17,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from "react-native-responsive-screen";
+import autocorrect from "../utils/autocorrect";
 
 class CameraScreen extends React.Component {
   constructor() {
