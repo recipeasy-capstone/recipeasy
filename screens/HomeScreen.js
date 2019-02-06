@@ -1,11 +1,19 @@
-
-import React from "react";
-import { Image, StyleSheet, View, KeyboardAvoidingView, ScrollView } from "react-native";
-import { Input, Button } from "react-native-elements";
-import { login, signUpUser } from "../store/user";
-import { connect } from "react-redux";
-import { fire } from "../firebaseconfig";
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
+import React from 'react';
+import {
+  Image,
+  StyleSheet,
+  View,
+  KeyboardAvoidingView,
+  ScrollView,
+} from 'react-native';
+import { Input, Button } from 'react-native-elements';
+import { login, signUpUser } from '../store/user';
+import { connect } from 'react-redux';
+import { fire } from '../firebaseconfig';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 class HomeScreen extends React.Component {
   constructor(props) {
@@ -61,39 +69,41 @@ class HomeScreen extends React.Component {
 
   render() {
     return (
-      <KeyboardAvoidingView behavior="position"
-      style={styles.container}
-      >
-        <Image
-          source={require('../assets/images/recipeasy_logo-01.png')}
-          style={styles.image}
-        />
-        <View style={styles.loginBox}>
-          <Input
-            placeholder="Email"
-            style={styles.form}
-            onChangeText={email => this.setState({ email })}
-            value={this.state.email}
-          />
-          <Input
-            placeholder="Password"
-            onChangeText={password => this.setState({ password })}
-            value={this.state.password.replace(/./g, '*')}
-          />
-          <View style={styles.buttonBox}>
-            <Button
-              onPress={() => this.handleLogin()}
-              title="Log In"
-              type="outline"
+      <View>
+        <View style={styles.homeContainer}>
+          <KeyboardAvoidingView behavior="position" style={styles.container}>
+            <Image
+              source={require('../assets/images/recipeasy_logo-01.png')}
+              style={styles.image}
             />
-            <Button
-              onPress={() => this.handleSignUp()}
-              title="Sign Up"
-              type="outline"
-            />
-          </View>
+            <View style={styles.loginBox}>
+              <Input
+                placeholder="Email"
+                style={styles.form}
+                onChangeText={email => this.setState({ email })}
+                value={this.state.email}
+              />
+              <Input
+                placeholder="Password"
+                onChangeText={password => this.setState({ password })}
+                value={this.state.password.replace(/./g, '*')}
+              />
+              <View style={styles.buttonBox}>
+                <Button
+                  onPress={() => this.handleLogin()}
+                  title="Log In"
+                  type="outline"
+                />
+                <Button
+                  onPress={() => this.handleSignUp()}
+                  title="Sign Up"
+                  type="outline"
+                />
+              </View>
+            </View>
+          </KeyboardAvoidingView>
         </View>
-      </KeyboardAvoidingView>
+      </View>
     );
   }
 }
@@ -103,13 +113,19 @@ const styles = StyleSheet.create({
     margin: 100,
     justifyContent: 'space-evenly',
   },
+  homeContainer: {
+    alignItems: 'center',
+    marginTop: 50,
+    height: hp('180%'),
+    width: wp('100%'),
+  },
+
   image: {
     alignItems: 'center',
-    marginTop: 80,
-    marginLeft: 15,
+    marginLeft: 20,
   },
   loginBox: {
-    marginTop: 40,
+    marginTop: hp('5%'),
   },
   input: {
     marginBottom: 10,

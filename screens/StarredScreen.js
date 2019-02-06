@@ -11,6 +11,10 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchStarredRecipes, fetchRecipeDirections } from '../store/recipes';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 class Starred extends React.Component {
   static navigationOptions = {
@@ -75,11 +79,11 @@ const styles = StyleSheet.create({
   },
   starred: {
     alignItems: 'center',
-    marginTop: 50,
     backgroundColor: '#ffffff',
-    width: 350,
-    height: 630,
-    borderRadius: 30,
+    margin: 30,
+    width: wp('85%'),
+    height: hp('75%'),
+    borderRadius: 10,
   },
   textContainer: {
     marginTop: 30,
@@ -89,13 +93,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Futura-Medium',
     color: 'black',
     fontSize: 15,
-    padding: 5,
-  },
-  link: {
-    textAlign: 'center',
-    fontFamily: 'Futura',
-    color: '#b6e1e0',
-    fontSize: 12,
     padding: 5,
   },
 });

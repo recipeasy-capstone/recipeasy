@@ -20,16 +20,6 @@ const HomeStack = createStackNavigator({
 
 HomeStack.navigationOptions = {
   tabBarLabel: 'HOME',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
-    />
-  ),
 };
 
 const PantryStack = createStackNavigator({
@@ -52,6 +42,9 @@ CameraStack.navigationOptions = {
 
 const StarredStack = createStackNavigator({
   Starred: StarredScreen,
+  Pantry: PantryScreen,
+  RecipeList: RecipeListScreen,
+  RecipeDirection: RecipeDirectionScreen,
 });
 
 StarredStack.navigationOptions = {
@@ -61,6 +54,7 @@ StarredStack.navigationOptions = {
 const RecipesStack = createStackNavigator({
   RecipeList: RecipeListScreen,
   RecipeDirection: RecipeDirectionScreen,
+  Pantry: PantryScreen,
 });
 
 RecipesStack.navigationOptions = {
