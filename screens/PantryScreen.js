@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'Futura',
     color: 'black',
-    fontSize: 25,
+    fontSize: hp('3%'),
     padding: 10,
     marginTop: 10,
   },
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
   },
   pantryButton: {
     width: 100,
-    height: 30,
+    height: hp('3%'),
     margin: 5,
     borderWidth: 2,
     borderColor: '#fbeb9e',
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   buttonText: {
-    fontSize: 20,
+    fontSize: hp('2%'),
     fontFamily: 'Futura',
     textAlign: 'center',
     color: 'black',

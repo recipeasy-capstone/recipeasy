@@ -18,7 +18,7 @@ import {
 
 class RecipeListScreen extends React.Component {
   static navigationOptions = {
-    title: 'RecipeList',
+    title: 'Recipe List',
   };
 
   render() {
@@ -45,8 +45,8 @@ class RecipeListScreen extends React.Component {
                       Missed Ingredients: {recipe.missedIngredientCount}
                     </Text>
                     <Text style={styles.text}>Likes: {recipe.likes}</Text>
-                    <Button
-                      title="Recipe"
+                    <TouchableOpacity
+                    style={styles.form}
                       onPress={async () => {
                         try {
                           await this.props.fetchRecipeDirections(recipe.id);
@@ -54,8 +54,12 @@ class RecipeListScreen extends React.Component {
                         } catch (err) {
                           console.error(err);
                         }
-                      }}
-                    />
+                      }}>
+                      <Text
+                      style={styles.formText}>
+                      Get Recipe!
+                   </Text>
+                      </TouchableOpacity>
                   </View>
                 ))}
             </View>
@@ -86,24 +90,34 @@ const styles = StyleSheet.create({
   image: {
     alignItems: 'center',
     margin: 15,
-    height: 110,
+    height: hp('15%'),
   },
   title: {
     textAlign: 'center',
     fontFamily: 'Futura',
     color: 'black',
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: hp('3%'),
     padding: 2,
-    marginBottom: 20,
-    marginTop: 20,
+    marginTop: hp('1%'),
+    marginBottom: hp('1%'),
   },
   text: {
     textAlign: 'center',
     fontFamily: 'Futura-Medium',
     color: 'black',
-    fontSize: 15,
-    padding: 5,
+    fontSize: hp('1.5%'),
+  },
+  form: {
+    marginTop: hp('2%'),
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: '#fbeb9e',
+  },
+  formText: {
+    fontSize: hp('2%'),
+    fontFamily: 'Futura',
+    textAlign: 'center',
+    color: 'black',
   },
 });
 

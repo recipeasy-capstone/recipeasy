@@ -30,7 +30,7 @@ class CameraScreen extends React.Component {
   }
 
   static navigationOptions = {
-    title: null,
+    title: 'Camera'
   };
 
   convertToText = async imageURI => {
@@ -182,19 +182,19 @@ const styles = StyleSheet.create({
   },
   image: {
     alignItems: 'center',
-    marginTop: 110,
+    marginTop: hp('10%'),
   },
   button: {
     alignItems: 'center',
-    width: 180,
-    marginTop: 20,
+    width: wp('50%'),
+    marginTop: hp('3%'),
     backgroundColor: '#c4e4cf',
     borderRadius: 10,
   },
   text: {
     fontFamily: 'Futura',
     color: 'white',
-    fontSize: 30,
+    fontSize: hp('3%'),
     padding: 5,
   },
 });

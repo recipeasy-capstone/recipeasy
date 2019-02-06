@@ -1,19 +1,14 @@
 import React from 'react';
 import {
   Image,
-  StyleSheet,
   View,
   KeyboardAvoidingView,
-  ScrollView,
 } from 'react-native';
+import styles from './styles'
 import { Input, Button } from 'react-native-elements';
 import { login, signUpUser } from '../store/user';
 import { connect } from 'react-redux';
 import { fire } from '../firebaseconfig';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
 
 class HomeScreen extends React.Component {
   constructor(props) {
@@ -74,12 +69,11 @@ class HomeScreen extends React.Component {
           <KeyboardAvoidingView behavior="position" style={styles.container}>
             <Image
               source={require('../assets/images/recipeasy_logo-01.png')}
-              style={styles.image}
+              style={styles.homeImage}
             />
             <View style={styles.loginBox}>
               <Input
                 placeholder="Email"
-                style={styles.form}
                 onChangeText={email => this.setState({ email })}
                 value={this.state.email}
               />
@@ -107,33 +101,6 @@ class HomeScreen extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    margin: 100,
-    justifyContent: 'space-evenly',
-  },
-  homeContainer: {
-    alignItems: 'center',
-    marginTop: 50,
-    height: hp('180%'),
-    width: wp('100%'),
-  },
-
-  image: {
-    alignItems: 'center',
-    marginLeft: 20,
-  },
-  loginBox: {
-    marginTop: hp('5%'),
-  },
-  input: {
-    marginBottom: 10,
-  },
-  buttonBox: {
-    paddingTop: 20,
-  },
-});
 
 const mapDispatchToProps = dispatch => ({
   login: uid => dispatch(login(uid)),

@@ -19,7 +19,7 @@ import {
 
 class SettingScreen extends React.Component {
   static navigationOptions = {
-    title: null,
+    title: 'Settings',
   };
 
   handleLogout() {
@@ -66,19 +66,19 @@ const styles = StyleSheet.create({
   },
   image: {
     alignItems: 'center',
-    marginTop: 150,
+    marginTop: hp('13%'),
   },
   button: {
     alignItems: 'center',
     width: 200,
-    marginTop: 40,
+    marginTop: hp('5%'),
     backgroundColor: '#c4e4cf',
     borderRadius: 10,
   },
   text: {
     fontFamily: 'Futura',
     color: 'white',
-    fontSize: 30,
+    fontSize: hp('3%'),
     padding: 5,
   },
 });
