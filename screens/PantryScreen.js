@@ -6,7 +6,8 @@ import {
   Text,
   TouchableOpacity,
   View,
-  TextInput
+  TextInput,
+  KeyboardAvoidingView
 } from "react-native";
 import { connect } from "react-redux";
 import { deleteFromPantry, addToPantry, fetchPantry } from "../store/pantry";
@@ -95,7 +96,7 @@ class PantryScreen extends React.Component {
       );
     }
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView behavior="position" style={styles.container}>
         <View style={styles.pantryContainer}>
           <ScrollView>
             {pantry.map((item, idx) => (
@@ -192,7 +193,7 @@ class PantryScreen extends React.Component {
             <Text style={styles.buttonText}>Get Recipes!</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

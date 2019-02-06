@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Image,
   StyleSheet,
@@ -6,61 +6,62 @@ import {
   TouchableOpacity,
   View,
   Alert,
-  ActivityIndicator,
-} from 'react-native';
-import { Permissions, ImagePicker } from 'expo';
-import { connect } from 'react-redux';
-import { settingIngredientsList } from '../store/pantry';
-import API_KEY from '../secrets/googleAPI';
-import notFood from '../utils/notFood';
+  ActivityIndicator
+} from "react-native";
+import { Permissions, ImagePicker } from "expo";
+import { connect } from "react-redux";
+import { settingIngredientsList } from "../store/pantry";
+import API_KEY from "../secrets/googleAPI";
+import notFood from "../utils/notFood";
 import {
   widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+  heightPercentageToDP as hp
+} from "react-native-responsive-screen";
+import autocorrect from "../utils/autocorrect";
 
 class CameraScreen extends React.Component {
   constructor() {
     super();
     this.state = {
       pantry: [],
-      isLoading: false,
+      isLoading: false
     };
     this.takePhoto = this.takePhoto.bind(this);
     this.selectPhoto = this.selectPhoto.bind(this);
   }
 
   static navigationOptions = {
-    title: 'Camera'
+    title: "Camera"
   };
 
   convertToText = async imageURI => {
     try {
       this.setState({ isLoading: true });
       let response = await fetch(
-        'https://vision.googleapis.com/v1/images:annotate?key=' + API_KEY,
+        "https://vision.googleapis.com/v1/images:annotate?key=" + API_KEY,
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
+            Accept: "application/json",
+            "Content-Type": "application/json"
           },
           body: JSON.stringify({
             requests: [
               {
                 image: {
-                  content: imageURI,
+                  content: imageURI
                 },
                 features: [
                   {
                     type: `${
-                      this.props.documentMode ? 'DOCUMENT_' : ''
+                      this.props.documentMode ? "DOCUMENT_" : ""
                     }TEXT_DETECTION`,
-                    maxResults: 1,
-                  },
-                ],
-              },
-            ],
-          }),
+                    maxResults: 1
+                  }
+                ]
+              }
+            ]
+          })
         }
       );
       let responseJSON = await response.json();
@@ -73,15 +74,15 @@ class CameraScreen extends React.Component {
         )
       ) {
         Alert.alert(
-          'There was no readable text in your image. Please try again.'
+          "There was no readable text in your image. Please try again."
         );
         this.setState({ isLoading: false });
       } else {
         const { uid } = this.props;
         const text = responseJSON.responses[0].fullTextAnnotation.text;
-        const splitText = text.split('\n');
+        const splitText = text.split("\n");
         const ingredients = splitText.map(item =>
-          item.replace(/[^a-zA-Z]+/g, '').toLowerCase()
+          item.replace(/[^a-zA-Z]+/g, "").toLowerCase()
         );
         const filteredIngredients = ingredients.filter(
           word => word.length !== 0 && !notFood.includes(word)
@@ -89,14 +90,14 @@ class CameraScreen extends React.Component {
 
         await this.props.settingIngredientsList(filteredIngredients, uid);
         Alert.alert(
-          'Success!',
-          'Items have been added to your pantry!',
-          [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+          "Success!",
+          "Please review your pantry to assure everything added correctly!",
+          [{ text: "OK", onPress: () => console.log("OK Pressed") }],
           { cancelable: false }
         );
       }
     } catch (err) {
-      console.error('An error occurred during text conversion:', err);
+      console.error("An error occurred during text conversion:", err);
     } finally {
       this.setState({ isLoading: false });
     }
@@ -110,11 +111,11 @@ class CameraScreen extends React.Component {
       Permissions.CAMERA_ROLL
     );
 
-    if (cameraPerm === 'granted' && cameraRollPerm === 'granted') {
+    if (cameraPerm === "granted" && cameraRollPerm === "granted") {
       let selectedPhoto = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
         aspect: [4, 3],
-        base64: true,
+        base64: true
       });
       this.convertToText(selectedPhoto.base64);
     }
@@ -125,11 +126,11 @@ class CameraScreen extends React.Component {
       Permissions.CAMERA_ROLL
     );
 
-    if (cameraRollPerm === 'granted') {
+    if (cameraRollPerm === "granted") {
       let selectedPhoto = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: true,
         aspect: [4, 3],
-        base64: true,
+        base64: true
       });
       this.convertToText(selectedPhoto.base64);
     }
@@ -140,7 +141,7 @@ class CameraScreen extends React.Component {
       <View style={styles.container}>
         <View style={styles.cameraContainer}>
           <Image
-            source={require('../assets/images/camera.png')}
+            source={require("../assets/images/camera.png")}
             style={styles.image}
           />
           <TouchableOpacity style={styles.button} onPress={this.takePhoto}>
@@ -154,7 +155,7 @@ class CameraScreen extends React.Component {
           />
 
           <Image
-            source={require('../assets/images/photo.png')}
+            source={require("../assets/images/photo.png")}
             style={styles.image}
           />
           <TouchableOpacity style={styles.button} onPress={this.selectPhoto}>
@@ -169,46 +170,46 @@ class CameraScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#c4e4cf',
-    alignItems: 'center',
+    backgroundColor: "#c4e4cf",
+    alignItems: "center"
   },
   cameraContainer: {
-    alignItems: 'center',
-    backgroundColor: '#ffffff',
+    alignItems: "center",
+    backgroundColor: "#ffffff",
     margin: 30,
-    width: wp('85%'),
-    height: hp('75%'),
-    borderRadius: 10,
+    width: wp("85%"),
+    height: hp("75%"),
+    borderRadius: 10
   },
   image: {
-    alignItems: 'center',
-    marginTop: hp('10%'),
+    alignItems: "center",
+    marginTop: hp("10%")
   },
   button: {
-    alignItems: 'center',
-    width: wp('50%'),
-    marginTop: hp('3%'),
-    backgroundColor: '#c4e4cf',
-    borderRadius: 10,
+    alignItems: "center",
+    width: wp("50%"),
+    marginTop: hp("3%"),
+    backgroundColor: "#c4e4cf",
+    borderRadius: 10
   },
   text: {
-    fontFamily: 'Futura',
-    color: 'white',
-    fontSize: hp('3%'),
-    padding: 5,
-  },
+    fontFamily: "Futura",
+    color: "white",
+    fontSize: hp("3%"),
+    padding: 5
+  }
 });
 
 const mapStateToProps = state => ({
   uid: state.user.uid,
   pantry: state.pantry.pantry,
-  filteredIngredientList: state.pantry.filteredIngredientList,
+  filteredIngredientList: state.pantry.filteredIngredientList
 });
 
 const mapDispatchToProps = dispatch => {
   return {
     settingIngredientsList: (pantry, uid) =>
-      dispatch(settingIngredientsList(pantry, uid)),
+      dispatch(settingIngredientsList(pantry, uid))
   };
 };
 
