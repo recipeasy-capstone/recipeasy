@@ -18,7 +18,7 @@ import {
 
 class Starred extends React.Component {
   static navigationOptions = {
-    title: null,
+    title: 'Starred Recipes',
   };
 
   async componentDidMount() {
@@ -37,7 +37,7 @@ class Starred extends React.Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.starred}>
+        <View style={styles.starredContainer}>
           <ScrollView>
             {starredRecipes.map((starredRecipe, index) => (
               <View key={index} style={styles.textContainer}>
@@ -46,8 +46,8 @@ class Starred extends React.Component {
                   source={{ uri: starredRecipe.image }}
                 />
                 <Text style={styles.text}>{starredRecipe.title}</Text>
-                <Button
-                  title="Recipe"
+                <TouchableOpacity
+                  style={styles.form}
                   onPress={async () => {
                     try {
                       await this.props.fetchRecipeDirections(starredRecipe.id);
@@ -56,7 +56,12 @@ class Starred extends React.Component {
                       console.error(err);
                     }
                   }}
-                />
+                  >
+                   <Text
+                   style={styles.formText}>
+                   Get Recipe!
+                   </Text>
+                  </TouchableOpacity>
               </View>
             ))}
           </ScrollView>
@@ -72,12 +77,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#c4e4cf',
     alignItems: 'center',
   },
-  image: {
-    alignItems: 'center',
-    margin: 15,
-    height: 110,
-  },
-  starred: {
+  starredContainer: {
     alignItems: 'center',
     backgroundColor: '#ffffff',
     margin: 30,
@@ -88,12 +88,30 @@ const styles = StyleSheet.create({
   textContainer: {
     marginTop: 30,
   },
+  image: {
+    alignItems: 'center',
+    margin: 15,
+    height: 110,
+  },
+  form: {
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: '#fbeb9e',
+  },
+  formText: {
+    fontSize: 15,
+    fontFamily: 'Futura',
+    textAlign: 'center',
+    color: 'black',
+  },
+  
   text: {
     textAlign: 'center',
     fontFamily: 'Futura-Medium',
     color: 'black',
     fontSize: 15,
     padding: 5,
+    marginBottom: 5
   },
 });
 
