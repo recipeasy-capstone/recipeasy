@@ -34,7 +34,18 @@ class Starred extends React.Component {
     const { navigate } = this.props.navigation;
     const starredRecipes = this.props.starredRecipes;
     if (!starredRecipes) starredRecipes = [];
-
+    if (starredRecipes.length === 0) {
+      return (
+        <View style={styles.container}>
+          <View style={styles.starredContainer}>
+            <Image
+              source={require('../assets/images/empty.png')}
+              style={styles.emptyImage}
+            />
+            <Text style={styles.text}>No Starred Recipes!</Text>
+          </View>
+        </View>
+            )}
     return (
       <View style={styles.container}>
         <View style={styles.starredContainer}>
@@ -63,10 +74,10 @@ class Starred extends React.Component {
                    </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    style={styles.formText}
+                    style={styles.form}
                     onPress={() => this.props.deleteStarRecipe(starredRecipe, this.props.uid)}
                   >
-                    <Text style={styles.buttonText}>Delete</Text>
+                    <Text style={styles.formText}>Delete</Text>
                   </TouchableOpacity>
 
               </View>
@@ -85,7 +96,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   starredContainer: {
-    alignItems: 'center',
     backgroundColor: '#ffffff',
     margin: 30,
     width: wp('85%'),
@@ -94,16 +104,27 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     marginTop: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   image: {
     alignItems: 'center',
     margin: 15,
     height: 110,
+    width: wp('100%')
+  },
+  emptyImage: {
+    alignItems: 'center',
+    margin: wp('22%'),
+    width: 250,
+    height: 250,
   },
   form: {
     borderWidth: 1,
     borderRadius: 10,
     borderColor: '#fbeb9e',
+    width: 200,
+    marginBottom: hp('2%')
   },
   formText: {
     fontSize: hp('2%'),
