@@ -1,13 +1,11 @@
 import React from 'react';
 import {
   Image,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  Button,
   TextInput,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -24,7 +22,6 @@ class PantryScreen extends React.Component {
     this.state = {
       selectedIngredients: [],
       itemToPantry: null,
-      checked: false,
       addText: '',
     };
     this.addIngredient = this.addIngredient.bind(this);
@@ -69,7 +66,6 @@ class PantryScreen extends React.Component {
 
   render() {
     const { pantry } = this.props;
-    const { navigate } = this.props.navigation;
     if (pantry.length === 0) {
       return (
         <View style={styles.container}>
@@ -108,23 +104,40 @@ class PantryScreen extends React.Component {
                 <View style={styles.buttonContainer}>
                   <TouchableOpacity
                     style={styles.pantryButton}
-                    onPress={() => this.removeIngredient(item)}
+                    onPress={() => {
+                      this.removeIngredient(item);
+                      this.setState({
+                        selectedIngredients: [
+                          ...this.state.selectedIngredients,
+                        ].filter(food => food !== item),
+                      });
+                    }}
                   >
                     <Text style={styles.buttonText}>Delete</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
                     style={styles.pantryButton}
-                    onPress={() =>
-                      this.setState({
-                        selectedIngredients: [
-                          ...this.state.selectedIngredients,
-                          item,
-                        ],
-                      })
-                    }
+                    onPress={() => {
+                      !this.state.selectedIngredients.includes(item)
+                        ? this.setState({
+                            selectedIngredients: [
+                              ...this.state.selectedIngredients,
+                              item,
+                            ],
+                          })
+                        : this.setState({
+                            selectedIngredients: [
+                              ...this.state.selectedIngredients,
+                            ].filter(food => food !== item),
+                          });
+                    }}
                   >
-                    <Text style={styles.buttonText}>Select</Text>
+                    {this.state.selectedIngredients.includes(item) ? (
+                      <Text style={styles.buttonText}>Selected</Text>
+                    ) : (
+                      <Text style={styles.buttonText}>Select</Text>
+                    )}
                   </TouchableOpacity>
                 </View>
               </View>
