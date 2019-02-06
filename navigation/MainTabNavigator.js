@@ -42,6 +42,9 @@ CameraStack.navigationOptions = {
 
 const StarredStack = createStackNavigator({
   Starred: StarredScreen,
+  Pantry: PantryScreen,
+  RecipeList: RecipeListScreen,
+  RecipeDirection: RecipeDirectionScreen,
 });
 
 StarredStack.navigationOptions = {
@@ -51,6 +54,7 @@ StarredStack.navigationOptions = {
 const RecipesStack = createStackNavigator({
   RecipeList: RecipeListScreen,
   RecipeDirection: RecipeDirectionScreen,
+  Pantry: PantryScreen,
 });
 
 RecipesStack.navigationOptions = {
