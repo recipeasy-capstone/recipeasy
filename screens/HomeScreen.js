@@ -47,8 +47,8 @@ class HomeScreen extends React.Component {
     fire
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(ref => {
-        this.props.signUpUser(ref.user.uid, data);
+      .then(async ref => {
+        await this.props.signUpUser(ref.user.uid, data);
         navigate('Main');
       })
       .catch(error => {
