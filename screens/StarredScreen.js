@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     borderColor: '#fbeb9e',
   },
   formText: {
-    fontSize: 15,
+    fontSize: hp('2%'),
     fontFamily: 'Futura',
     textAlign: 'center',
     color: 'black',
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'Futura-Medium',
     color: 'black',
-    fontSize: 15,
+    fontSize: hp('3%'),
     padding: 5,
     marginBottom: 5
   },
