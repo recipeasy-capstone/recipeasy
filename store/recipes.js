@@ -21,7 +21,7 @@ const gotStarredRecipes = starredRecipes => ({
 });
 const gotNewRecipes = newRecipes => ({ type: GOT_NEW_RECIPES, newRecipes });
 const addedStarRecipe = starRecipe => ({ type: ADD_STAR_RECIPE, starRecipe });
-const deletedStarRecipe = starRecipe => ({ type: DELETED_STARRED_RECIPE, starRecipe});
+const deletedStarRecipe = recipe => ({ type: DELETED_STARRED_RECIPE, recipe});
 const gotRecipeDirections = recipeDirections => ({
   type: GOT_RECIPE_DIRECTIONS,
   recipeDirections,
@@ -62,7 +62,7 @@ export const deleteStarRecipe = (recipe, uid) => async dispatch => {
   try {
     const currentUserInfo = await userInfo(uid);
     currentUserInfo.starred = currentUserInfo.starred.filter(
-      item => item !== recipe
+      item => item.title !== recipe.title
     );
     await firestore
       .collection('User')
@@ -96,7 +96,7 @@ export default function(state = initialState, action) {
       };
     case DELETED_STARRED_RECIPE:
       return {
-        starredRecipes: [...state.starredRecipes].filter(item => item !== action.starRecipe)
+        starredRecipes: [...state.starredRecipes].filter(item => item !== action.recipe)
       }
     default:
       return state;
