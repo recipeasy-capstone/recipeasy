@@ -6,6 +6,7 @@ import { firestore } from '../firebaseconfig';
 const GOT_STARRED_RECIPES = 'GOT_STARRED_RECIPES';
 const GOT_NEW_RECIPES = 'GOT_NEW_RECIPES';
 const GOT_RECIPE_DIRECTIONS = 'GOT_RECIPE_DIRECTIONS';
+const DELETED_STARRED_RECIPE = 'DELETED_STARRED_RECIPE';
 
 const initialState = {
   starredRecipes: [],
@@ -20,6 +21,7 @@ const gotStarredRecipes = starredRecipes => ({
 });
 const gotNewRecipes = newRecipes => ({ type: GOT_NEW_RECIPES, newRecipes });
 const addedStarRecipe = starRecipe => ({ type: ADD_STAR_RECIPE, starRecipe });
+const deletedStarRecipe = starRecipe => ({ type: DELETED_STARRED_RECIPE, starRecipe});
 const gotRecipeDirections = recipeDirections => ({
   type: GOT_RECIPE_DIRECTIONS,
   recipeDirections,
@@ -56,6 +58,22 @@ export const addingStarRecipe = (recipe, uid) => async dispatch => {
   }
 };
 
+export const deleteStarRecipe = (recipe, uid) => async dispatch => {
+  try {
+    const currentUserInfo = await userInfo(uid);
+    currentUserInfo.starred = currentUserInfo.starred.filter(
+      item => item !== recipe
+    );
+    await firestore
+      .collection('User')
+      .doc(uid)
+      .set(currentUserInfo);
+    dispatch(deletedStarRecipe(recipe));
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export const fetchRecipeDirections = id => async dispatch => {
   try {
     const { data } = await axios.post(fsGetDirections, { id });
@@ -76,6 +94,10 @@ export default function(state = initialState, action) {
         ...state,
         recipeDirections: action.recipeDirections,
       };
+    case DELETED_STARRED_RECIPE:
+      return {
+        starredRecipes: [...state.starredRecipes].filter(item => item !== action.starRecipe)
+      }
     default:
       return state;
   }

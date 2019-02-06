@@ -10,7 +10,7 @@ import {
   Button,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { fetchStarredRecipes, fetchRecipeDirections } from '../store/recipes';
+import { fetchStarredRecipes, fetchRecipeDirections, deleteStarRecipe } from '../store/recipes';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -62,6 +62,13 @@ class Starred extends React.Component {
                    Get Recipe!
                    </Text>
                   </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.formText}
+                    onPress={() => this.props.deleteStarRecipe(starredRecipe, this.props.uid)}
+                  >
+                    <Text style={styles.buttonText}>Delete</Text>
+                  </TouchableOpacity>
+
               </View>
             ))}
           </ScrollView>
@@ -123,6 +130,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   fetchStarredRecipes: uid => dispatch(fetchStarredRecipes(uid)),
   fetchRecipeDirections: id => dispatch(fetchRecipeDirections(id)),
+  deleteStarRecipe: (item, uid) => dispatch(deleteStarRecipe(item, uid))
 });
 
 export default connect(
