@@ -81,15 +81,16 @@ class CameraScreen extends React.Component {
         const { uid } = this.props;
         const text = responseJSON.responses[0].fullTextAnnotation.text;
         const splitText = text.split("\n");
+
         const filteredIngredients = splitText.filter(
-          word => word.length !== 0 && !notFood.includes(word)
+          word => word.length !== 0 && !notFood.includes(word) && !word[0].match(/[^a-zA-Z]+/g)
         );
-        
-        const ingredients = filteredIngredients.map(item => {
-          item = item.replace(/[^a-zA-Z]+/g, "")
-          const upperCaseItem = item[0].toUpperCase() + item.slice(1)
-          return upperCaseItem
-        });
+
+        const ingredients = filteredIngredients.map(item => 
+          item.toLowerCase().replace(/[^a-zA-Z ]+/g, "")
+        );
+
+        console.log('INGREDIENTS', ingredients)
         
         await this.props.settingIngredientsList(ingredients, uid);
         Alert.alert(
