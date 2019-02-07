@@ -28,6 +28,7 @@
     "https-browserify": "0.0.1",
     "leven": "^2.1.0",
     "lint": "^1.1.2",
+    "lodash": "^4.17.11",
     "node-libs-react-native": "^1.0.3",
     "nodemon": "^1.18.9",
     "path": "^0.12.7",
