@@ -18,7 +18,9 @@ exports.goGetRecipe = functions.https.onRequest((req, res) => {
     });
 });
 
-exports.getRecipes = _.throttle(exports.goGetRecipe, 2000);
+exports.getRecipes = functions.https.onRequest(
+  _.throttle(exports.goGetRecipe, 2000)
+);
 
 exports.getDirections = functions.https.onRequest((req, res) => {
   unirest
