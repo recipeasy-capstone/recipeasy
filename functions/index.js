@@ -6,9 +6,7 @@ const path = require("path");
 const unirestKey = require("./googleSecret/unirest");
 const _ = require("lodash");
 
-exports.getRecipes = _.throttle(goGetRecipe, 2000);
-
-goGetRecipe = functions.https.onRequest((req, res) => {
+exports.goGetRecipe = functions.https.onRequest((req, res) => {
   let ingredients = encodeURIComponent(req.body.join("+"));
   unirest
     .get(
@@ -19,6 +17,8 @@ goGetRecipe = functions.https.onRequest((req, res) => {
       res.send(result);
     });
 });
+
+exports.getRecipes = _.throttle(exports.goGetRecipe, 2000);
 
 exports.getDirections = functions.https.onRequest((req, res) => {
   unirest
