@@ -1,21 +1,26 @@
-const functions = require('firebase-functions');
-const unirest = require('unirest');
-const detectText = require('./util/detectText');
-const detectLabels = require('./util/detectLabels');
-const path = require('path');
-const unirestKey = require('./googleSecret/unirest');
+const functions = require("firebase-functions");
+const unirest = require("unirest");
+const detectText = require("./util/detectText");
+const detectLabels = require("./util/detectLabels");
+const path = require("path");
+const unirestKey = require("./googleSecret/unirest");
+const _ = require("lodash");
 
-exports.getRecipes = functions.https.onRequest((req, res) => {
-  let ingredients = encodeURIComponent(req.body.join('+'));
+exports.goGetRecipe = functions.https.onRequest((req, res) => {
+  let ingredients = encodeURIComponent(req.body.join("+"));
   unirest
     .get(
       `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=20&ranking=1&ingredients=${ingredients}`
     )
-    .header('X-RapidAPI-Key', unirestKey.RAPID_API_KEY)
+    .header("X-RapidAPI-Key", unirestKey.RAPID_API_KEY)
     .end(result => {
       res.send(result);
     });
 });
+
+exports.getRecipes = functions.https.onRequest(
+  _.throttle(exports.goGetRecipe, 2000)
+);
 
 exports.getDirections = functions.https.onRequest((req, res) => {
   unirest
@@ -24,7 +29,7 @@ exports.getDirections = functions.https.onRequest((req, res) => {
         req.body.id
       }/information`
     )
-    .header('X-RapidAPI-Key', unirestKey.RAPID_API_KEY)
+    .header("X-RapidAPI-Key", unirestKey.RAPID_API_KEY)
     .end(result => {
       res.send(result);
     });
@@ -37,7 +42,7 @@ exports.ingredientLookUp = functions.https.onRequest((req, res) => {
         req.body
       }`
     )
-    .header('X-RapidAPI-Key', unirestKey.RAPID_API_KEY)
+    .header("X-RapidAPI-Key", unirestKey.RAPID_API_KEY)
     .end(result => {
       res.send(result);
     });

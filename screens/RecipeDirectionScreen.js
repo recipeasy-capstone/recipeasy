@@ -1,38 +1,28 @@
-import React from 'react';
+import React from "react";
 import {
   Image,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-} from 'react-native';
-import { connect } from 'react-redux';
+  View
+} from "react-native";
+import { connect } from "react-redux";
 import {
   fetchRecipeDirections,
   addingStarRecipe,
   fetchStarredRecipes,
-  fetchNewRecipes,
-} from '../store/recipes';
+  fetchNewRecipes
+} from "../store/recipes";
 import {
   widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+  heightPercentageToDP as hp
+} from "react-native-responsive-screen";
 
 class RecipeDirectionScreen extends React.Component {
   static navigationOptions = {
-    title: 'Recipe Direction',
+    title: "Recipe Direction"
   };
-
-  handleRecipes() {
-    const { recipeIngredients } = this.props;
-    const { navigate } = this.props.navigation;
-    if (recipeIngredients.length !== 0) {
-      navigate('RecipeList');
-    } else {
-      alert('Please select ingredients from pantry!');
-    }
-  }
 
   render() {
     const { navigate } = this.props.navigation;
@@ -60,33 +50,29 @@ class RecipeDirectionScreen extends React.Component {
               onPress={async () => {
                 try {
                   await this.props.addingStarRecipe(starred, this.props.uid);
-                  navigate('Starred');
+                  navigate("Starred");
                 } catch (err) {
                   console.error(err);
                 }
               }}
             >
-              <Text style={styles.buttonText}>
-                I'd like to save this recipe!
-              </Text>
+              <Text style={styles.buttonText}>Save this recipe!</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
               onPress={() => {
-                this.handleRecipes();
+                navigate("RecipeList");
               }}
             >
-              <Text style={styles.buttonText}>I'd like to keep looking!</Text>
+              <Text style={styles.buttonText}>Return to recipes!</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
               onPress={() => {
-                navigate('Pantry');
+                navigate("Pantry");
               }}
             >
-              <Text style={styles.buttonText}>
-                I'd like to try different ingredients
-              </Text>
+              <Text style={styles.buttonText}>Try different ingredients!</Text>
             </TouchableOpacity>
           </ScrollView>
         </View>
@@ -99,77 +85,77 @@ const mapStateToProps = state => ({
   recipeDirections: state.recipes.recipeDirections,
   uid: state.user.uid,
   recipeIngredients: state.pantry.recipeIngredients,
-  starredRecipes: state.recipes.starredRecipes,
+  starredRecipes: state.recipes.starredRecipes
 });
 
 const mapDispatchToProps = dispatch => ({
   addingStarRecipe: (recipe, uid) => dispatch(addingStarRecipe(recipe, uid)),
   fetchRecipeDirections: id => dispatch(fetchRecipeDirections(id)),
   fetchNewRecipes: ingredients => dispatch(fetchNewRecipes(ingredients)),
-  fetchStarredRecipes: uid => dispatch(fetchStarredRecipes(uid)),
+  fetchStarredRecipes: uid => dispatch(fetchStarredRecipes(uid))
 });
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    alignItems: "center",
     flex: 1,
-    backgroundColor: '#fbeb9e',
+    backgroundColor: "#fbeb9e"
   },
   white: {
-    alignItems: 'center',
-    backgroundColor: '#ffffff',
+    alignItems: "center",
+    backgroundColor: "#ffffff",
     margin: 30,
-    width: wp('85%'),
-    height: hp('75%'),
-    borderRadius: 10,
+    width: wp("85%"),
+    height: hp("75%"),
+    borderRadius: 10
   },
   button: {
-    backgroundColor: '#fbfbfb',
-    alignItems: 'center',
+    backgroundColor: "#fbfbfb",
+    alignItems: "center",
     marginLeft: 20,
     marginRight: 20,
     marginBottom: 10,
     padding: 20,
     borderRadius: 30,
-    backgroundColor: '#c4e4cf',
+    backgroundColor: "#c4e4cf"
   },
   buttonText: {
-    textAlign: 'center',
-    fontFamily: 'Futura',
-    color: 'white',
-    fontSize: 15,
-    padding: 3,
+    textAlign: "center",
+    fontFamily: "Futura",
+    color: "white",
+    fontSize: hp("2.5%"),
+    padding: 3
   },
   title: {
-    textAlign: 'center',
-    fontFamily: 'Futura',
-    color: 'black',
+    textAlign: "center",
+    fontFamily: "Futura",
+    color: "black",
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     padding: 2,
     marginBottom: 20,
-    marginTop: 20,
+    marginTop: 20
   },
   image: {
-    alignItems: 'center',
+    alignItems: "center",
     margin: 15,
-    height: 110,
+    height: 110
   },
   addOns: {
-    textAlign: 'center',
-    fontFamily: 'Futura',
-    color: '#828282',
+    textAlign: "center",
+    fontFamily: "Futura",
+    color: "#828282",
     fontSize: 12,
-    padding: 2,
+    padding: 2
   },
   instructions: {
-    fontFamily: 'Futura',
-    color: 'black',
+    fontFamily: "Futura",
+    color: "black",
     fontSize: 15,
     padding: 2,
-    alignItems: 'center',
-    margin: 15,
-  },
+    alignItems: "center",
+    margin: 15
+  }
 });
 
 export default connect(
