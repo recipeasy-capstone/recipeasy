@@ -12,12 +12,11 @@ import { Permissions, ImagePicker } from "expo";
 import { connect } from "react-redux";
 import { settingIngredientsList } from "../store/pantry";
 import API_KEY from "../secrets/googleAPI";
-import notFood from "../utils/notFood";
+import notFood from "../secrets/notFood";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from "react-native-responsive-screen";
-import autocorrect from "../utils/autocorrect";
 
 class CameraScreen extends React.Component {
   constructor() {
