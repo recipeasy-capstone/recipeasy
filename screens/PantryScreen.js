@@ -134,7 +134,8 @@ class PantryScreen extends React.Component {
                           });
                     }}
                   >
-                    {this.state.selectedIngredients.includes(item) ? (
+                    {this.state.selectedIngredients.includes(item) ||
+                    this.state.selectedIngredients.includes(pantry) ? (
                       <Text style={styles.buttonSelected}>Selected</Text>
                     ) : (
                       <Text style={styles.buttonText}>Select</Text>
