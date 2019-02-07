@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Image,
   ScrollView,
@@ -7,15 +7,17 @@ import {
   TouchableOpacity,
   View,
   TextInput,
-  KeyboardAvoidingView
-} from "react-native";
-import { connect } from "react-redux";
-import { deleteFromPantry, addToPantry, fetchPantry } from "../store/pantry";
-import { fetchNewRecipes } from "../store/recipes";
+  KeyboardAvoidingView,
+  Keyboard,
+  TouchableWithoutFeedback
+} from 'react-native';
+import { connect } from 'react-redux';
+import { deleteFromPantry, addToPantry, fetchPantry } from '../store/pantry';
+import { fetchNewRecipes } from '../store/recipes';
 import {
   widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from "react-native-responsive-screen";
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 class PantryScreen extends React.Component {
   constructor() {
@@ -23,13 +25,13 @@ class PantryScreen extends React.Component {
     this.state = {
       selectedIngredients: [],
       itemToPantry: null,
-      addText: ""
+      addText: '',
     };
     this.addIngredient = this.addIngredient.bind(this);
     this.removeIngredient = this.removeIngredient.bind(this);
   }
   static navigationOptions = {
-    title: "Pantry"
+    title: 'Pantry',
   };
 
   async componentDidMount() {
@@ -41,9 +43,15 @@ class PantryScreen extends React.Component {
     const { uid } = this.props;
     const { pantry } = this.props;
     if (!this.state.itemToPantry) {
+<<<<<<< HEAD
       alert("You must enter an ingredient!");
     } else if (pantry.includes(this.state.itemToPantry[0].toUpperCase() + this.state.itemToPantry.slice(1))) {
       alert("This item is already in your pantry!");
+=======
+      alert('You must enter an ingredient!');
+    } else if (pantry.includes(this.state.itemToPantry)) {
+      alert('This item is already in your pantry!');
+>>>>>>> master
     } else {
       this.props.addToPantry(this.state.itemToPantry[0].toUpperCase() + this.state.itemToPantry.slice(1), uid);
     }
@@ -58,10 +66,10 @@ class PantryScreen extends React.Component {
     const { selectedIngredients } = this.state;
     const { navigate } = this.props.navigation;
     if (selectedIngredients.length === 0) {
-      alert("Please select ingredients!");
+      alert('Please select ingredients!');
     } else {
       this.props.fetchNewRecipes(selectedIngredients);
-      navigate("RecipeList");
+      navigate('RecipeList');
     }
   }
 
@@ -69,10 +77,11 @@ class PantryScreen extends React.Component {
     const { pantry } = this.props;
     if (pantry.length === 0) {
       return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
           <View style={styles.pantryContainer}>
             <Image
-              source={require("../assets/images/empty.png")}
+              source={require('../assets/images/empty.png')}
               style={styles.image}
             />
             <Text style={styles.ingredients}>Add to Pantry:</Text>
@@ -93,9 +102,11 @@ class PantryScreen extends React.Component {
             </TouchableOpacity>
           </View>
         </View>
+      </TouchableWithoutFeedback>
       );
     }
     return (
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <KeyboardAvoidingView behavior="position" style={styles.container}>
         <View style={styles.pantryContainer}>
           <ScrollView>
@@ -109,8 +120,8 @@ class PantryScreen extends React.Component {
                       this.removeIngredient(item);
                       this.setState({
                         selectedIngredients: [
-                          ...this.state.selectedIngredients
-                        ].filter(food => food !== item)
+                          ...this.state.selectedIngredients,
+                        ].filter(food => food !== item),
                       });
                     }}
                   >
@@ -124,18 +135,19 @@ class PantryScreen extends React.Component {
                         ? this.setState({
                             selectedIngredients: [
                               ...this.state.selectedIngredients,
-                              item
-                            ]
+                              item,
+                            ],
                           })
                         : this.setState({
                             selectedIngredients: [
-                              ...this.state.selectedIngredients
-                            ].filter(food => food !== item)
+                              ...this.state.selectedIngredients,
+                            ].filter(food => food !== item),
                           });
                     }}
                   >
-                    {this.state.selectedIngredients.includes(item) ? (
-                      <Text style={styles.buttonText}>Selected</Text>
+                    {this.state.selectedIngredients.includes(item) ||
+                    this.state.selectedIngredients.includes(pantry) ? (
+                      <Text style={styles.buttonSelected}>Selected</Text>
                     ) : (
                       <Text style={styles.buttonText}>Select</Text>
                     )}
@@ -168,13 +180,13 @@ class PantryScreen extends React.Component {
             onPress={() => {
               this.state.selectedIngredients.length !== 0
                 ? this.setState({
-                    selectedIngredients: []
+                    selectedIngredients: [],
                   })
                 : this.setState({
                     selectedIngredients: [
                       ...this.state.selectedIngredients,
-                      pantry
-                    ]
+                      pantry,
+                    ],
                   });
             }}
           >
@@ -194,6 +206,7 @@ class PantryScreen extends React.Component {
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
+     </TouchableWithoutFeedback>
     );
   }
 }
@@ -201,70 +214,78 @@ class PantryScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#c4e4cf",
-    alignItems: "center"
+    backgroundColor: '#c4e4cf',
+    alignItems: 'center',
   },
   pantryContainer: {
-    alignItems: "center",
-    backgroundColor: "#ffffff",
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
     margin: 30,
-    width: wp("85%"),
-    height: hp("75%"),
-    borderRadius: 10
+    width: wp('85%'),
+    height: hp('75%'),
+    borderRadius: 10,
   },
   ingredients: {
-    textAlign: "center",
-    fontFamily: "Futura",
-    color: "black",
-    fontSize: hp("3%"),
+    textAlign: 'center',
+    fontFamily: 'Futura',
+    color: 'black',
+    fontSize: hp('3%'),
     padding: 10,
-    marginTop: 10
+    marginTop: 10,
   },
   buttonContainer: {
     flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center"
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   pantryButton: {
     width: 100,
-    height: hp("3%"),
+    height: hp('3%'),
     margin: 5,
     borderWidth: 2,
-    borderColor: "#fbeb9e",
-    borderRadius: 10
+    borderColor: '#fbeb9e',
+  },
+  buttonSelected: {
+    width: 96,
+    height: hp('2.6%'),
+    backgroundColor: '#fbeb9e',
+    fontSize: hp('2%'),
+    fontFamily: 'Futura',
+    textAlign: 'center',
+    color: 'black',
   },
   button: {
     width: 200,
     margin: 10,
-    backgroundColor: "#fbeb9e",
-    borderRadius: 10
+    backgroundColor: '#fbeb9e',
+    borderRadius: 10,
   },
   buttonText: {
-    fontSize: hp("2%"),
-    fontFamily: "Futura",
-    textAlign: "center",
-    color: "black"
+    fontSize: hp('2%'),
+    fontFamily: 'Futura',
+    textAlign: 'center',
+    color: 'black',
   },
   form: {
     borderWidth: 1,
     width: 300,
     height: 30,
-    borderColor: "#c4e4cf"
+    borderColor: '#c4e4cf',
   },
   image: {
-    alignItems: "center",
+    alignItems: 'center',
     margin: 80,
     width: 250,
-    height: 250
-  }
+    height: 250,
+  },
 });
 
 const mapStateToProps = state => {
   return {
     uid: state.user.uid,
     pantry: state.pantry.pantry,
-    recipeIngredients: state.pantry.recipeIngredients
+    recipeIngredients: state.pantry.recipeIngredients,
   };
 };
 
@@ -273,7 +294,7 @@ const mapDispatchToProps = dispatch => {
     addToPantry: (item, uid) => dispatch(addToPantry(item, uid)),
     deleteFromPantry: (item, uid) => dispatch(deleteFromPantry(item, uid)),
     fetchNewRecipes: ingredients => dispatch(fetchNewRecipes(ingredients)),
-    fetchPantry: uid => dispatch(fetchPantry(uid))
+    fetchPantry: uid => dispatch(fetchPantry(uid)),
   };
 };
 

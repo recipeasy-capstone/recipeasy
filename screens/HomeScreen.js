@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, View, KeyboardAvoidingView } from "react-native";
+import { Image, View, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback } from "react-native";
 import styles from "./styles";
 import { Input, Button } from "react-native-elements";
 import { login, signUpUser } from "../store/user";
@@ -52,6 +52,8 @@ class HomeScreen extends React.Component {
           alert("Both fields must be filled!");
         } else if (password.length < 6) {
           alert("Password must be at least six characters");
+        } else if (email !== 'email'){
+          alert("Must be a valid email") 
         } else if (email && password) {
           alert("This email is already being used!");
         }
@@ -60,7 +62,7 @@ class HomeScreen extends React.Component {
 
   render() {
     return (
-      <View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.homeContainer}>
           <KeyboardAvoidingView behavior="position" style={styles.container}>
             <Image
@@ -93,7 +95,7 @@ class HomeScreen extends React.Component {
             </View>
           </KeyboardAvoidingView>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
