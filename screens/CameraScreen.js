@@ -89,9 +89,7 @@ class CameraScreen extends React.Component {
         const ingredients = filteredIngredients.map(item => 
           item.toLowerCase().replace(/[^a-zA-Z ]+/g, "")
         );
-
-        console.log('INGREDIENTS', ingredients)
-        
+                
         await this.props.settingIngredientsList(ingredients, uid);
         Alert.alert(
           "Success!",

@@ -33,8 +33,7 @@ const deletedFromPantry = ingredient => ({
 
 export const settingIngredientsList = (ingredients, uid) => async dispatch => {
   try {
-    const foodArr = ingredients.map(item => autocorrect(item));
-    console.log('FOOD', foodArr)
+    const foodArr = ingredients.map(item =>autocorrect(item));
     const currentUserInfo = await userInfo(uid);
     foodArr.forEach(item => {
       if (!currentUserInfo.pantry.includes(item[0].toUpperCase() + item.slice(1)))
