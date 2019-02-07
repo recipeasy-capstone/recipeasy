@@ -1,77 +1,81 @@
-import React from 'react';
-import { Platform } from 'react-native';
+import React from "react";
+import { Platform } from "react-native";
 import {
   createStackNavigator,
-  createBottomTabNavigator,
-} from 'react-navigation';
+  createBottomTabNavigator
+} from "react-navigation";
 
-import TabBarIcon from '../components/TabBarIcon';
-import PantryScreen from '../screens/PantryScreen';
-import CameraScreen from '../screens/CameraScreen';
-import StarredScreen from '../screens/StarredScreen';
-import RecipeListScreen from '../screens/RecipeListScreen';
-import HomeScreen from '../screens/HomeScreen';
-import SettingScreen from '../screens/SettingScreen';
-import RecipeDirectionScreen from '../screens/RecipeDirectionScreen';
+import TabBarIcon from "../components/TabBarIcon";
+import PantryScreen from "../screens/PantryScreen";
+import CameraScreen from "../screens/CameraScreen";
+import StarredScreen from "../screens/StarredScreen";
+import RecipeListScreen from "../screens/RecipeListScreen";
+import HomeScreen from "../screens/HomeScreen";
+import SettingScreen from "../screens/SettingScreen";
+import RecipeDirectionScreen from "../screens/RecipeDirectionScreen";
 
 const HomeStack = createStackNavigator({
-  Home: HomeScreen,
+  Home: HomeScreen
 });
 
 HomeStack.navigationOptions = {
-  tabBarLabel: 'HOME',
+  tabBarLabel: "HOME"
 };
 
 const PantryStack = createStackNavigator({
   Pantry: PantryScreen,
-  RecipeList: RecipeListScreen,
+  RecipeList: RecipeListScreen
 });
 
 PantryStack.navigationOptions = {
-  tabBarLabel: 'PANTRY',
+  tabBarLabel: "PANTRY"
 };
 
 const CameraStack = createStackNavigator({
   Camera: CameraScreen,
-  Pantry: PantryScreen,
+  Pantry: PantryScreen
 });
 
 CameraStack.navigationOptions = {
-  tabBarLabel: 'CAMERA',
+  tabBarLabel: "CAMERA"
 };
+const RecipeDirectionStack = createStackNavigator({
+  RecipeDirection: RecipeDirectionScreen,
+  Pantry: PantryScreen
+});
 
 const StarredStack = createStackNavigator({
   Starred: StarredScreen,
   Pantry: PantryScreen,
   RecipeList: RecipeListScreen,
-  RecipeDirection: RecipeDirectionScreen,
+  RecipeDirection: RecipeDirectionScreen
 });
 
 StarredStack.navigationOptions = {
-  tabBarLabel: 'STARRED',
+  tabBarLabel: "STARRED"
 };
 
 const RecipesStack = createStackNavigator({
   RecipeList: RecipeListScreen,
   RecipeDirection: RecipeDirectionScreen,
-  Pantry: PantryScreen,
+  Pantry: PantryScreen
 });
 
 RecipesStack.navigationOptions = {
-  tabBarLabel: 'RECIPES',
+  tabBarLabel: "RECIPES"
 };
 
 const SettingStack = createStackNavigator({
-  Setting: SettingScreen,
+  Setting: SettingScreen
 });
 
 SettingStack.navigationOptions = {
-  tabBarLabel: 'SETTINGS',
+  tabBarLabel: "SETTINGS"
 };
 
 export default createBottomTabNavigator({
   PantryStack,
   CameraStack,
   StarredStack,
-  SettingStack,
+  SettingStack
 });
