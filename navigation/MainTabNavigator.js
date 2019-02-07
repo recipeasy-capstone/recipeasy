@@ -28,7 +28,13 @@ const PantryStack = createStackNavigator({
 });
 
 PantryStack.navigationOptions = {
-  tabBarLabel: "PANTRY"
+  tabBarLabel: "PANTRY",
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-cart" : "md-cart"}
+    />
+  )
 };
 
 const CameraStack = createStackNavigator({
@@ -37,7 +43,13 @@ const CameraStack = createStackNavigator({
 });
 
 CameraStack.navigationOptions = {
-  tabBarLabel: "CAMERA"
+  tabBarLabel: "CAMERA",
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-camera" : "md-camera"}
+    />
+  )
 };
 const RecipeDirectionStack = createStackNavigator({
   RecipeDirection: RecipeDirectionScreen,
@@ -52,7 +64,13 @@ const StarredStack = createStackNavigator({
 });
 
 StarredStack.navigationOptions = {
-  tabBarLabel: "STARRED"
+  tabBarLabel: "STARRED",
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-star" : "md-star"}
+    />
+  )
 };
 
 const RecipesStack = createStackNavigator({
@@ -70,7 +88,13 @@ const SettingStack = createStackNavigator({
 });
 
 SettingStack.navigationOptions = {
-  tabBarLabel: "SETTINGS"
+  tabBarLabel: "SETTINGS",
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-settings" : "md-settings"}
+    />
+  )
 };
 
 export default createBottomTabNavigator({
