@@ -8,6 +8,8 @@ import {
   View,
   TextInput,
   KeyboardAvoidingView,
+  Keyboard,
+  TouchableWithoutFeedback
 } from 'react-native';
 import { connect } from 'react-redux';
 import { deleteFromPantry, addToPantry, fetchPantry } from '../store/pantry';
@@ -69,6 +71,7 @@ class PantryScreen extends React.Component {
     const { pantry } = this.props;
     if (pantry.length === 0) {
       return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
           <View style={styles.pantryContainer}>
             <Image
@@ -93,9 +96,11 @@ class PantryScreen extends React.Component {
             </TouchableOpacity>
           </View>
         </View>
+      </TouchableWithoutFeedback>
       );
     }
     return (
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <KeyboardAvoidingView behavior="position" style={styles.container}>
         <View style={styles.pantryContainer}>
           <ScrollView>
@@ -195,6 +200,7 @@ class PantryScreen extends React.Component {
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
+     </TouchableWithoutFeedback>
     );
   }
 }
