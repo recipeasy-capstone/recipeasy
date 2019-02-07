@@ -35,6 +35,7 @@ class PantryScreen extends React.Component {
   async componentDidMount() {
     const { uid } = this.props;
     await this.props.fetchPantry(uid);
+    console.log('PANTRY', this.props.pantry)
   }
 
   addIngredient() {
