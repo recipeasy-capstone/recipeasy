@@ -12,12 +12,11 @@ import { Permissions, ImagePicker } from "expo";
 import { connect } from "react-redux";
 import { settingIngredientsList } from "../store/pantry";
 import API_KEY from "../secrets/googleAPI";
-import notFood from "../utils/notFood";
+import notFood from "../secrets/notFood";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from "react-native-responsive-screen";
-import autocorrect from "../utils/autocorrect";
 
 class CameraScreen extends React.Component {
   constructor() {
@@ -81,14 +80,16 @@ class CameraScreen extends React.Component {
         const { uid } = this.props;
         const text = responseJSON.responses[0].fullTextAnnotation.text;
         const splitText = text.split("\n");
-        const ingredients = splitText.map(item =>
-          item.replace(/[^a-zA-Z]+/g, "").toLowerCase()
-        );
-        const filteredIngredients = ingredients.filter(
-          word => word.length !== 0 && !notFood.includes(word)
+
+        const filteredIngredients = splitText.filter(
+          word => word.length !== 0 && !notFood.includes(word) && !word[0].match(/[^a-zA-Z]+/g)
         );
 
-        await this.props.settingIngredientsList(filteredIngredients, uid);
+        const ingredients = filteredIngredients.map(item => 
+          item.toLowerCase().replace(/[^a-zA-Z ]+/g, "")
+        );
+                
+        await this.props.settingIngredientsList(ingredients, uid);
         Alert.alert(
           "Success!",
           "Please review your pantry to assure everything added correctly!",
@@ -208,8 +209,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    settingIngredientsList: (pantry, uid) =>
-      dispatch(settingIngredientsList(pantry, uid))
+    settingIngredientsList: (ingredients, uid) =>
+      dispatch(settingIngredientsList(ingredients, uid))
   };
 };
 

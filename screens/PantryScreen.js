@@ -44,10 +44,10 @@ class PantryScreen extends React.Component {
     const { pantry } = this.props;
     if (!this.state.itemToPantry) {
       alert("You must enter an ingredient!");
-    } else if (pantry.includes(this.state.itemToPantry)) {
+    } else if (pantry.includes(this.state.itemToPantry[0].toUpperCase() + this.state.itemToPantry.slice(1))) {
       alert("This item is already in your pantry!");
     } else {
-      this.props.addToPantry(this.state.itemToPantry, uid);
+      this.props.addToPantry(this.state.itemToPantry[0].toUpperCase() + this.state.itemToPantry.slice(1), uid);
     }
   }
 

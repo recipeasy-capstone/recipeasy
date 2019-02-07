@@ -33,11 +33,11 @@ const deletedFromPantry = ingredient => ({
 
 export const settingIngredientsList = (ingredients, uid) => async dispatch => {
   try {
-    const foodArr = ingredients.map(item => autocorrect(item));
+    const foodArr = ingredients.map(item =>autocorrect(item));
     const currentUserInfo = await userInfo(uid);
     foodArr.forEach(item => {
-      if (!currentUserInfo.pantry.includes(item))
-        currentUserInfo.pantry.push(item);
+      if (!currentUserInfo.pantry.includes(item[0].toUpperCase() + item.slice(1)))
+        currentUserInfo.pantry.push(item[0].toUpperCase() + item.slice(1));
     });
     await firestore
       .collection("User")
@@ -91,7 +91,7 @@ export const deleteFromPantry = (ingredient, uid) => async dispatch => {
 export default function(state = initialState, action) {
   switch (action.type) {
     case SET_INGREDIENTS_LIST:
-      return { ...state, pantry: [...state.pantry].concat(action.pantry) };
+      return { ...state, pantry: action.pantry };
     case GOT_PANTRY:
       return { ...state, pantry: action.pantry };
     case ADDED_TO_PANTRY:
