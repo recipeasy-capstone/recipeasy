@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, View, KeyboardAvoidingView } from "react-native";
+import { Image, View, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback } from "react-native";
 import styles from "./styles";
 import { Input, Button } from "react-native-elements";
 import { login, signUpUser } from "../store/user";
@@ -60,7 +60,7 @@ class HomeScreen extends React.Component {
 
   render() {
     return (
-      <View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.homeContainer}>
           <KeyboardAvoidingView behavior="position" style={styles.container}>
             <Image
@@ -93,7 +93,7 @@ class HomeScreen extends React.Component {
             </View>
           </KeyboardAvoidingView>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
