@@ -1,4 +1,4 @@
-# recipeasy
+# Recipeasy
 
 ## Introduction
 
